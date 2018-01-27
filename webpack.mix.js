@@ -1,7 +1,5 @@
 let mix = require('laravel-mix');
 
-
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,12 +10,7 @@ let mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-// mix.js(['./node_modules/vue/dist/vue.js',
-// 		'./node_modules/axios/dist/axios.js'
-// 	], 'public/js/vue2.js')
-mix.js('resources/assets/js/validaciones.js','public/js/validaciones.js');
-mix.js(['resources/assets/js/app.js',
-		'resources/assets/js/users.js',
-		], 'public/js/app.js')
+mix.js('resources/assets/js/app.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+mix.js('resources/assets/js/validaciones.js', 'public/js/validaciones.js');
+mix.js('resources/assets/js/users.js', 'public/js/users.js');
