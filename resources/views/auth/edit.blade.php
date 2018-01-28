@@ -22,7 +22,7 @@
 					    </div>
 
 					    @endif
- 					<form class="form-horizontal" method="put" action="{{route('users.update', $user->id)}}">
+ 					<form class="form-horizontal" method="POST" action="{{route('users.update', $user->id)}}">
                         {{ csrf_field() }}
                         
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">

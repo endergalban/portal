@@ -16,7 +16,6 @@ class UserController extends Controller
      * Display the template.
      *
      * @return \Illuminate\Http\Response
-
      */
     public function index()
     {

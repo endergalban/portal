@@ -95,6 +95,7 @@ var vue = new Vue({
       rut: '',
       estatus: true
     }
+
   },
   computed: {
     mostrarPaginador: function mostrarPaginador() {
@@ -208,11 +209,13 @@ var vue = new Vue({
       } else {
         document.querySelector("#rut").parentElement.classList.remove('has-error');
       }
+
       if (this.elemento.id == 0) {
         if (!regExPassword.test(this.elemento.password)) {
           document.querySelector("#password").parentElement.classList.add('has-error');
           hasError = false;
         } else {
+
           document.querySelector("#password").parentElement.classList.remove('has-error');
         }
       } else {
