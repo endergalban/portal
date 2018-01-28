@@ -33,7 +33,7 @@
                       </div>
                       <input type="hidden" id="entidadpadre_id_nuevo" value="0">
                       <div class="col-md-2">
-                          <button  @click.prevent="guardar('nuevo')" class="btn btn-success"><i class="fas fa-plus"></i></button>
+                          <button :id="'btn_guardar_entidad_nuevo'" @click.prevent="guardar('nuevo')" class="btn btn-success" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-plus"></i></button>
                       </div>
                     </div>
                     <hr>  
@@ -75,8 +75,8 @@
                       <input type="hidden" :id="'entidadpadre_id_' + index" :value="elemento.id">    
                       <div class="col-md-1"> <button @click="cargarElemento(index)" class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></div>        
                       <div class="col-md-2">
-                        <button @click.prevent="guardar(index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
-                        <button @click.prevent="eliminar(index)" class="btn btn-danger btn-sm"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
+                        <button :id="'btn_editar_entidad_' + index" @click.prevent="guardar(index)" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" :disabled="cargando"></i></button>
+                        <button :id="'btn_eliminar_entidad_' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar" :disabled="cargando" ></i></button>
                       </div>
                       <hr>        
                     </div>
@@ -133,7 +133,7 @@
                         </div>
                       </div>
                       <div class="col-md-2"> 
-                        <button  @click.prevent="guardarAtributo('nuevo')" class="btn btn-success"><i class="fas fa-plus" data-toggle="tooltip" title="Agregar" ></i></button>
+                        <button :id="'btn_editar_atributo_nuevo'" @click.prevent="guardarAtributo('nuevo')" class="btn btn-success" :disabled="cargando" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-plus" data-toggle="tooltip" title="Agregar" ></i></button>
                       </div>
                       <input type="hidden" id="entidad_id" v-model="elemento.id">
                       <input type="hidden" id="id_nuevo" value="0">
@@ -170,8 +170,8 @@
                       </div>
                       <input type="hidden" :id="'id_' + index" :value="elemento.id">
                       <div class="col-md-2">
-                        <button  @click.prevent="guardarAtributo(index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
-                        <button  @click.prevent="eliminarAtributo(index)" class="btn btn-danger btn-sm"><i class="fas fa-times" data-toggle="tooltip" title="Eliminar" ></i></button>
+                        <button :id="'btn_editar_atributo_' + index" @click.prevent="guardarAtributo(index)" class="btn btn-primary btn-sm" :disabled="cargando" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
+                        <button :id="'btn_eliminar_atributo_' + index" @click.prevent="eliminarAtributo(index)" class="btn btn-danger btn-sm" :disabled="cargando" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-times" data-toggle="tooltip" title="Eliminar" ></i></button>
                       </div>
                       <hr>
                     </div>
@@ -179,49 +179,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal Usuario -->
-    <div class="modal fade" id="guardarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Entidad</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="row">
-                <div class="form-group col-md-8">
-                  <input type="text" class="form-control" id="descripcion" placeholder="Descripción de la Entidad" v-model="elemento.descripcion">
-                </div>
-
-                 <div class="form-group col-md-2">
-                  <input type="text" class="form-control" id="orden" placeholder="" v-model="elemento.orden">
-                </div>
-
-                <div class="form-group col-md-2">
-                   <input class="form-check-input" type="checkbox" id="gridCheck" v-model="elemento.estado">
-                  <label class="form-check-label" for="gridCheck">
-                    Activo
-                  </label>
-                </div>
-
-
-              </div>
-              <input type="hidden" v-model="elemento.id">
-              
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-success" @click.prevent="guardar()" >Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal Eliminar -->
+<!-- Modal Eliminar -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

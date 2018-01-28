@@ -94,6 +94,7 @@ var vue = new Vue({
       estado: 1,
       atributos: []
     },
+    cargando: false,
     index: -1
   },
   computed: {
@@ -107,6 +108,16 @@ var vue = new Vue({
     limpiarMensajes: function limpiarMensajes() {
       this.mensajeError = '';
       this.mensajeOk = '';
+    },
+
+    setCargando: function setCargando(button) {
+      if (this.cargando == true) {
+        $('#' + button + '').button('reset');
+        this.cargando = false;
+      } else {
+        $('#' + button + '').button('loading');
+        this.cargando = true;
+      }
     },
 
     limpiarElemento: function limpiarElemento() {
@@ -168,6 +179,7 @@ var vue = new Vue({
     eliminar: function eliminar(index) {
       var _this2 = this;
 
+      this.setCargando('btn_eliminar_entidad_' + index);
       var datos = new FormData();
       datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
       axios.post(urlActual + '/delete', datos).then(function (response) {
@@ -175,10 +187,12 @@ var vue = new Vue({
         _this2.paginador = response.data;
         _this2.armarPaginador();
         _this2.limpiarElemento();
+        _this2.setCargando('btn_eliminar_entidad_' + index);
       }).catch(function (error) {
         $(window).scrollTop(0);
         _this2.mensajeError = 'Error interno.';
         _this2.limpiarElemento();
+        _this2.setCargando('btn_eliminar_entidad_' + index);
       });
     },
 
@@ -223,15 +237,28 @@ var vue = new Vue({
         datos.append('estado', document.querySelector("#entidad_estado_" + index).value);
         if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
           datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
+          this.setCargando('btn_editar_entidad_' + index);
+        } else {
+          this.setCargando('btn_guardar_entidad_' + index);
         }
         axios.post(urlActual + '/store', datos).then(function (response) {
           _this3.elementos = response.data.data;
           _this3.paginador = response.data;
           _this3.armarPaginador();
           _this3.limpiarElemento();
+          if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
+            _this3.setCargando('btn_editar_entidad_' + index);
+          } else {
+            _this3.setCargando('btn_guardar_entidad_' + index);
+          }
         }).catch(function (error) {
           _this3.mensajeError = 'Error interno.';
           _this3.limpiarElemento();
+          if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
+            _this3.setCargando('btn_editar_entidad_' + index);
+          } else {
+            _this3.setCargando('btn_guardar_entidad_' + index);
+          }
         });
       }
     },
@@ -265,6 +292,9 @@ var vue = new Vue({
         datos.append('entidad_id', this.elemento.id);
         if (document.querySelector("#id_" + index).value != 0) {
           datos.append('id', document.querySelector("#id_" + index).value);
+          this.setCargando('btn_editar_atributo_' + index);
+        } else {
+          this.setCargando('btn_guardar_atributo_' + index);
         }
         axios.post(urlActual + '/store_atributo', datos).then(function (response) {
           _this4.elementos = response.data.data;
@@ -272,9 +302,19 @@ var vue = new Vue({
           _this4.armarPaginador();
           _this4.cargarElemento(_this4.index);
           _this4.limpiarAtributo();
+          if (document.querySelector("#id_" + index).value != 0) {
+            _this4.setCargando('btn_editar_atributo_' + index);
+          } else {
+            _this4.setCargando('btn_guardar_atributo_' + index);
+          }
         }).catch(function (error) {
           _this4.mensajeError = 'Error interno.';
           _this4.limpiarAtributo();
+          if (document.querySelector("#id_" + index).value != 0) {
+            _this4.setCargando('btn_editar_atributo_' + index);
+          } else {
+            _this4.setCargando('btn_guardar_atributo_' + index);
+          }
         });
       }
     },
@@ -283,6 +323,7 @@ var vue = new Vue({
       var _this5 = this;
 
       var datos = new FormData();
+      this.setCargando('btn_eliminar_atributo_' + index);
       datos.append('id', document.querySelector("#id_" + index).value);
       axios.post(urlActual + '/destroy_atributo', datos).then(function (response) {
         _this5.elementos = response.data.data;
@@ -290,9 +331,11 @@ var vue = new Vue({
         _this5.armarPaginador();
         _this5.cargarElemento(_this5.index);
         _this5.limpiarAtributo();
+        _this5.setCargando('btn_eliminar_atributo_' + index);
       }).catch(function (error) {
         _this5.mensajeError = 'Error interno.';
         _this5.limpiarAtributo();
+        _this5.setCargando('btn_eliminar_atributo_' + index);
       });
     }
   }

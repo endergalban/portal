@@ -16,21 +16,33 @@ var vue = new Vue({
           estado: 1,
           atributos: [],
         },
+        cargando: false,
         index: -1,
     },
     computed: {
       mostrarPaginador: function () {
          
           return this.paginador.last_page !== 1;
-        },
+      },
 
-        
     },
     methods: {
           limpiarMensajes: function () {
               this.mensajeError = '';
               this.mensajeOk = '';
           },
+
+         
+          setCargando: function (button) {
+            if (this.cargando == true) {
+              $('#' + button +'').button('reset');
+              this.cargando = false;
+            } else {
+              $('#' + button +'').button('loading');
+              this.cargando = true;
+            }
+          }, 
+         
 
           limpiarElemento: function () {
             document.querySelector("#entidad_descripcion_nuevo").value = '';
@@ -85,6 +97,7 @@ var vue = new Vue({
           },
 
           eliminar: function (index) {
+              this.setCargando('btn_eliminar_entidad_' + index);
               var datos = new FormData();
               datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
               axios.post(
@@ -96,11 +109,13 @@ var vue = new Vue({
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
+                  this.setCargando('btn_eliminar_entidad_' + index);
                   
               }).catch(error => { 
                   $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
                   this.limpiarElemento();
+                  this.setCargando('btn_eliminar_entidad_' + index);
               });
           },
 
@@ -143,6 +158,9 @@ var vue = new Vue({
               datos.append('estado',  document.querySelector("#entidad_estado_" + index).value);
               if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
                 datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
+                this.setCargando('btn_editar_entidad_' + index);
+              } else {
+                this.setCargando('btn_guardar_entidad_' + index);
               }
               axios.post(
                   urlActual + '/store', 
@@ -153,11 +171,21 @@ var vue = new Vue({
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
+                  if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
+                    this.setCargando('btn_editar_entidad_' + index);
+                  } else {
+                    this.setCargando('btn_guardar_entidad_' + index);
+                  }
                  
               })
               .catch((error) => {
                   this.mensajeError = 'Error interno.';
                   this.limpiarElemento();
+                  if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
+                    this.setCargando('btn_editar_entidad_' + index);
+                  } else {
+                    this.setCargando('btn_guardar_entidad_' + index);
+                  }
               });   
             }
           },
@@ -189,6 +217,9 @@ var vue = new Vue({
               datos.append('entidad_id', this.elemento.id);
               if (document.querySelector("#id_" + index).value != 0) {
                 datos.append('id', document.querySelector("#id_" + index).value);
+                this.setCargando('btn_editar_atributo_' + index);
+              } else {
+                 this.setCargando('btn_guardar_atributo_' + index);
               }
               axios.post(
                   urlActual + '/store_atributo', 
@@ -200,10 +231,20 @@ var vue = new Vue({
                   this.armarPaginador();
                   this.cargarElemento(this.index);
                   this.limpiarAtributo();
+                  if (document.querySelector("#id_" + index).value != 0) {
+                    this.setCargando('btn_editar_atributo_' + index);
+                  } else {
+                     this.setCargando('btn_guardar_atributo_' + index);
+                  }
               })
               .catch((error) => {
                   this.mensajeError = 'Error interno.';
                   this.limpiarAtributo();
+                  if (document.querySelector("#id_" + index).value != 0) {
+                    this.setCargando('btn_editar_atributo_' + index);
+                  } else {
+                     this.setCargando('btn_guardar_atributo_' + index);
+                  }
                  
               });   
             }
@@ -211,6 +252,7 @@ var vue = new Vue({
 
           eliminarAtributo: function (index) {
             var datos = new FormData();
+            this.setCargando('btn_eliminar_atributo_' + index);
             datos.append('id', document.querySelector("#id_" + index).value);
             axios.post(
                 urlActual + '/destroy_atributo', 
@@ -222,11 +264,12 @@ var vue = new Vue({
                 this.armarPaginador();
                 this.cargarElemento(this.index);
                 this.limpiarAtributo();
+                this.setCargando('btn_eliminar_atributo_' + index);
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';
                 this.limpiarAtributo();
-               
+                this.setCargando('btn_eliminar_atributo_' + index);
             });   
           },
       }
