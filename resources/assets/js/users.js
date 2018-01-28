@@ -1,14 +1,14 @@
 var vue = new Vue({ 
       el: '#container',
-   	created: function(){
-   		this.obtenerElementos();
-   	},
+    created: function(){
+      this.obtenerElementos();
+    },
       data: {
-     		mensajeError: '',
-     		mensajeOk: '',
+        mensajeError: '',
+        mensajeOk: '',
         elementos: [],
         paginador: '',
-   		  numeroPaginas: [],
+        numeroPaginas: [],
         elemento: { 
           id: 0,
           name: '',
@@ -17,11 +17,11 @@ var vue = new Vue({
           rut: '',
           estatus: true,
         },
-        editElementes: {!! json_encode($user) !!}
-   	},
-   	computed: {
-   		mostrarPaginador: function () {
-      	 
+
+    },
+    computed: {
+      mostrarPaginador: function () {
+
           return this.paginador.last_page !== 1;
         },
 
@@ -39,6 +39,10 @@ var vue = new Vue({
               this.elemento.email = '';
               this.elemento.password = '';
               this.elemento.estatus = true;
+              document.querySelector("#nombre").parentElement.classList.remove('has-error');
+              document.querySelector("#rut").parentElement.classList.remove('has-error');
+              document.querySelector("#password").parentElement.classList.remove('has-error');
+              document.querySelector("#email").parentElement.classList.remove('has-error');
           },
           armarPaginador: function (paginasVisibles = 10) {
               this.numeroPaginas = [];
@@ -115,35 +119,35 @@ var vue = new Vue({
             var hasError = true;
             if (this.elemento.name.toString().trim().length == 0 ) {
               document.querySelector("#nombre").parentElement.classList.add('has-error');
-              
               hasError = false;
             } else {
               document.querySelector("#nombre").parentElement.classList.remove('has-error');
             } 
             if (!regExRut.test(this.elemento.rut) ) {
-             document.querySelector("#rut").parentElement.classList.add('has-error');
-              
+              document.querySelector("#rut").parentElement.classList.add('has-error');
               hasError = false;
             } else {
               document.querySelector("#rut").parentElement.classList.remove('has-error');
             } 
-            if (this.elemento.id == 0 && !regExPassword.test(this.elemento.password)) {
-              document.querySelector("#password").parentElement.classList.add('has-error');
-              
-              hasError = false;
-            } else {
+
+            if (this.elemento.id == 0 ) {
+              if (!regExPassword.test(this.elemento.password)) {
+                document.querySelector("#password").parentElement.classList.add('has-error');
+                hasError = false;
+              } else {
+
               document.querySelector("#password").parentElement.classList.remove('has-error');
-            } 
-            if (this.elemento.id > 0 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
-              document.querySelector("#password").parentElement.classList.add('has-error');
-              
-              hasError = false;
-            } else {
-              document.querySelector("#password").parentElement.classList.remove('has-error');
-            } 
+              }
+            } else { 
+              if (this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
+                document.querySelector("#password").parentElement.classList.add('has-error');
+                hasError = false;
+              } else {
+                document.querySelector("#password").parentElement.classList.remove('has-error');
+              } 
+            }
             if (!regExpCorreoElectronico.test(this.elemento.email)) {
               document.querySelector("#email").parentElement.classList.add('has-error');
-              
               hasError = false;
             } else {
               document.querySelector("#email").parentElement.classList.remove('has-error');
@@ -179,8 +183,9 @@ var vue = new Vue({
                   this.mensajeError = 'Error interno.';
               this.limpiarElemento();
                   $('#guardarModal').modal('hide');
-              });  
+              });   
             }
-          }        
-     	}
+
+          },
+      }
 });
