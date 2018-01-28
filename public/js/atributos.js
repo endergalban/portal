@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 41);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 39:
+/***/ 41:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(40);
+module.exports = __webpack_require__(42);
 
 
 /***/ }),
 
-/***/ 40:
+/***/ 42:
 /***/ (function(module, exports) {
 
 var vue = new Vue({
@@ -89,12 +89,12 @@ var vue = new Vue({
     numeroPaginas: [],
     elemento: {
       id: 0,
-      name: '',
-      email: '',
-      password: '',
-      rut: '',
-      estatus: true
-    }
+      orden: 0,
+      descripcion: '',
+      estado: 1,
+      atributos: []
+    },
+    index: -1
   },
   computed: {
     mostrarPaginador: function mostrarPaginador() {
@@ -108,17 +108,19 @@ var vue = new Vue({
       this.mensajeError = '';
       this.mensajeOk = '';
     },
+
     limpiarElemento: function limpiarElemento() {
+      document.querySelector("#entidad_descripcion_nuevo").value = '';
+      document.querySelector("#entidad_orden_nuevo").value = 0;
+      document.querySelector("#entidad_estado_nuevo").value = 1;
+      document.querySelector("#entidadpadre_id_nuevo").value = 0;
       this.elemento.id = 0;
-      this.elemento.name = '';
-      this.elemento.rut = '';
-      this.elemento.email = '';
-      this.elemento.password = '';
-      this.elemento.estatus = true;
-      document.querySelector("#nombre").parentElement.classList.remove('has-error');
-      document.querySelector("#rut").parentElement.classList.remove('has-error');
-      document.querySelector("#password").parentElement.classList.remove('has-error');
-      document.querySelector("#email").parentElement.classList.remove('has-error');
+    },
+    limpiarAtributo: function limpiarAtributo() {
+      document.querySelector("#descripcion_nuevo").value = '';
+      document.querySelector("#orden_nuevo").value = 0;
+      document.querySelector("#estado_nuevo").value = 1;
+      document.querySelector("#id_nuevo").value = 0;
     },
     armarPaginador: function armarPaginador() {
       var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
@@ -163,102 +165,135 @@ var vue = new Vue({
       });
     },
 
-    eliminarElemento: function eliminarElemento() {
+    eliminar: function eliminar(index) {
       var _this2 = this;
 
       var datos = new FormData();
-      datos.append('id', this.elemento.id);
+      datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
       axios.post(urlActual + '/delete', datos).then(function (response) {
         _this2.elementos = response.data.data;
         _this2.paginador = response.data;
         _this2.armarPaginador();
         _this2.limpiarElemento();
-        $(window).scrollTop(0);
-        $('#eliminarModal').modal('hide');
       }).catch(function (error) {
         $(window).scrollTop(0);
         _this2.mensajeError = 'Error interno.';
-        $('#eliminarModal').modal('hide');
+        _this2.limpiarElemento();
       });
     },
 
-    cargarElemento: function cargarElemento(index) {
-      this.limpiarElemento();
-      this.limpiarMensajes();
-      if (index != -1) {
-        this.elemento.id = this.elementos[index].id;
-        this.elemento.name = this.elementos[index].name;
-        this.elemento.email = this.elementos[index].email;
-        this.elemento.rut = this.elementos[index].rut;
-        this.elemento.estatus = this.elementos[index].estatus;
+    cargarElemento: function cargarElemento(i) {
+      // this.limpiarElemento();
+      this.index = i;
+      if (this.index != -1) {
+        this.elemento.id = this.elementos[this.index].id;
+        this.elemento.descripcion = this.elementos[this.index].descripcion;
+        this.elemento.orden = this.elementos[this.index].orden;
+        this.elemento.estado = this.elementos[this.index].estado;
+        this.elemento.atributos = this.elementos[this.index].atributos;
       }
     },
 
-    validarGuardar: function validarGuardar() {
+    validarGuardar: function validarGuardar(index) {
       var hasError = true;
-      if (this.elemento.name.toString().trim().length == 0) {
-        document.querySelector("#nombre").parentElement.classList.add('has-error');
+      if (document.querySelector("#entidad_descripcion_" + index).value.trim().length == 0) {
+        document.querySelector("#entidad_descripcion_" + index).parentElement.classList.add('has-error');
         hasError = false;
       } else {
-        document.querySelector("#nombre").parentElement.classList.remove('has-error');
+        document.querySelector("#entidad_descripcion_" + index).parentElement.classList.remove('has-error');
       }
-      if (!regExRut.test(this.elemento.rut)) {
-        document.querySelector("#rut").parentElement.classList.add('has-error');
+      if (document.querySelector("#entidad_orden_" + index).value.trim().length == 0 || !regExpSoloNumeros.test(document.querySelector("#entidad_orden_" + index).value)) {
+        document.querySelector("#entidad_orden_" + index).parentElement.classList.add('has-error');
         hasError = false;
       } else {
-        document.querySelector("#rut").parentElement.classList.remove('has-error');
-      }
-      if (this.elemento.id == 0) {
-        if (!regExPassword.test(this.elemento.password)) {
-          document.querySelector("#password").parentElement.classList.add('has-error');
-          hasError = false;
-        } else {
-          document.querySelector("#password").parentElement.classList.remove('has-error');
-        }
-      } else {
-        if (this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
-          document.querySelector("#password").parentElement.classList.add('has-error');
-          hasError = false;
-        } else {
-          document.querySelector("#password").parentElement.classList.remove('has-error');
-        }
-      }
-      if (!regExpCorreoElectronico.test(this.elemento.email)) {
-        document.querySelector("#email").parentElement.classList.add('has-error');
-        hasError = false;
-      } else {
-        document.querySelector("#email").parentElement.classList.remove('has-error');
+        document.querySelector("#entidad_orden_" + index).parentElement.classList.remove('has-error');
       }
 
       return hasError;
     },
 
-    guardar: function guardar() {
+    guardar: function guardar(index) {
       var _this3 = this;
 
-      if (this.validarGuardar()) {
+      if (this.validarGuardar(index)) {
         this.limpiarMensajes();
         var datos = new FormData();
-        datos.append('id', this.elemento.id);
-        datos.append('name', this.elemento.name);
-        datos.append('email', this.elemento.email);
-        datos.append('rut', this.elemento.rut);
-        datos.append('estatus', this.elemento.estatus == true ? 1 : 0);
-        if (this.elemento.id == 0) {
-          datos.append('password', this.elemento.password);
+        datos.append('orden', document.querySelector("#entidad_orden_" + index).value);
+        datos.append('descripcion', document.querySelector("#entidad_descripcion_" + index).value);
+        datos.append('estado', document.querySelector("#entidad_estado_" + index).value);
+        if (document.querySelector("#entidadpadre_id_" + index).value > 0) {
+          datos.append('id', document.querySelector("#entidadpadre_id_" + index).value);
         }
         axios.post(urlActual + '/store', datos).then(function (response) {
           _this3.elementos = response.data.data;
           _this3.paginador = response.data;
           _this3.armarPaginador();
-          _this3.mensajeAlerta = 'Operación realizada con éxito';
-          $('#guardarModal').modal('hide');
+          _this3.limpiarElemento();
         }).catch(function (error) {
           _this3.mensajeError = 'Error interno.';
           _this3.limpiarElemento();
-          $('#guardarModal').modal('hide');
         });
       }
+    },
+
+    validarGuardarAtributo: function validarGuardarAtributo(index) {
+
+      var hasError = true;
+      if (document.querySelector("#descripcion_" + index).value.trim().length == 0) {
+        document.querySelector("#descripcion_" + index).parentElement.classList.add('has-error');
+        hasError = false;
+      } else {
+        document.querySelector("#descripcion_" + index).parentElement.classList.remove('has-error');
+      }
+      if (document.querySelector("#orden_" + index).value.trim().length == 0 || !regExpSoloNumeros.test(document.querySelector("#orden_" + index).value)) {
+        document.querySelector("#orden_" + index).parentElement.classList.add('has-error');
+        hasError = false;
+      } else {
+        document.querySelector("#orden_" + index).parentElement.classList.remove('has-error');
+      }
+      return hasError;
+    },
+
+    guardarAtributo: function guardarAtributo(index) {
+      var _this4 = this;
+
+      if (this.validarGuardarAtributo(index)) {
+        var datos = new FormData();
+        datos.append('orden', document.querySelector("#orden_" + index).value);
+        datos.append('descripcion', document.querySelector("#descripcion_" + index).value);
+        datos.append('estado', document.querySelector("#estado_" + index).value);
+        datos.append('entidad_id', this.elemento.id);
+        if (document.querySelector("#id_" + index).value != 0) {
+          datos.append('id', document.querySelector("#id_" + index).value);
+        }
+        axios.post(urlActual + '/store_atributo', datos).then(function (response) {
+          _this4.elementos = response.data.data;
+          _this4.paginador = response.data;
+          _this4.armarPaginador();
+          _this4.cargarElemento(_this4.index);
+          _this4.limpiarAtributo();
+        }).catch(function (error) {
+          _this4.mensajeError = 'Error interno.';
+          _this4.limpiarAtributo();
+        });
+      }
+    },
+
+    eliminarAtributo: function eliminarAtributo(index) {
+      var _this5 = this;
+
+      var datos = new FormData();
+      datos.append('id', document.querySelector("#id_" + index).value);
+      axios.post(urlActual + '/destroy_atributo', datos).then(function (response) {
+        _this5.elementos = response.data.data;
+        _this5.paginador = response.data;
+        _this5.armarPaginador();
+        _this5.cargarElemento(_this5.index);
+        _this5.limpiarAtributo();
+      }).catch(function (error) {
+        _this5.mensajeError = 'Error interno.';
+        _this5.limpiarAtributo();
+      });
     }
   }
 });
