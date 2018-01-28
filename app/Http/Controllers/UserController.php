@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Validator;
 
 class UserController extends Controller
 {
@@ -54,6 +55,10 @@ class UserController extends Controller
 
     }
 
+    public function edit(Request $request, $id) {
+        $user = User::findOrFail($id);       
+        return view('auth.edit', compact('user'));
+    }
     
     /**
      * Update the specified resource in storage.
@@ -62,8 +67,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
+
+        $user = User::find($id);
+        Validator::make($request->all(), [
+          'name' => 'required',
+          'rut' => 'required',
+        ])->validate();
+        $user->name = $request->get('name');
+        $user->rut = $request->get('rut');
+        $user->save();
+        return redirect()->back()->with('success','Product has been updated');
     }
 
     /**

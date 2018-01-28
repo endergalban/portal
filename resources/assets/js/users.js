@@ -17,6 +17,7 @@ var vue = new Vue({
           rut: '',
           estatus: true,
         },
+        editElementes: {!! json_encode($user) !!}
    	},
    	computed: {
    		mostrarPaginador: function () {
@@ -134,7 +135,7 @@ var vue = new Vue({
               document.querySelector("#password").parentElement.classList.remove('has-error');
             } 
             if (this.elemento.id > 0 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
-              rdocument.querySelector("#password").parentElement.classList.add('has-error');
+              document.querySelector("#password").parentElement.classList.add('has-error');
               
               hasError = false;
             } else {
@@ -180,6 +181,6 @@ var vue = new Vue({
                   $('#guardarModal').modal('hide');
               });  
             }
-          },
+          }        
      	}
 });

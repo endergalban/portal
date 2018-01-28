@@ -61,6 +61,16 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
+                                        <a href="{{ route('users.edit', Auth::user()->id) }}"
+                                           >
+                                            Edit
+                                        </a>
+
+                                        <form id="edit-form" action="{{ route('users.edit', Auth::user()->id ) }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

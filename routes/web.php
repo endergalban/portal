@@ -22,5 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/users',['uses' => 'UserController@index', 'as' => 'users.index']);
 Route::get('admin/users/get',['uses' => 'UserController@get', 'as' => 'users.get']);
 Route::post('admin/users/store',['uses' => 'UserController@store', 'as' => 'users.store']);
-Route::post('admin/users/update',['uses' => 'UserController@update', 'as' => 'users.update']);
+Route::get('admin/users/edit/{id}',['uses' => 'UserController@edit', 'as' => 'users.edit']);
+Route::put('admin/users/update/{id}',['uses' => 'UserController@update', 'as' => 'users.update']);
 Route::post('admin/users/delete',['uses' => 'UserController@destroy', 'as' => 'users.delete']);
+
