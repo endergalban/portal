@@ -75,8 +75,8 @@
                       <input type="hidden" :id="'entidadpadre_id_' + index" :value="elemento.id">    
                       <div class="col-md-1"> <button @click="cargarElemento(index)" class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></div>        
                       <div class="col-md-2">
-                        <button :id="'btn_editar_entidad_' + index" @click.prevent="guardar(index)" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" :disabled="cargando"></i></button>
-                        <button :id="'btn_eliminar_entidad_' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar" :disabled="cargando" ></i></button>
+                        <button :id="'btn_editar_entidad_' + index" @click.prevent="guardar(index)" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
+                        <button :id="'btn_eliminar_entidad_' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
                       </div>
                       <hr>        
                     </div>

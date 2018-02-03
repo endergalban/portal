@@ -23,4 +23,9 @@ class Entidad extends Model
     {
         return $this->hasMany('App\Atributo')->orderby('orden');
     }
+
+    public function scopeActivo($q)
+    {
+        return $q->where('estado',1);
+    }
 }

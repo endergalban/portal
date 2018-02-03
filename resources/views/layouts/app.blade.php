@@ -55,6 +55,7 @@
                         @else
                             <li><a href="{{ route('users.index') }}">Usuarios</a></li>
                             <li><a href="{{ route('atributos.index') }}">Caracteristicas</a></li>
+                            <li><a href="{{ route('productos.index') }}">Productos</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>

@@ -28,4 +28,9 @@ class Producto extends Model
     {
         return $this->hasMany('App\AtributoProducto');
     }
+
+    public function atributos()
+    {
+        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id')->whereNull('atributo_productos.deleted_at');
+    }
 }

@@ -36,3 +36,7 @@ Route::post('admin/atributos/delete',['uses' => 'AtributoController@destroy', 'a
 Route::post('admin/atributos/store_atributo',['uses' => 'AtributoController@store_atributo', 'as' => 'atributos.store_atributo']);
 Route::post('admin/atributos/destroy_atributo',['uses' => 'AtributoController@destroy_atributo', 'as' => 'atributos.destroy_atributo']);
 
+Route::get('admin/productos',['uses' => 'ProductoController@index', 'as' => 'productos.index']);
+Route::get('admin/productos/get',['uses' => 'ProductoController@get', 'as' => 'productos.get']);
+Route::post('admin/productos/delete',['uses' => 'ProductoController@destroy', 'as' => 'productos.delete']);
+Route::post('admin/productos/store',['uses' => 'ProductoController@store', 'as' => 'productos.store']);

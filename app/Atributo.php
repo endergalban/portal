@@ -28,4 +28,9 @@ class Atributo extends Model
     {
         return $this->hasMany('App\AtributoProducto');
     }
+
+    public function scopeActivo($q)
+    {
+        return $q->where('estado',1);
+    }
 }
