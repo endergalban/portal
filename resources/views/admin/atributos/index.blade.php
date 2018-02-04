@@ -49,22 +49,22 @@
                     <div class="row" v-for = "(elemento, index) in elementos">
                       <div class="col-md-1">
                         <div class="form-group">
-                          @{{ elemento.id }}
+                          <b>@{{ elemento.id }}</b>
                         </div>
                       </div>        
                       <div class="col-md-5">
                         <div class="form-group">
-                          <input type="text" :id="'entidad_descripcion_' + index" :value="elemento.descripcion"  style="width:100%"/>
+                          <input type="text" :id="'entidad_descripcion_' + index" :value="elemento.descripcion"  style="width:100%" class="form-control" />
                         </div>
                       </div>        
                       <div class="col-md-1">
                         <div class="form-group">
-                          <input type="text" :id="'entidad_orden_' + index" :value="elemento.orden"  style="width:100%"/>
+                          <input type="text" :id="'entidad_orden_' + index" :value="elemento.orden"  style="width:100%" class="form-control" />
                         </div>
                       </div>        
                       <div class="col-md-2">
                          <div class="form-group">
-                            <select :id="'entidad_estado_' + index"  style="width:100%"/> 
+                            <select :id="'entidad_estado_' + index"  style="width:100%" class="form-control" /> 
                               <option value="1" selected v-if="elemento.estado == 1">Activo</option>
                               <option value="1" v-else>Activo</option>
                               <option value="0" selected v-if="elemento.estado == 0">Inactivo</option>
@@ -152,17 +152,17 @@
                       <div class="col-md-1"><b>@{{ elemento.id }}</b></div>
                       <div class="col-md-6">
                         <div class="form-group">
-                        <input type="text" :id="'descripcion_' + index" :value="elemento.descripcion" style="width:100%"/>
+                        <input type="text" :id="'descripcion_' + index" :value="elemento.descripcion" style="width:100%" class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-1">
                         <div class="form-group">
-                          <input type="text" :id="'orden_' + index" :value="elemento.orden"  style="width:100%"/>
+                          <input type="text" :id="'orden_' + index" :value="elemento.orden"  style="width:100%" class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-2">
                         <div class="form-group">
-                          <select :id="'estado_' + index"  style="width:100%"/> 
+                          <select :id="'estado_' + index"  style="width:100%" class="form-control" /> 
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                           </select>

@@ -4,6 +4,7 @@ var regExpCorreoElectronico = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]
 var regExpCaracteresReemplazarRUT = new RegExp(/[.-]/g);
 var regExpSoloLetras = new RegExp(/^[a-zA-Z ]*$/);
 var regExRut = new RegExp(/^[0-9]{7,8}\-[K|k|0-9]$/);
+var regExPassword = new RegExp(/^[0-9a-zA-Z]{6,12}$/);
 
 function validaRut(rut) {
   var numero = rut.substr(0, rut.length - 1);

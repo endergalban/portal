@@ -13,9 +13,9 @@
                     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''">
                     </div>
 
-                    <div class="col-md-12">
-                        <button @click.prevent="cargarElemento(-1);verificarCheck()" class="btn btn-success pull-right" :disabled="index > -2"><i class="fas fa-plus"></i> Nuevo Producto</button>
-                    </div>
+             
+                        <button @click.prevent="cargarElemento(-1);verificarCheck()" class="btn btn-success" :disabled="index > -2"><i class="fas fa-plus"></i> Nuevo Producto</button>
+                    <hr>
                     <div class="row">
                       <div class="col-md-1"><b>ID #</b></div>
                       <div class="col-md-5"><b>Producto</b></div>
@@ -26,7 +26,7 @@
                     <hr>  
                     <div class="row" v-for = "(elemento, index) in elementos">
                       <div class="col-md-1">
-                          @{{ elemento.id }}
+                          <b>@{{ elemento.id }}</b>
                       </div>        
                       <div class="col-md-5">
                         @{{ elemento.descripcion }}
@@ -37,7 +37,7 @@
                               <span v-else>Inactivo</span>
                       </div>    
                      
-                      <div class="col-md-1"> <label class="label label-success" >@{{ elemento.atributos.length }}</label></div>        
+                      <div class="col-md-1"> <button class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></div>        
                       <div class="col-md-2">
                         <button :id="'btn_editar' + index" @click.prevent="cargarElemento(index);verificarCheck()" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
                         <button :id="'btn_eliminar' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
@@ -82,20 +82,19 @@
 
                 <div class="row">
                   <div class="col-md-10">
-                  <div class="form-group">
-                    <input type="text" v-model="elemento.descripcion" placeholder="Descripción de la entidad" style="width:100%" class="form-control">
+                    <div class="form-group">
+                      <input type="text" v-model="elemento.descripcion" placeholder="Descripción de la entidad" style="width:100%" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <select class="form-control" style="width:100%" v-model="elemento.estado">
+                        <option value="1">Activo</option>
+                        <option value="0">Inactivo</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-     
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <select class="form-control" style="width:100%" v-model="elemento.estado"/>
-                      <option value="1">Activo</option>
-                      <option value="0">Inactivo</option>
-                    </select>
-                  </div>
-                </div>
-               
                 <hr>
                 @foreach($entidades as $entidad)
 
@@ -116,7 +115,6 @@
                 @endforeach
 
             </div>
-             <hr>
             <div class="panel-footer">
               <button @click.prevent="guardar" class="btn btn-success" :disabled="elemento.descripcion == ''">Guardar</button>
               <button @click.prevent="limpiarElemento()" class="btn btn-default" >Cancelar</button>

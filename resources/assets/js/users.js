@@ -14,18 +14,26 @@ var vue = new Vue({
           name: '',
           email: '',
           password: '',
+          telfono: '',
+          direccion: '',
           rut: '',
-          estatus: true,
+          estatus: 1,
         },
+        index: -2,
 
     },
     computed: {
       mostrarPaginador: function () {
-
           return this.paginador.last_page !== 1;
-        },
-
-        
+      },
+      habilitarGuardar: function () {
+          return this.elemento.name.toString().trim().length == 0  ||  
+                !regExRut.test(this.elemento.rut) || 
+                !regExpCorreoElectronico.test(this.elemento.email) ||
+                (this.index == -1 && !regExPassword.test(this.elemento.password) ) || 
+                (this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password ))
+                ;
+      },
     },
     methods: {
           limpiarMensajes: function () {
@@ -33,18 +41,21 @@ var vue = new Vue({
               this.mensajeOk = '';
           },
           limpiarElemento: function () {
+              this.index = -2;
               this.elemento.id = 0;
               this.elemento.name = '';
               this.elemento.rut = '';
               this.elemento.email = '';
               this.elemento.password = '';
+              this.elemento.direccion = '';
+              this.elemento.telefono = '';
               this.elemento.estatus = true;
-              document.querySelector("#nombre").parentElement.classList.remove('has-error');
-              document.querySelector("#rut").parentElement.classList.remove('has-error');
-              document.querySelector("#password").parentElement.classList.remove('has-error');
-              document.querySelector("#email").parentElement.classList.remove('has-error');
+              //document.querySelector("#nombre").parentElement.classList.remove('has-error');
+              //document.querySelector("#rut").parentElement.classList.remove('has-error');
+              //document.querySelector("#password").parentElement.classList.remove('has-error');
+              //document.querySelector("#email").parentElement.classList.remove('has-error');
           },
-          armarPaginador: function (paginasVisibles = 10) {
+          armarPaginador: function (paginasVisibles = 15) {
               this.numeroPaginas = [];
               var desde = this.paginador.current_page-paginasVisibles;
               if (desde < 1) {
@@ -73,18 +84,16 @@ var vue = new Vue({
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
-                  // ventanaCargando();
                   $(window).scrollTop(0);
               }).catch(error => {
                   $(window).scrollTop(0);
-                  // ventanaCargando();
                   this.mensajeError = 'Error interno.';
               });
           },
 
           eliminarElemento: function () {
               var datos = new FormData();
-              datos.append('id', this.elemento.id);
+              datos.append('id', this.elementos[this.index].id);
               axios.post(
                   urlActual + '/delete', 
                   datos,
@@ -105,86 +114,58 @@ var vue = new Vue({
 
           cargarElemento: function (index) {
             this.limpiarElemento();
-            this.limpiarMensajes(); 
-            if (index != -1) {
+           // this.limpiarMensajes();
+            this.index = index;
+            if (this.index > -1) {
               this.elemento.id = this.elementos[index].id;
               this.elemento.name = this.elementos[index].name;
               this.elemento.email = this.elementos[index].email;
               this.elemento.rut = this.elementos[index].rut;
+              this.elemento.telefono = this.elementos[index].telefono;
+              this.elemento.direccion = this.elementos[index].direccion;
               this.elemento.estatus = this.elementos[index].estatus;
+            } else {
+              this.elemento.id = 0;
+              this.elemento.name = '';
+              this.elemento.email = '';
+              this.elemento.rut = '';
+              this.elemento.telefono = '';
+              this.elemento.direccion = '';
+              this.elemento.estatus = 1;
             }
           },
 
-          validarGuardar: function () {
-            var hasError = true;
-            if (this.elemento.name.toString().trim().length == 0 ) {
-              document.querySelector("#nombre").parentElement.classList.add('has-error');
-              hasError = false;
-            } else {
-              document.querySelector("#nombre").parentElement.classList.remove('has-error');
-            } 
-            if (!regExRut.test(this.elemento.rut) ) {
-              document.querySelector("#rut").parentElement.classList.add('has-error');
-              hasError = false;
-            } else {
-              document.querySelector("#rut").parentElement.classList.remove('has-error');
-            } 
-
-            if (this.elemento.id == 0 ) {
-              if (!regExPassword.test(this.elemento.password)) {
-                document.querySelector("#password").parentElement.classList.add('has-error');
-                hasError = false;
-              } else {
-
-              document.querySelector("#password").parentElement.classList.remove('has-error');
-              }
-            } else { 
-              if (this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
-                document.querySelector("#password").parentElement.classList.add('has-error');
-                hasError = false;
-              } else {
-                document.querySelector("#password").parentElement.classList.remove('has-error');
-              } 
-            }
-            if (!regExpCorreoElectronico.test(this.elemento.email)) {
-              document.querySelector("#email").parentElement.classList.add('has-error');
-              hasError = false;
-            } else {
-              document.querySelector("#email").parentElement.classList.remove('has-error');
-            } 
-
-            return hasError;
-          },
+          
 
           guardar: function () {
-            if (this.validarGuardar()) {
-              this.limpiarMensajes(); 
-              var datos = new FormData();
-              datos.append('id', this.elemento.id);
-              datos.append('name', this.elemento.name);
-              datos.append('email', this.elemento.email);
-              datos.append('rut', this.elemento.rut);
-              datos.append('estatus', (this.elemento.estatus == true) ?  1 : 0);
-              if (this.elemento.id == 0) {
-                datos.append('password', this.elemento.password);
-              }
-              axios.post(
-                  urlActual + '/store', 
-                  datos,
-              )
-              .then((response) => { 
-                  this.elementos = response.data.data;
-                  this.paginador = response.data;
-                  this.armarPaginador();
-                  this.mensajeAlerta = 'Operación realizada con éxito'; 
-                  $('#guardarModal').modal('hide');
-              })
-              .catch((error) => {
-                  this.mensajeError = 'Error interno.';
-              this.limpiarElemento();
-                  $('#guardarModal').modal('hide');
-              });   
+         
+            this.limpiarMensajes(); 
+            var datos = new FormData();
+            datos.append('id', this.elemento.id);
+            datos.append('name', this.elemento.name);
+            datos.append('email', this.elemento.email);
+            datos.append('rut', this.elemento.rut);
+            datos.append('estatus', this.elemento.estatus);
+            if (this.elemento.password.toString().trim().length > 0) {
+
+              datos.append('password', this.elemento.password);
             }
+            datos.append('telefono', this.elemento.telefono);
+            datos.append('direccion', this.elemento.direccion);
+            axios.post(
+                urlActual + '/store', 
+                datos,
+            )
+            .then((response) => { 
+                this.elementos = response.data.data;
+                this.paginador = response.data;
+                this.armarPaginador();
+                this.limpiarElemento();
+            })
+            .catch((error) => {
+                this.mensajeError = 'Error interno.';
+            });   
+          
 
           },
       }
