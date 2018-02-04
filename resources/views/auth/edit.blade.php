@@ -8,21 +8,14 @@
             <div class="panel panel-default">
  				<div class="panel-body">
 						@if(Session::has('success'))
-
 					    <div class="alert alert-success">
-
 					        {{ Session::get('success') }}
-
 					        @php
-
 					        Session::forget('success');
-
 					        @endphp
-
 					    </div>
-
 					    @endif
- 					<form class="form-horizontal" method="put" action="{{route('users.update', $user->id)}}">
+ 					<form class="form-horizontal" method="post" action="{{route('users.update', $user->id)}}">
                         {{ csrf_field() }}
                         
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
@@ -70,7 +63,7 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" >
+                                 <input id="password" type="password" class="form-control" name="password" >
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">

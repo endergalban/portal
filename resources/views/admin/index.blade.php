@@ -35,7 +35,7 @@
                                     <span class="text-danger" v-else>Inactivo</span>
                                 </td>        
                                 <td nowrap="nowrap">
-                                    <button @click="cargarElemento(index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#guardarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
+                                    <a class="btn btn-primary btn-sm" href="{{route('users.edit',1)}}"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></a>
                                     <button @click="cargarElemento(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
 
                                 </td>        

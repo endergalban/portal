@@ -48,4 +48,8 @@ class Publicacion extends Model
     {
         return $this->hasMany('App\PublicacionImagen');
     }
+
+    public function setCreatedAtAttribute( $value ) {
+      $this->attributes['created_at'] = (new Carbon($value))->format('Y-m-d  h:i:s A');
+    }
 }
