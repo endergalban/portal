@@ -21,7 +21,7 @@ class Publicacion extends Model
 
     public function producto()
     {
-        return $this->belongs('App\Producto');
+        return $this->belongsTo('App\Producto');
     }
 
     public function user()
@@ -47,5 +47,10 @@ class Publicacion extends Model
     public function prublicacion_imagenes()
     {
         return $this->hasMany('App\PublicacionImagen');
+    }
+
+    public function asistencias()
+    {
+        return $this->belongsToMany('App\Asistencia','aistencia_publicacion');
     }
 }

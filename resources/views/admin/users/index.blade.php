@@ -22,8 +22,10 @@
                 <tr>
                   <th>ID #</th>
                   <th>Email</th>
+                  <th>Tipo</th>
                   <th>Nombre</th>
                   <th>Rut</th>
+                  <th>Teléfono</th>
                   <th>Estatus</th>
                   <th>Acciones</th>
                 </tr>
@@ -31,9 +33,14 @@
               <tbody>
               <tr  v-for = "(elemento, index) in elementos">
                 <td><b>@{{ elemento.id }}</b></td>        
-                <td>@{{ elemento.email }}</td>        
+                <td>@{{ elemento.email }}</td>  
+                <td>
+                  <span v-if="elemento.tipo == 1">Administrado</span>
+                  <span v-else>Usuario</span>
+                </td>              
                 <td>@{{ elemento.name }}</td>        
                 <td>@{{ elemento.rut }}</td>        
+                <td>@{{ elemento.telefono }}</td>  
                 <td>
                   <span class="text-success" v-if="elemento.estatus == 1">Activo</span>
                   <span class="text-danger" v-else>Inactivo</span>
@@ -93,11 +100,18 @@
                   </div>
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <input type="email" class="form-control" id="email" placeholder="ejemplo@ejemplo.com" v-model="elemento.email">
                   </div>
                   <div class="form-group col-md-4">
                     <input type="password" class="form-control" id="password" placeholder="**********" v-model="elemento.password">
+                  </div>
+
+                  <div class="form-group col-md-2">
+                    <select v-model="elemento.tipo" style="width:100%" class="form-control">
+                      <option value="0">Usuario</option>
+                      <option value="1">Administrador</option>
+                    </select>
                   </div>
 
                   <div class="form-group col-md-2">

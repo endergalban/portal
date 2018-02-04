@@ -15,4 +15,5 @@ mix.js('resources/assets/js/app.js', 'public/js')
 //mix.js('resources/assets/js/validaciones.js', 'public/js/validaciones.js');
 mix.js('resources/assets/js/users.js', 'public/js/users.js');
 mix.js('resources/assets/js/atributos.js', 'public/js/atributos.js');
+mix.js('resources/assets/js/asistencias.js', 'public/js/asistencias.js');
 mix.js('resources/assets/js/productos.js', 'public/js/productos.js');

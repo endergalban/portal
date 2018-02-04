@@ -92,10 +92,11 @@ var vue = new Vue({
             name: '',
             email: '',
             password: '',
-            telfono: '',
+            telefono: '',
             direccion: '',
             rut: '',
-            estatus: 1
+            estatus: 1,
+            tipo: 0
         },
         index: -2
 
@@ -123,6 +124,7 @@ var vue = new Vue({
             this.elemento.direccion = '';
             this.elemento.telefono = '';
             this.elemento.estatus = true;
+            this.elemento.tipo = 0;
             //document.querySelector("#nombre").parentElement.classList.remove('has-error');
             //document.querySelector("#rut").parentElement.classList.remove('has-error');
             //document.querySelector("#password").parentElement.classList.remove('has-error');
@@ -200,6 +202,7 @@ var vue = new Vue({
                 this.elemento.telefono = this.elementos[index].telefono;
                 this.elemento.direccion = this.elementos[index].direccion;
                 this.elemento.estatus = this.elementos[index].estatus;
+                this.elemento.tipo = this.elementos[index].tipo;
             } else {
                 this.elemento.id = 0;
                 this.elemento.name = '';
@@ -208,6 +211,7 @@ var vue = new Vue({
                 this.elemento.telefono = '';
                 this.elemento.direccion = '';
                 this.elemento.estatus = 1;
+                this.elemento.tipo = 0;
             }
         },
 
@@ -221,12 +225,13 @@ var vue = new Vue({
             datos.append('email', this.elemento.email);
             datos.append('rut', this.elemento.rut);
             datos.append('estatus', this.elemento.estatus);
+            datos.append('tipo', this.elemento.tipo);
+            datos.append('telefono', this.elemento.telefono);
+            datos.append('direccion', this.elemento.direccion);
             if (this.elemento.password.toString().trim().length > 0) {
 
                 datos.append('password', this.elemento.password);
             }
-            datos.append('telefono', this.elemento.telefono);
-            datos.append('direccion', this.elemento.direccion);
             axios.post(urlActual + '/store', datos).then(function (response) {
                 _this3.elementos = response.data.data;
                 _this3.paginador = response.data;

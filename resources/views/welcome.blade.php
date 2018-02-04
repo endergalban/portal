@@ -68,6 +68,8 @@
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
+                    <a href="{{ route('publicar.index') }}">Publicar</a>
+                    <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li>
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
