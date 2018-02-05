@@ -71,13 +71,20 @@ class UserController extends Controller
 
         $user = User::find($id);
         Validator::make($request->all(), [
-          'name' => 'required',
+          'name' => 'required|max:255',
           'rut' => 'required',
+          'email' => 'required|email|unique:users,email,'.$user->id,
+          'password' => 'required|confirmed'
         ])->validate();
+
         $user->name = $request->get('name');
         $user->rut = $request->get('rut');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
         $user->save();
-        return redirect()->back()->with('success','Product has been updated');
+
+        return redirect()->back()->
+        with('success','Product has been updated');
     }
 
     /**

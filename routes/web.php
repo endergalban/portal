@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'PublicacionController@index')->name('home');
+Route::get('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);
+Route::get('publicaciones/details/{id}',['uses' => 'PublicacionController@details', 'as' => 'publicaciones.details']);
 
 Route::group(['middleware' => ['auth','permiso']], function () {
 
@@ -48,9 +50,12 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 	Route::get('admin/asistencias',['uses' => 'PublicarController@index_asistencia_admin', 'as' => 'admin.asistencias.index']);
 
 });
+
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('publicar',['uses' => 'PublicarController@index', 'as' => 'publicar.index']);
 	Route::get('asistencias',['uses' => 'PublicarController@asistencia', 'as' => 'publicar.asistencia']);
 	Route::post('asistencias/store',['uses' => 'PublicarController@store_asistencia', 'as' => 'asistencia.store']);
+	Route::post('comentarios',['uses' => 'ComentarioController@comentar', 'as' => 'comentar']);
+	Route::get('comentarios/eliminar/{id}',['uses' => 'ComentarioController@eliminar', 'as' => 'comentar.eliminar']);
 
 });

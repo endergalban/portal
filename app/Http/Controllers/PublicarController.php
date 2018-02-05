@@ -73,6 +73,7 @@ class PublicarController extends Controller
     {
         $asistencias = Asistencia::where('user_id',Auth::user()->id)
         ->with('publicaciones.producto')
+        ->with('user')
         ->orderBy('id','DESC')
         ->paginate();
         return view('admin.asistencias.index')->with(compact('asistencias'));

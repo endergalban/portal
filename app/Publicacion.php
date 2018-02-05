@@ -53,4 +53,7 @@ class Publicacion extends Model
     {
         return $this->belongsToMany('App\Asistencia','aistencia_publicacion');
     }
+    public function setCreatedAtAttribute( $value ) {
+      $this->attributes['created_at'] = (new Carbon($value))->format('Y-m-d  h:i:s A');
+    }
 }

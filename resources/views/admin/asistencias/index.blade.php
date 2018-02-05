@@ -25,6 +25,8 @@
                 <thead>
                 <tr>
                   <th>ID #</th>
+                  <th>Usuario</th>
+                  <th>Email</th>
                   <th>Descripción</th>
                   <th>Fecha</th>
                   <th>Publicaciones</th>
@@ -36,6 +38,8 @@
               @foreach($asistencias as $asistencia)
               <tr >
                 <td><b>{{ $asistencia->id }}</b></td>        
+                <td>{{ $asistencia->user->name }}</td> 
+                <td>{{ $asistencia->user->email }}</td> 
                 <td>{{ $asistencia->descripcion }}</td> 
                 <td>{{ $asistencia->created_at->format('d-m-Y h:m p') }}</td>        
                 <td>
