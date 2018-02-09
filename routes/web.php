@@ -56,6 +56,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('asistencias',['uses' => 'PublicarController@asistencia', 'as' => 'publicar.asistencia']);
 	Route::post('asistencias/store',['uses' => 'PublicarController@store_asistencia', 'as' => 'asistencia.store']);
 	Route::post('comentarios',['uses' => 'ComentarioController@comentar', 'as' => 'comentar']);
+	Route::get('miscompras',['uses' => 'CompraController@miscompras', 'as' => 'miscompras']);
+	Route::get('misventas',['uses' => 'CompraController@misventas', 'as' => 'misventas']);
 	Route::get('comentarios/eliminar/{id}',['uses' => 'ComentarioController@eliminar', 'as' => 'comentar.eliminar']);
 
 });

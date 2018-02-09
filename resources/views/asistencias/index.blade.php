@@ -65,7 +65,7 @@
                 <td>
                 	@if($asistencia->estado == 1)
                 		<span class="label label-info">Solicitado</span>
-                	@elseif($asistencia.estado == 2)
+                	@elseif($asistencia->estado == 2)
                 		<span class="label label-primary">En proceso</span>
                 	@else
                 		<span class="label label-danger">Inactivo</span>

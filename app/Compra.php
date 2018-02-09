@@ -12,7 +12,7 @@ class Compra extends Model
     protected $table = 'compras';
 
     protected $fillable = [
-		'publicacion_id', 'user_id', 'descripcion', 'monto', 
+		'publicacion_id', 'user_id', 'descripcion', 'monto',  'cantidad', 
     ];
 
     protected $dates = [
@@ -21,7 +21,7 @@ class Compra extends Model
 
     public function publicacion()
     {
-        return $this->belongs('App\Producto');
+        return $this->belongsTo('App\Publicacion');
     }
 
     public function user()

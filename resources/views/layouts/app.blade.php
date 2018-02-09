@@ -58,6 +58,8 @@
                         @else
                            
                             <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li>
+                            <li><a href="{{ route('miscompras') }}">Mis compras</a></li>
+                            <li><a href="{{ route('misventas') }}">Mis ventas</a></li>
 
                              @if(Auth::user()->tipo == 1)
                                
