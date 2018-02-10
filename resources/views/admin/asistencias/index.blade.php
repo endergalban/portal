@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container hidden" id="container">
     <!-- Usuarios -->
 
   <div class="row">

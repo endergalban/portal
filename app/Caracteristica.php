@@ -20,7 +20,7 @@ class Caracteristica extends Model
     ];
 
     
-    public function publicaciones()
+    public function publicacion()
     {
         return $this->belongsTo('App\Publicacion');
     }

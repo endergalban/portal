@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container hidden" id="container">
     <div class="alert alert-success" role="alert" v-show="mensajeOk != ''">
     </div>
     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''">

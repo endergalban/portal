@@ -2,6 +2,7 @@ var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
+      document.getElementById("container").classList.remove('hidden');
     },
       data: {
         mensajeError: '',

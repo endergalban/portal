@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container hidden" id="container">
     <!-- Usuarios -->
     <div class="row">
         <div class="col-md-12">
@@ -12,39 +12,40 @@
                     </div>
                     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''">
                     </div>
-
-             
                         <button @click.prevent="cargarElemento(-1);verificarCheck()" class="btn btn-success" :disabled="index > -2"><i class="fas fa-plus"></i> Nuevo Producto</button>
                     <hr>
-                    <div class="row">
-                      <div class="col-md-1"><b>ID #</b></div>
-                      <div class="col-md-5"><b>Producto</b></div>
-                      <div class="col-md-2"><b>Estado</b></div>
-                      <div class="col-md-1"><b>Atributos</b></div>
-                      <div class="col-md-2"><b>Acciones</b></div>
+                    <div class="table-responsive">
+                      <table class="table .table-striped">
+                        <thead>
+                        <tr>
+                          <th><b>ID #</b></th>
+                          <th><b>Producto</b></th>
+                          <th><b>Estado</b></th>
+                          <th><b>Atributos</b></th>
+                          <th><b>Acciones</b></th>
+                        </tr>
+                        </thead>
+                       <tbody>
+                        <tr v-for = "(elemento, index) in elementos">
+                          <td>
+                              <b>@{{ elemento.id }}</b>
+                          </td>        
+                          <td>
+                            @{{ elemento.descripcion }}
+                          </td>        
+                          <td>
+                            <span v-if="elemento.estado == 1">Activo</span>
+                            <span v-else>Inactivo</span>
+                          </td>    
+                          <td> <button class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></td>        
+                          <td nowrap="nowrap">
+                            <button :id="'btn_editar' + index" @click.prevent="cargarElemento(index);verificarCheck()" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
+                            <button :id="'btn_eliminar' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
                     </div>
-                    <hr>  
-                    <div class="row" v-for = "(elemento, index) in elementos">
-                      <div class="col-md-1">
-                          <b>@{{ elemento.id }}</b>
-                      </div>        
-                      <div class="col-md-5">
-                        @{{ elemento.descripcion }}
-                      </div>        
-                        
-                      <div class="col-md-2">
-                              <span v-if="elemento.estado == 1">Activo</span>
-                              <span v-else>Inactivo</span>
-                      </div>    
-                     
-                      <div class="col-md-1"> <button class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></div>        
-                      <div class="col-md-2">
-                        <button :id="'btn_editar' + index" @click.prevent="cargarElemento(index);verificarCheck()" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
-                        <button :id="'btn_eliminar' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
-                      </div>
-                      <hr>        
-                    </div>
-
                     <nav aria-label="Page navigation" v-show="mostrarPaginador">
                       <ul class="pagination">
                         <li class="page-item" :disabled="paginador.current_page == 1">

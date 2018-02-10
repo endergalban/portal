@@ -37,6 +37,7 @@ class PublicarController extends Controller
         ->with('caracteristicas.atributo.entidad')
         ->paginate();
 
+
         return view('publicaciones.publicar')->with(compact('entidades','publicaciones'));
     }
 

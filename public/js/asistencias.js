@@ -78,7 +78,9 @@ module.exports = __webpack_require__(44);
 
 var vue = new Vue({
   el: '#container',
-  created: function created() {},
+  created: function created() {
+    document.getElementById("container").classList.remove('hidden');
+  },
   data: {
 
     index: -2,

@@ -14,7 +14,7 @@ class CreateCaracteristicasTable extends Migration
      */
     public function up()
     {
-        Schema::create('caraceristicas', function (Blueprint $table) {
+        Schema::create('caracteristicas', function (Blueprint $table) {
             $table->increments('id')->comment('Identificador de la caracteristica del producto a publicar');
             $table->integer('atributo_id')->unsigned()->comment('Identificador del atributo del producto');
             $table->integer('publicacion_id')->unsigned()->comment('Identificador de la publicación');
@@ -32,6 +32,6 @@ class CreateCaracteristicasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caraceristicas');
+        Schema::dropIfExists('caracteristicas');
     }
 }

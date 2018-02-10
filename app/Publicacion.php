@@ -41,7 +41,7 @@ class Publicacion extends Model
 
     public function caracteristicas()
     {
-        return $this->hasMany('App\Compra');
+        return $this->hasMany('App\Caracteristica');
     }
 
     public function prublicacion_imagenes()

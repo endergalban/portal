@@ -80,6 +80,7 @@ var vue = new Vue({
     el: '#container',
     created: function created() {
         this.obtenerElementos();
+        document.getElementById("container").classList.remove('hidden');
     },
     data: {
         mensajeError: '',

@@ -1,7 +1,8 @@
 var vue = new Vue({ 
     el: '#container',
     created: function(){
-      
+      document.getElementById("container").classList.remove('hidden');
+    
     },
     data: {
 
