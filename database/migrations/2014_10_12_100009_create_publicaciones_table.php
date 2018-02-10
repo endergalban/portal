@@ -21,6 +21,7 @@ class CreatePublicacionesTable extends Migration
             $table->string('descripcion')->comment('Descripción de la publicación');
             $table->boolean('estado')->default(1)->comment('Estado de la publicación (0 = inactivo, 1 = activo, 2 = vendido, 3 = de baja)');
             $table->float('monto', 12, 2)->comment('Monto de la publicación');
+            $table->integer('cantidad')->comment('cantidad de poductos publicados');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');

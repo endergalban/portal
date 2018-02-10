@@ -14,9 +14,9 @@ class CreateAsistenciaPublicacionTable extends Migration
     public function up()
     {
         Schema::create('asistencia_publicacion', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned()->comment('Identificador del usuario que solicita la asistencia');
+            $table->integer('asistencia_id')->unsigned()->comment('Identificador de la asistencia');
             $table->integer('publicacion_id')->unsigned()->comment('Identificador de la publicación');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('asistencia_id')->references('id')->on('asistencias')->onDelete('cascade');
             $table->foreign('publicacion_id')->references('id')->on('publicaciones')->onDelete('cascade');
             $table->timestamps();
         });

@@ -16,11 +16,11 @@ class CreateCaracteristicasTable extends Migration
     {
         Schema::create('caraceristicas', function (Blueprint $table) {
             $table->increments('id')->comment('Identificador de la caracteristica del producto a publicar');
-            $table->integer('atributo_producto_id')->unsigned()->comment('Identificador del atributo del producto');
+            $table->integer('atributo_id')->unsigned()->comment('Identificador del atributo del producto');
             $table->integer('publicacion_id')->unsigned()->comment('Identificador de la publicación');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('atributo_producto_id')->references('id')->on('atributo_productos')->onDelete('cascade');
+            $table->foreign('atributo_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->foreign('publicacion_id')->references('id')->on('publicaciones')->onDelete('cascade');
         });
     }

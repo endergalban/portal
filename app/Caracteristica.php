@@ -9,7 +9,7 @@ class Caracteristica extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'atributo_productos';
+    protected $table = 'caracteristicas';
 
     protected $fillable = [
 		'atributo_id', 'producto_id'
@@ -25,13 +25,8 @@ class Caracteristica extends Model
         return $this->belongsTo('App\Publicacion');
     }
 
-    public function atributo_producto()
-    {
-        return $this->belongsTo('App\AtributoProducto');
-    }
-
     public function atributo()
     {
-        return $this->belongsToMany('App\Atributo','App\AtributoProducto');
+        return $this->belongsTo('App\Atributo','App\Atributo');
     }
 }

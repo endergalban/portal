@@ -8,6 +8,7 @@ use App\Entidad;
 use App\Producto;
 use App\AtributoProducto;
 use Validator;
+use DB;
 
 class ProductoController extends Controller
 {
@@ -58,9 +59,9 @@ class ProductoController extends Controller
         $producto->fill($request->all());
         $producto->save();
         if($request->atributos) {
-            $producto->atributos()->syncWithoutDetaching(explode(',',$request->atributos));
+            $producto->atributos()->sync(explode(',',$request->atributos));
         } else {
-            AtributoProducto::where('producto_id',$producto->id)->delete();
+            DB::table('atributo_productos')->where('producto_id',$producto->id)->delete();
 
         }
         $productos = Producto::with('atributos')->paginate();

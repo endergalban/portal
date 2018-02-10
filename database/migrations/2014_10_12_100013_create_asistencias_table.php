@@ -19,7 +19,6 @@ class CreateAsistenciasTable extends Migration
             $table->integer('user_id')->unsigned()->comment('Identificador del usuario que solicita la asistencia');
             $table->string('descripcion')->comment('Comentario de la asistencia');
             $table->boolean('estado')->default(1)->comment('Estado de la publicación (0 = inactivo, 1 = Solicitado, 2 = En Proceso)');
-            
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

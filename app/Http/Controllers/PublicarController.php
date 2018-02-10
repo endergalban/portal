@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Entidad;
 use App\Producto;
+use App\Publicacion;
 use App\AtributoProducto;
 use App\Asistencia;
 use Validator;
@@ -31,7 +32,12 @@ class PublicarController extends Controller
             $q->activo();
         }])->get();
 
-        return view('admin.productos.index')->with(compact('entidades'));
+        $publicaciones = Publicacion::where('user_id',Auth::user()->id)
+        ->with('producto')
+        ->with('caracteristicas.atributo.entidad')
+        ->paginate();
+
+        return view('publicaciones.publicar')->with(compact('entidades','publicaciones'));
     }
 
     public function asistencia()
