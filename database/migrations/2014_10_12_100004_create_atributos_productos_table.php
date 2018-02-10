@@ -14,12 +14,11 @@ class CreateAtributosProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('atributo_productos', function (Blueprint $table) {
+         Schema::create('atributo_productos', function (Blueprint $table) {
             $table->increments('id')->comment('Identificador del atributo para el producto');
             $table->integer('atributo_id')->unsigned()->comment('Identificador del atributo');
             $table->integer('producto_id')->unsigned()->comment('Identificador del producto');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('atributo_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
         });

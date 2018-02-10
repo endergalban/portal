@@ -15,9 +15,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/publicaciones.css') }}" rel="stylesheet">
     
+    
     <!-- Iconos -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
-    
+
     <script type="text/javascript">
       var urlActual = '{{ URL::current() }}';
     </script>
@@ -51,13 +52,39 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right"  style="">
                         <!-- Authentication Links -->
+                        <li><a href="{{ route('publicar.index') }}">Publicar</a></li>
+                   
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                            <li><a href="{{ route('publicaciones.index') }}">Publicaciones</a></li>
                         @else
-                            <li><a href="{{ route('users.index') }}">Usuarios</a></li>
-                            <li><a href="{{ route('publicaciones.index') }}">Publicaciones</a></li>
+                           
+                            <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li>
+                            <li><a href="{{ route('miscompras') }}">Mis compras</a></li>
+                            <li><a href="{{ route('misventas') }}">Mis ventas</a></li>
+
+                             @if(Auth::user()->tipo == 1)
+                               
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    Configuración <span class="caret"></span>
+                                </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{ route('users.index') }}">Usuarios</a></li>
+                                        <li><a href="{{ route('productos.index') }}">Productos</a></li>
+                                        <li><a href="{{ route('atributos.index') }}">Caracteristicas</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    Publicaciones <span class="caret"></span>
+                                </a>
+                                    <ul class="dropdown-menu">
+                                        <!--<li><a href="#">Publicaciones de Usuarios</a></li>-->
+                                        <li><a href="{{ route('admin.asistencias.index')}}">Ventas Asistidas</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>

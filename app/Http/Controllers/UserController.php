@@ -16,11 +16,10 @@ class UserController extends Controller
      * Display the template.
      *
      * @return \Illuminate\Http\Response
-
      */
     public function index()
     {
-        return view('admin.index');
+        return view('admin.users.index');
     }
 
     /**

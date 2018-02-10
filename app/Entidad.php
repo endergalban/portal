@@ -21,6 +21,11 @@ class Entidad extends Model
 
     public function atributos()
     {
-        return $this->hasMany('App\Atributo');
+        return $this->hasMany('App\Atributo')->orderby('orden');
+    }
+
+    public function scopeActivo($q)
+    {
+        return $q->where('estado',1);
     }
 }

@@ -6,16 +6,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
- 				<div class="panel-body">
-						@if(Session::has('success'))
-					    <div class="alert alert-success">
-					        {{ Session::get('success') }}
-					        @php
-					        Session::forget('success');
-					        @endphp
-					    </div>
-					    @endif
- 					<form class="form-horizontal" method="post" action="{{route('users.update', $user->id)}}">
+        <div class="panel-body">
+            @if(Session::has('success'))
+              <div class="alert alert-success">
+                  {{ Session::get('success') }}
+                  @php
+                  Session::forget('success');
+                  @endphp
+              </div>
+              @endif
+                  <form class="form-horizontal" method="POST" action="{{route('users.update', $user->id)}}">
+
                         {{ csrf_field() }}
                         
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
@@ -90,9 +91,9 @@
                         </div>
                     </form>
                 </div>
-	        </div>
-	    </div>
-	</div>
+          </div>
+      </div>
+  </div>
 </div>
 @push('scripts')
 <script type="text/javascript">
@@ -105,10 +106,9 @@
     var email = form.find('#email');
     var password = form.find('#password');
     var passwordConfirm = form.find('#password-confirm');
- 	
- 	$('*').removeClass('has-error');
+  
+  $('*').removeClass('has-error');
     var error = 0;
-
     if(name.val().length<6){
       name.addClass('has-error');
       error = 1;
@@ -117,13 +117,11 @@ console.log(name);
    /* var email = $(this).find('input[name="email"]');        // E-mail                        // Gender
     var age = $(this).find('select[name="age"]');           // Age
     var msg = $(this).find('#msg');                                   // Message
-
     // remove class "error" from al elements
     // sets a variable "error" used to deermine if submit or no the form
     $('*').removeClass('has-error');
     var error = 0;
     var regx = /^([a-z0-9_\-\.])+\@([a-z0-9_\-\.])+\.([a-z]{2,4})$/i;   // regexp for e-mail
-
          
     // check "name"
     if(name.val().length<2){
@@ -151,7 +149,6 @@ console.log(name);
       msg.addClass('has-error');
       error = 1;
     }
-
     // if error is 0, submit the form
     // else alerts a message and blocks the submission by returning false
     if(error==0) {
@@ -163,7 +160,6 @@ console.log(name);
     }
   });
 });
-
 /*validarGuardar: function () {
             var hasError = true;
             if (this.elemento.name.toString().trim().length == 0 ) {
@@ -201,7 +197,6 @@ console.log(name);
             } else {
               document.querySelector("#email").parentElement.classList.remove('has-error');
             } 
-
             return hasError;
           },*/
 </script>

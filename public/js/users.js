@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 41:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(42);
+module.exports = __webpack_require__(40);
 
 
 /***/ }),
 
-/***/ 42:
+/***/ 40:
 /***/ (function(module, exports) {
 
 var vue = new Vue({
@@ -92,16 +92,22 @@ var vue = new Vue({
             name: '',
             email: '',
             password: '',
+            telefono: '',
+            direccion: '',
             rut: '',
-            estatus: true
-        }
+            estatus: 1,
+            tipo: 0
+        },
+        index: -2
+
     },
     computed: {
         mostrarPaginador: function mostrarPaginador() {
-
             return this.paginador.last_page !== 1;
+        },
+        habilitarGuardar: function habilitarGuardar() {
+            return this.elemento.name.toString().trim().length == 0 || !regExRut.test(this.elemento.rut) || !regExpCorreoElectronico.test(this.elemento.email) || this.index == -1 && !regExPassword.test(this.elemento.password) || this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password);
         }
-
     },
     methods: {
         limpiarMensajes: function limpiarMensajes() {
@@ -109,15 +115,23 @@ var vue = new Vue({
             this.mensajeOk = '';
         },
         limpiarElemento: function limpiarElemento() {
+            this.index = -2;
             this.elemento.id = 0;
             this.elemento.name = '';
             this.elemento.rut = '';
             this.elemento.email = '';
             this.elemento.password = '';
+            this.elemento.direccion = '';
+            this.elemento.telefono = '';
             this.elemento.estatus = true;
+            this.elemento.tipo = 0;
+            //document.querySelector("#nombre").parentElement.classList.remove('has-error');
+            //document.querySelector("#rut").parentElement.classList.remove('has-error');
+            //document.querySelector("#password").parentElement.classList.remove('has-error');
+            //document.querySelector("#email").parentElement.classList.remove('has-error');
         },
         armarPaginador: function armarPaginador() {
-            var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+            var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 15;
 
             this.numeroPaginas = [];
             var desde = this.paginador.current_page - paginasVisibles;
@@ -150,11 +164,9 @@ var vue = new Vue({
                 _this.elementos = response.data.data;
                 _this.paginador = response.data;
                 _this.armarPaginador();
-                // ventanaCargando();
                 $(window).scrollTop(0);
             }).catch(function (error) {
                 $(window).scrollTop(0);
-                // ventanaCargando();
                 _this.mensajeError = 'Error interno.';
             });
         },
@@ -163,7 +175,7 @@ var vue = new Vue({
             var _this2 = this;
 
             var datos = new FormData();
-            datos.append('id', this.elemento.id);
+            datos.append('id', this.elementos[this.index].id);
             axios.post(urlActual + '/delete', datos).then(function (response) {
                 _this2.elementos = response.data.data;
                 _this2.paginador = response.data;
@@ -180,83 +192,54 @@ var vue = new Vue({
 
         cargarElemento: function cargarElemento(index) {
             this.limpiarElemento();
-            this.limpiarMensajes();
-            if (index != -1) {
+            // this.limpiarMensajes();
+            this.index = index;
+            if (this.index > -1) {
                 this.elemento.id = this.elementos[index].id;
                 this.elemento.name = this.elementos[index].name;
                 this.elemento.email = this.elementos[index].email;
                 this.elemento.rut = this.elementos[index].rut;
+                this.elemento.telefono = this.elementos[index].telefono;
+                this.elemento.direccion = this.elementos[index].direccion;
                 this.elemento.estatus = this.elementos[index].estatus;
-            }
-        },
-
-        validarGuardar: function validarGuardar() {
-            var hasError = true;
-            if (this.elemento.name.toString().trim().length == 0) {
-                document.querySelector("#nombre").parentElement.classList.add('has-error');
-
-                hasError = false;
+                this.elemento.tipo = this.elementos[index].tipo;
             } else {
-                document.querySelector("#nombre").parentElement.classList.remove('has-error');
+                this.elemento.id = 0;
+                this.elemento.name = '';
+                this.elemento.email = '';
+                this.elemento.rut = '';
+                this.elemento.telefono = '';
+                this.elemento.direccion = '';
+                this.elemento.estatus = 1;
+                this.elemento.tipo = 0;
             }
-            if (!regExRut.test(this.elemento.rut)) {
-                document.querySelector("#rut").parentElement.classList.add('has-error');
-
-                hasError = false;
-            } else {
-                document.querySelector("#rut").parentElement.classList.remove('has-error');
-            }
-            if (this.elemento.id == 0 && !regExPassword.test(this.elemento.password)) {
-                document.querySelector("#password").parentElement.classList.add('has-error');
-
-                hasError = false;
-            } else {
-                document.querySelector("#password").parentElement.classList.remove('has-error');
-            }
-            if (this.elemento.id > 0 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
-                rdocument.querySelector("#password").parentElement.classList.add('has-error');
-
-                hasError = false;
-            } else {
-                document.querySelector("#password").parentElement.classList.remove('has-error');
-            }
-            if (!regExpCorreoElectronico.test(this.elemento.email)) {
-                document.querySelector("#email").parentElement.classList.add('has-error');
-
-                hasError = false;
-            } else {
-                document.querySelector("#email").parentElement.classList.remove('has-error');
-            }
-
-            return hasError;
         },
 
         guardar: function guardar() {
             var _this3 = this;
 
-            if (this.validarGuardar()) {
-                this.limpiarMensajes();
-                var datos = new FormData();
-                datos.append('id', this.elemento.id);
-                datos.append('name', this.elemento.name);
-                datos.append('email', this.elemento.email);
-                datos.append('rut', this.elemento.rut);
-                datos.append('estatus', this.elemento.estatus == true ? 1 : 0);
-                if (this.elemento.id == 0) {
-                    datos.append('password', this.elemento.password);
-                }
-                axios.post(urlActual + '/store', datos).then(function (response) {
-                    _this3.elementos = response.data.data;
-                    _this3.paginador = response.data;
-                    _this3.armarPaginador();
-                    _this3.mensajeAlerta = 'Operación realizada con éxito';
-                    $('#guardarModal').modal('hide');
-                }).catch(function (error) {
-                    _this3.mensajeError = 'Error interno.';
-                    _this3.limpiarElemento();
-                    $('#guardarModal').modal('hide');
-                });
+            this.limpiarMensajes();
+            var datos = new FormData();
+            datos.append('id', this.elemento.id);
+            datos.append('name', this.elemento.name);
+            datos.append('email', this.elemento.email);
+            datos.append('rut', this.elemento.rut);
+            datos.append('estatus', this.elemento.estatus);
+            datos.append('tipo', this.elemento.tipo);
+            datos.append('telefono', this.elemento.telefono);
+            datos.append('direccion', this.elemento.direccion);
+            if (this.elemento.password.toString().trim().length > 0) {
+
+                datos.append('password', this.elemento.password);
             }
+            axios.post(urlActual + '/store', datos).then(function (response) {
+                _this3.elementos = response.data.data;
+                _this3.paginador = response.data;
+                _this3.armarPaginador();
+                _this3.limpiarElemento();
+            }).catch(function (error) {
+                _this3.mensajeError = 'Error interno.';
+            });
         }
     }
 });
