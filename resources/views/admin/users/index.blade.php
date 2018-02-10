@@ -7,6 +7,7 @@
     <div class="alert alert-success" role="alert" v-show="mensajeOk != ''">
     </div>
     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''">
+    @{{ mensajeError }}
     </div>
 
   <div class="row">

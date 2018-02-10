@@ -162,10 +162,16 @@ var vue = new Vue({
                 datos,
             )
             .then((response) => { 
+              if (response.data == '-1') {
+                 this.mensajeError = 'El rut ingresado ya se encuentra en los registros';
+              } else if(response.data == '-2') {
+                  this.mensajeError = 'El email ingresado ya se encuentra en los registros';
+              } else {
                 this.elementos = response.data.data;
                 this.paginador = response.data;
                 this.armarPaginador();
                 this.limpiarElemento();
+              }
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';

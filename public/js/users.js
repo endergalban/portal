@@ -233,10 +233,16 @@ var vue = new Vue({
                 datos.append('password', this.elemento.password);
             }
             axios.post(urlActual + '/store', datos).then(function (response) {
-                _this3.elementos = response.data.data;
-                _this3.paginador = response.data;
-                _this3.armarPaginador();
-                _this3.limpiarElemento();
+                if (response.data == '-1') {
+                    _this3.mensajeError = 'El rut ingresado ya se encuentra en los registros';
+                } else if (response.data == '-2') {
+                    _this3.mensajeError = 'El email ingresado ya se encuentra en los registros';
+                } else {
+                    _this3.elementos = response.data.data;
+                    _this3.paginador = response.data;
+                    _this3.armarPaginador();
+                    _this3.limpiarElemento();
+                }
             }).catch(function (error) {
                 _this3.mensajeError = 'Error interno.';
             });
