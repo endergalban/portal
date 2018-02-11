@@ -25,20 +25,22 @@ class PublicarController extends Controller
      */
     public function index()
     {
-        $entidades = Entidad::activo()
-        ->whereHas('atributos', function ($q) {
+      
+        $productos = Producto::activo()
+        ->has('atributos.entidad')
+        ->with(['atributos' => function ($q){
             $q->activo();
-        })->with(['atributos' => function ($q){
+        }])
+        ->with(['atributos.entidad' => function ($q){
             $q->activo();
-        }])->get();
-
+        }])
+        ->get();
+        
         $publicaciones = Publicacion::where('user_id',Auth::user()->id)
         ->with('producto')
         ->with('caracteristicas.atributo.entidad')
         ->paginate();
-
-
-        return view('publicaciones.publicar')->with(compact('entidades','publicaciones'));
+        return view('publicaciones.publicar')->with(compact('publicaciones','productos'));
     }
 
     public function asistencia()

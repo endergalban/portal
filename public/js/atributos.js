@@ -93,6 +93,7 @@ var vue = new Vue({
             orden: 0,
             descripcion: '',
             estado: 1,
+            tipo: 1,
             atributos: []
         },
 
@@ -147,6 +148,7 @@ var vue = new Vue({
             this.elementoEntidad.descripcion = '';
             this.elementoEntidad.orden = 0;
             this.elementoEntidad.estado = 1;
+            this.elementoEntidad.tipo = 1;
             this.elementoEntidad.atributos = [];
             this.index = -2;
         },
@@ -230,9 +232,11 @@ var vue = new Vue({
                 this.elementoEntidad.descripcion = '';
                 this.elementoEntidad.orden = 0;
                 this.elementoEntidad.estado = 1;
+                this.elementoEntidad.tipo = 1;
                 this.elementoEntidad.atributos = [];
             } else {
                 this.elementoEntidad.id = this.elementos[this.index].id;
+                this.elementoEntidad.tipo = this.elementos[this.index].tipo;
                 this.elementoEntidad.descripcion = this.elementos[this.index].descripcion;
                 this.elementoEntidad.orden = this.elementos[this.index].orden;
                 this.elementoEntidad.estado = this.elementos[this.index].estado;
@@ -248,6 +252,7 @@ var vue = new Vue({
             datos.append('orden', this.elementoEntidad.orden);
             datos.append('descripcion', this.elementoEntidad.descripcion);
             datos.append('estado', this.elementoEntidad.estado);
+            datos.append('tipo', this.elementoEntidad.tipo);
             datos.append('id', this.elementoEntidad.id);
             axios.post(urlActual + '/store', datos).then(function (response) {
                 _this3.elementos = response.data.data;

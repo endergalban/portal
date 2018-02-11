@@ -21,6 +21,7 @@
                       <th><b>Caracteristica</b></th>
                       <th><b>Orden</b></th>
                       <th><b>Estado</b></th>
+                      <th><b>Tipo</b></th>
                       <th><b>Items</b></th>
                       <th><b>Acciones</b></th>
                     </thead>
@@ -38,7 +39,12 @@
                         <td>        
                             <span class="label label-success" v-if="elemento.estado == 1">Activo</span>
                             <span class="label label-danger" v-if="elemento.estado == 0">Inactivo</span>
-                        </td>       
+                        </td>    
+                         <td>        
+                            <span class="label label-info" v-if="elemento.tipo == 1">Selección Simple</span>
+                            <span class="label label-info" v-if="elemento.tipo == 2">Selección Multiple</span>
+                            <span class="label label-info" v-if="elemento.tipo == 3">Caja de Texto</span>
+                        </td>     
                         <td>        
                              <button @click="cargarElementoEntidadAtributo(index)" class="btn btn-primary btn-sm">@{{ elemento.atributos.length }}</button>
                         </td>  
@@ -100,6 +106,15 @@
                           <select class="form-control" v-model="elementoEntidad.estado" style="width:100%"/>
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <select class="form-control" v-model="elementoEntidad.tipo" style="width:100%"/>
+                            <option value="1">Selección simple</option>
+                            <option value="2">Selección multiple</option>
+                            <option value="3">Caja de texto</option>
                           </select>
                         </div>
                       </div>
