@@ -85,7 +85,7 @@
 }
 
 .carousel-control-prev,
-.carousel-control-next {
+.carousel-control-next { 
   position: absolute;
   top: 0;
   bottom: 0;

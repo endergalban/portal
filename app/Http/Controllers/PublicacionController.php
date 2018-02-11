@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; 
 
 use Illuminate\Http\Request;
 use App\Publicacion;
@@ -42,3 +42,4 @@ class PublicacionController extends Controller
     }
 
 }
+ 
