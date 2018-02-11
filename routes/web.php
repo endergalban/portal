@@ -47,4 +47,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('miscompras',['uses' => 'CompraController@miscompras', 'as' => 'miscompras']);
 	Route::get('misventas',['uses' => 'CompraController@misventas', 'as' => 'misventas']);
 	Route::get('comentarios/eliminar/{id}',['uses' => 'ComentarioController@eliminar', 'as' => 'comentar.eliminar']);
+
+	Route::get('comprar/{id}',['uses' => 'CompraController@comprar', 'as' => 'comprar']);
+	Route::post('comprar/procesar',['uses' => 'CompraController@comprar_proceso', 'as' => 'comprar.proceso']);
 }); 

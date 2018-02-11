@@ -1,5 +1,18 @@
 @extends('layouts.app')
-	@section('content') 
+<style type="text/css">
+.badge-primary {
+  color: #fff !important;
+  background-color: #007bff !important;
+}
+
+.badge-primary[href]:hover, .badge-primary[href]:focus {
+  color: #fff !important;
+  text-decoration: none !important;
+  background-color: #0062cc !important;
+}
+
+</style>
+	@section('content')
 	<div class="container" id="container">
 		<div class="row"> 
 		
@@ -27,13 +40,13 @@
 	              <div class="carousel-inner">
 	                <div class="item active">
 	                
-	                  <img alt="Los Angeles" src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
+	                  <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
 	                </div>
 	                <div class="item">
-	                  <img alt="Chicago" src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100">
+	                  <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100">
 	                </div>
 	                <div class="item">
-	                  <img alt="New York" src="http://placehold.it/295x190/333333/FFFFFF"  class="d-block w-100">
+	                  <img src="http://placehold.it/295x190/333333/FFFFFF"  class="d-block w-100">
 	                </div>
 	              </div>
 	              	           
@@ -45,13 +58,16 @@
 	            </div>
 	          </div>
 	          <div class="info">
-	            <h4>{{ $publicacion->descripcion }}</h4>
-	            <h6>{{ $publicacion->user->name }}</h6>
+	            <h4>{{ $publicacion->producto->descripcion }}</h4>	            
 	            <span class="description">
-	              
+	             @foreach ($publicacion->entidades as $entidad)
+	             	<span class="badge badge-primary">{{$entidad->descripcion}}</span>
+	             @endforeach
+	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
 	            </span>
+	            <h6>Publicado por: <strong>{{ $publicacion->user->name }}</strong></h6>
 	            <span class="price">$ {{ $publicacion->monto }}</span>
-	            <a class="btn btn-primary pull-right" href="#"><i class="icon-shopping-cart"></i> Comprar</a>
+	            <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a>
 	          </div>
 	          <div class="details">
 	            <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>
