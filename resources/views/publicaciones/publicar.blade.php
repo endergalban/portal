@@ -1,12 +1,35 @@
 @extends('layouts.app')
+<link href="{{ asset('css/productos.css') }}" rel="stylesheet">
+<link href="{{ asset('css/grid.css') }}" rel="stylesheet">
+<link href="{{ asset('css/carousel.css') }}" rel="stylesheet">
+<style type="text/css">
+.badge-primary {
+  color: #fff !important;
+  background-color: #007bff !important;
+}
+.badge-primary[href]:hover, .badge-primary[href]:focus {
+  color: #fff !important;
+  text-decoration: none !important;
+  background-color: #0062cc !important;
+}
+.d-block {
+  display: block !important;
+}
+.w-100 {
+  width: 900px !important;
+  height: 400 !important;
+}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 @section('content')
 <div class="container" id="container">
 	<!--Datos de la venta-->
-	<div class="panel panel-default" v-show="listadoPublicaciones == 1 && tab == 0">
+	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 0">
 	  	<div class="panel-body">
 		  	<div class="row">
 				<div class="col-md-4 text-center">
-					<h3>Publicando</h3>
+					<h3>Datos de la Publicación</h3>
 				</div>
 				<div class="col-md-8">
 					<div class="col-md-3">
@@ -48,8 +71,14 @@
 					</div>
 
 					<div class="col-md-12 form-group">
+						<label>Monto</label>
+						<input type="text" class="form-control" v-model="elemento.monto"/>
+					</div>
+
+
+					<div class="col-md-12 form-group">
 						<label>Cantidad</label>
-						<input type="text" class="form-control" v-model="elemento.cantidad"/>
+						<input type="number" class="form-control" v-model="elemento.cantidad"/>
 					</div>
 
 					
@@ -92,10 +121,10 @@
 			<div class="col-md-12">
 			<div class="row">
     			<div class="col-md-6">
-    				<button type="button" class="btn btn-lg btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+    				<button type="button" class="btn btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
     			</div>
     			<div class="col-md-6">
-					<button type="button" class="btn btn-lg btn-success pull-right" @click.prevent="tab = 1" :disabled="deshabilitarBtnImagenes" >Continuar</button>
+					<button type="button" class="btn btn-success pull-right" @click.prevent="tab = 1" :disabled="deshabilitarBtnImagenes" >Continuar</button>
 	  			</div>
 	  		</div>
 	  		</div>
@@ -103,11 +132,11 @@
 	  	</div>
 	</div>
 	<!--Imagenes-->
-	<div class="panel panel-default" v-show="listadoPublicaciones == 1 && tab == 1">
+	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 1">
 	  	<div class="panel-body">
 		  	<div class="row">
 				<div class="col-md-4 text-center">
-					<h3>Publicando</h3>
+					<h3>Carga de Imagenes</h3>
 				</div>
 				<div class="col-md-8">
 					<div class="col-md-3">
@@ -134,9 +163,9 @@
 							</div>
 						</div>
 					</div>
+							<hr>
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
-							<label>Cargar Imagen</label>
 							<input type="file" name="imagen" id="imagen" class="form-control" @change="cargarImagenALienzo(1)">	
 						</div>
 					</div>
@@ -145,11 +174,10 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-2 " v-for="n in 6">
-					<img :src="imagen" style="width:100%" />
-					<hr>
+					<img :id="'imagen_' + n " src="../images/no-image.jpg" class="img-thumbnail" style="width:200px;height:89px"/>
 				</div>
 			</div>
-
+			<hr>
 
 			<div class="col-md-12">
 				<div class="row">
@@ -158,6 +186,7 @@
 	    			</div>
 	    			<div class="col-md-6">
 						<button type="button" class="btn  btn-success pull-right" @click.prevent="tab = 2"  >Continuar</button>
+	    				<button type="button" class="btn  btn-default pull-right" @click.prevent="tab = 0"  >Atras</button>
 		  			</div>
 		  		</div>
 	  		</div>
@@ -165,12 +194,158 @@
 	  	</div>
 	</div>
 
+		<!--Previsualización-->
+	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 2">
+	  	<div class="panel-body">
+		  	<div class="row">
+				<div class="col-md-4 text-center">
+					<h3>Previsualización</h3>
+				</div>
+				<div class="col-md-8">
+					<div class="col-md-3">
+						<h5>Datos del Producto</h5>
+					</div>
+					<div class="col-md-3">
+						<h5><b>Agregar Imagenes</b></h5>
+					</div>
+					<div class="col-md-3">
+						<h5>Previsualizar</h5>
+					</div>
+					<div class="col-md-3">
+						<h5>Publicar</h5>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-lg-9 col-md-offset-1">
+
+		          <div class="card mt-4">
+		            <!--<img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">-->
+		            <div id="demo" class="carousel slide" data-ride="carousel" v-if="imagenes.length > 0">
+		              <!-- Indicators -->
+		              <ul class="carousel-indicators">
+		                
+		                <li data-target="#demo" v-for="(imagen,i) in imagenes" :data-slide-to="i"  :class="i == 0 ? 'active' : ''"></li>
+		               
+		              </ul>
+		              
+		              <!-- The slideshow -->
+		              <div class="carousel-inner">
+		                <div v-for="(imagen,i) in imagenes" :class="i == 0 ? 'item active' : 'item'">
+		                
+		                  <img :src="imagen" class="d-block w-100" >
+		                </div>
+		          
+		               
+		              </div>
+		              
+		              <!-- Left and right controls -->
+		              <a class="carousel-control-prev" href="#demo" data-slide="prev">
+		                <span class="carousel-control-prev-icon"></span>
+		              </a>
+		              <a class="carousel-control-next" href="#demo" data-slide="next">
+		                <span class="carousel-control-next-icon"></span>
+		              </a>
+		            </div>
+		            <div class="col-lg-12 " v-else>
+		            	<div class="row">
+		            	<img src="http://placehold.it/900x400" width="100%">	
+		            	</div>
+		            </div>
+
+		            <div class="card-body">
+		              <h3 class="card-title">@{{ elemento.id }}</h3>
+		              
+		                <span class="badge badge-primary">gfgfg</span> 
+		               
+		              <h4><strong>$ @{{ elemento.monto}}</strong></h4>
+		              <p class="card-text">@{{ elemento.descripcion }}</p>
+		              <hr>
+		                <div class="row">
+		                    <div class="col-9">
+		                        Publicado por: <br>
+		                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+		                        4.0 stars
+		                    </div>
+		                    <div class="col-3">
+		                        <a class="btn btn-primary pull-right disabled"><i class="icon-shopping-cart"></i> Comprar</a>
+		                    </div>
+		                </div>
+		            </div>
+		          </div>
+		          <!-- /.card -->
+		        </div>
+		        <!-- /.col-lg-9 -->
+			</div>
+
+			<hr>
+
+			<div class="col-md-12">
+				<div class="row">
+	    			<div class="col-md-6">
+	    				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+	    			</div>
+	    			<div class="col-md-6">
+						<button type="button" class="btn  btn-success pull-right" @click.prevent="tab = 3"  >Continuar</button>
+	    				<button type="button" class="btn  btn-default pull-right" @click.prevent="tab = 1"  >Atras</button>
+		  			</div>
+		  		</div>
+	  		</div>
+			
+	  	</div>
+	</div>
+
+	<!--Publicar-->
+	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 3">
+	  	<div class="panel-body">
+		  	<div class="row">
+				<div class="col-md-4 text-center">
+					<h3>Publicar</h3>
+				</div>
+				<div class="col-md-8">
+					<div class="col-md-3">
+						<h5>Datos del Producto</h5>
+					</div>
+					<div class="col-md-3">
+						<h5><b>Agregar Imagenes</b></h5>
+					</div>
+					<div class="col-md-3">
+						<h5>Previsualizar</h5>
+					</div>
+					<div class="col-md-3">
+						<h5>Publicar</h5>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				
+			</div>
+
+			<hr>
+
+			<div class="col-md-12">
+				<div class="row">
+	    			<div class="col-md-6">
+	    				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+	    			</div>
+	    			<div class="col-md-6">
+						<button type="button" class="btn  btn-warning pull-right" @click.prevent="tab = 4"  >Guardar</button>
+	    				<button type="button" class="btn  btn-default pull-right" @click.prevent="tab = 2"  >Atras</button>
+		  			</div>
+		  		</div>
+	  		</div>
+			
+	  	</div>
+	</div>
+
 	
 	
-      <div class="panel panel-default" v-show="listadoPublicaciones == 0">
+      <div class="panel panel-default" v-show="listadoPublicaciones == 1">
         <div class="panel-heading">Últimas publicaciones</div>
           <div class="panel-body">
-         <button type="button" class="btn btn-success" @click.prevent="listadoPublicaciones = 1"  >Publicar</button>
+         <button type="button" class="btn btn-success" @click.prevent="listadoPublicaciones = 0"  >Publicar</button>
          <hr>
             <div class="table-responsive">
               <table class="table .table-striped">
@@ -197,7 +372,6 @@
                 <td>$ @{{ publicacion.monto}}</td>        
                 <td>$ @{{ publicacion.estado}}</td>        
                 <td>
-
                 	<a class="btn btn-info btn-sm" >Ir</a>
                 	<button @click="cargarElemento(index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#guardarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
                   	<button @click="cargarElemento(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>

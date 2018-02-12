@@ -14,7 +14,7 @@ class CreateAsistenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('asistencias', function (Blueprint $table) {
+         Schema::create('asistencias', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('Identificador del usuario que solicita la asistencia');
             $table->string('descripcion')->comment('Comentario de la asistencia');

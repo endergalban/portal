@@ -12,7 +12,7 @@ class CreateCaracteristicasTable extends Migration
      *
      * @return void
      */
-    public function up()
+     public function up()
     {
         Schema::create('caracteristicas', function (Blueprint $table) {
             $table->increments('id')->comment('Identificador de la caracteristica del producto a publicar');

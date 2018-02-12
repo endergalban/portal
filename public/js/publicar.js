@@ -93,29 +93,32 @@ var vue = new Vue({
       descripcion: 'dsada',
       estado: 1,
       cantidad: 1,
-      producto_id: 1
+      producto_id: 1,
+      monto: 0
     },
+
     index: -1,
     entidades: [],
-    listadoPublicaciones: 1,
-    tab: 1,
+    listadoPublicaciones: 0,
+    tab: 0,
     imagenes: []
 
   },
   computed: {
     deshabilitarBtnImagenes: function deshabilitarBtnImagenes() {
-      return this.elemento.descripcion.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) || this.elemento.producto_id.toString().trim().length == 0;
+      return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) || this.elemento.producto_id.toString().trim().length == 0;
     }
   },
   methods: {
     cancelarPublicacion: function cancelarPublicacion() {
-      listadoPublicaciones = 0;
+      this.listadoPublicaciones = 1;
       this.tab = 0;
       this.elemento.id = 0;
-      this.descripcion = '';
-      this.estado = 1;
-      this.cantidad = 1;
-      this.producto_id = '';
+      this.elemento.descripcion = '';
+      this.elemento.estado = 1;
+      this.elemento.cantidad = 1;
+      this.elemento.monto = 0;
+      this.elemento.producto_id = '';
       this.cargarImagenALienzo(0);
     },
 
@@ -128,6 +131,29 @@ var vue = new Vue({
         }
       });
     },
+    cargarImagenesMiniaturas: function cargarImagenesMiniaturas() {
+      var i = 1;
+      this.imagenes.forEach(function (img) {
+        var nodeImg = document.getElementById('imagen_' + i + '');
+        nodeImg.src = img;
+        var ns;
+        while (ns = nodeImg.nextSibling) {
+          nodeImg.parentNode.removeChild(ns);
+        }nodeImg.insertAdjacentHTML('afterend', '<button v-on:click.prevent="previsualizarImagen(' + i + ')" class="btn btn-sm btn-primary pull-right"><i class="fa fa-search"></i></button>');
+        nodeImg.insertAdjacentHTML('afterend', '<button  v-on:click.prevent="eliminarImagen(' + i + ')" class="btn btn-sm btn-danger pull-right"><i class="fa fa-trash"></i></button>');
+        i = i + 1;
+      });
+    },
+
+    eliminarImagen: function eliminarImagen(index) {
+      alert(index);
+      this.imagenes.slice(index);
+      this.cargarImagenesMiniaturas();
+    },
+
+    previsualizarImagen: function previsualizarImagen(index) {
+      document.getElementById('imagenLienzo').src = this.imagenes[imagenes];
+    },
 
     cargarImagenALienzo: function cargarImagenALienzo(tipo) {
       var canvas = document.getElementById('canvas');
@@ -139,34 +165,37 @@ var vue = new Vue({
         img.onload = function () {
           context.drawImage(img, 0, 0);
         };
-        img.src = 'http://maestroselectronics.com/wp-content/uploads/2017/12/No_Image_Available.jpg';
-        img.setAttribute('width', '450px');
-        img.setAttribute('height', '300px');
+        img.src = 'http://placehold.it/900x400';
+        img.setAttribute('width', '900px');
+        img.setAttribute('height', '400px');
         img.setAttribute('id', 'imagenLienzo');
-        //lienzo.removeChild('imagenLienzo');
+        lienzo.removeChild(lienzo.childNodes[0]);
         lienzo.appendChild(img);
       } else {
 
         var fileinput = document.getElementById('imagen');
-        var file = fileinput.files[0];
-        if (file.type.match('image.*')) {
-          var reader = new FileReader();
-          // Read in the image file as a data URL.
-          reader.readAsDataURL(file);
-          reader.onload = function (evt) {
-            if (evt.target.readyState == FileReader.DONE) {
-              img.src = evt.target.result;
-              context.drawImage(img, 100, 100);
-              img.setAttribute('width', '450px');
-              img.setAttribute('height', '300px');
-              img.setAttribute('id', 'imagenLienzo');
-              lienzo.removeChild(lienzo.childNodes[0]);
-              lienzo.appendChild(img);
-              vue.imagenes.push(img.src);
-            }
-          };
-        } else {
-          alert("Solo se permiten imagenes");
+        if (document.querySelector('#imagen').value.length > 0 && this.imagenes.length < 7) {
+          var file = fileinput.files[0];
+          if (file.type.match('image.*')) {
+            var reader = new FileReader();
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(file);
+            reader.onload = function (evt) {
+              if (evt.target.readyState == FileReader.DONE) {
+                img.src = evt.target.result;
+                context.drawImage(img, 100, 100);
+                img.setAttribute('width', '900px');
+                img.setAttribute('height', '400px');
+                img.setAttribute('id', 'imagenLienzo');
+                lienzo.removeChild(lienzo.childNodes[0]);
+                lienzo.appendChild(img);
+                vue.imagenes.push(img.src);
+                vue.cargarImagenesMiniaturas();
+              }
+            };
+          } else {
+            alert("Solo se permiten imagenes");
+          }
         }
       }
     }
