@@ -175,6 +175,8 @@
 			<div class="row">
 				<div class="col-md-2 " v-for="n in 6">
 					<img :id="'imagen_' + n " src="../images/no-image.jpg" class="img-thumbnail" style="width:200px;height:89px"/>
+					<button @click.prevent="previsualizarImagen(n)" class="btn btn-sm btn-primary pull-right" v-show="! (imagenes.length < n)"><i class="fa fa-search"></i></button>
+					<button @click.prevent="eliminarImagen(n)" class="btn btn-sm btn-danger pull-right" v-show="! (imagenes.length < n)"><i class="fa fa-trash"></i></button>
 				</div>
 			</div>
 			<hr>

@@ -99,19 +99,21 @@
                 <hr>
                 @foreach($entidades as $entidad)
 
-                <div class="col-md-3">
+                <div class="col-md-3" style="margin-top:20px;margin-bottom:20px;">
                   <div class="col-md-12">
-                    {{ $entidad->descripcion }}
+                    <b>{{ $entidad->descripcion }}</b>
                   </div>
                   <hr>
+                  <div style="overflow-y:auto; height:200px">
                   @foreach($entidad->atributos as $atributo)
-                    <div class="col-md-10">
-                      {{ $atributo->descripcion}}
-                    </div>                  
-                    <div class="col-md-2">
-                    <input type="checkbox"  class="elementoAtributos" id="check_{{$atributo->id}}" name="atributos[]" value="{{ $atributo->id}}">
-                    </div>
+                      <div class="col-md-10">
+                        {{ $atributo->descripcion}}
+                      </div>                  
+                      <div class="col-md-2">
+                        <input type="checkbox"  class="elementoAtributos" id="check_{{$atributo->id}}" name="atributos[]" value="{{ $atributo->id}}">
+                      </div>
                   @endforeach
+                    </div>
                 </div>
                 @endforeach
 

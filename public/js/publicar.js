@@ -137,22 +137,21 @@ var vue = new Vue({
         var nodeImg = document.getElementById('imagen_' + i + '');
         nodeImg.src = img;
         var ns;
-        while (ns = nodeImg.nextSibling) {
-          nodeImg.parentNode.removeChild(ns);
-        }nodeImg.insertAdjacentHTML('afterend', '<button v-on:click.prevent="previsualizarImagen(' + i + ')" class="btn btn-sm btn-primary pull-right"><i class="fa fa-search"></i></button>');
-        nodeImg.insertAdjacentHTML('afterend', '<button  v-on:click.prevent="eliminarImagen(' + i + ')" class="btn btn-sm btn-danger pull-right"><i class="fa fa-trash"></i></button>');
         i = i + 1;
       });
     },
 
     eliminarImagen: function eliminarImagen(index) {
-      alert(index);
-      this.imagenes.slice(index);
+      for (var i = 1; i < 6; i++) {
+        document.getElementById('imagen_' + i + '').src = '../images/no-image.jpg';
+      };
+      document.getElementById('imagenLienzo').src = 'http://placehold.it/900x400';
+      this.imagenes.splice(index - 1, 1);
       this.cargarImagenesMiniaturas();
     },
 
     previsualizarImagen: function previsualizarImagen(index) {
-      document.getElementById('imagenLienzo').src = this.imagenes[imagenes];
+      document.getElementById('imagenLienzo').src = this.imagenes[index - 1];
     },
 
     cargarImagenALienzo: function cargarImagenALienzo(tipo) {
