@@ -9,8 +9,11 @@ use App\Producto;
 use App\Publicacion;
 use App\AtributoProducto;
 use App\Asistencia;
+use App\Atributo;
 use Validator;
 use Auth;
+use Carbon\Carbon;
+use DB;
 
 class PublicarController extends Controller
 {
@@ -29,18 +32,26 @@ class PublicarController extends Controller
         $productos = Producto::activo()
         ->has('atributos.entidad')
         ->with(['atributos' => function ($q){
-            $q->activo();
+            $q->activo()->where('entidad','<>',1);
         }])
         ->with(['atributos.entidad' => function ($q){
             $q->activo();
         }])
         ->get();
+
+        $regiones = Atributo::activo()->where('entidad_id',1)->get();
+
+        $asistencias = Asistencia::where('estado',1)
+        ->with('user')
+        ->orderBy('id','DESC')
+        ->get();
+
         
         $publicaciones = Publicacion::where('user_id',Auth::user()->id)
         ->with('producto')
         ->with('caracteristicas.atributo.entidad')
         ->paginate();
-        return view('publicaciones.publicar')->with(compact('publicaciones','productos'));
+        return view('publicaciones.publicar')->with(compact('publicaciones','productos','regiones','asistencias'));
     }
 
     public function asistencia()
@@ -53,8 +64,48 @@ class PublicarController extends Controller
         return view('asistencias.index')->with(compact('asistencias'));
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      //dd($request->all());
+        Validator::make($request->all(), [
+          'producto_id' => 'required|integer|exists:productos,id',
+          'estado' => 'required|boolean',
+          'descripcion' => 'required|string|max:5000',
+          'monto' => 'required|numeric',
+          'cantidad' => 'required|integer',
+          'region_id' => 'required|integer|exists:atributos,id',
+          'asistencia_id' => 'nullable|integer|exists:asistencias,id',
+        ])->validate();
+        if ($request->publicacion_id == 0) {
+            $publicacion = new Publicacion;
+            $msj="Felicidades tu publicación se encuentra disponible!";    
+        } else {
+            $msj="Felicidades tu publicación ha sido actualizada!";    
+        }
+        $publicacion->fill(array_add($request->all(),'user_id', Auth::user()->id));
+        $publicacion->save();
+        if($request->asistencia_id) {
+            DB::table('asistencia_publicacion')->insert([
+                'asistencia_id' => $request->asistencia_id,
+                'publicacion_id' => $publicacion->id
+                ]);
+        }
+        if($request->atributos) {
+            $atributos = array_filter($request->atributos);
+            $publicacion->atributos()->sync($atributos);
+        }
+            
+        return redirect()->back()->with('success', $msj);
+    }
+
    
-    /**
+    /**ión
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

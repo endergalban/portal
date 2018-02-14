@@ -18,7 +18,7 @@ class CreateComprasTable extends Migration
             $table->increments('id');
             $table->integer('publicacion_id')->unsigned()->comment('Identificador de la publicación');
             $table->integer('user_id')->unsigned()->comment('Identificador del usuario que realiza la compra');
-            $table->string('descripcion')->comment('Comentario de la compra');
+            $table->string('descripcion')->nullable()->comment('Comentario de la compra');
             $table->float('monto', 12, 2)->comment('Monto de la publicación');
             $table->integer('cantidad')->comment('cantidad de poductos comprados');
             $table->timestamps();

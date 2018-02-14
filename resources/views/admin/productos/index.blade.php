@@ -100,8 +100,11 @@
                 @foreach($entidades as $entidad)
 
                 <div class="col-md-3" style="margin-top:20px;margin-bottom:20px;">
-                  <div class="col-md-12">
+                  <div class="col-md-10">
                     <b>{{ $entidad->descripcion }}</b>
+                  </div>
+                  <div class="col-md-2">
+                    <input type="checkbox" id="check_{{$entidad->id}}" @click="marcarTodos('{{ $entidad->id }}')">
                   </div>
                   <hr>
                   <div style="overflow-y:auto; height:200px">
@@ -110,7 +113,7 @@
                         {{ $atributo->descripcion}}
                       </div>                  
                       <div class="col-md-2">
-                        <input type="checkbox"  class="elementoAtributos" id="check_{{$atributo->id}}" name="atributos[]" value="{{ $atributo->id}}">
+                        <input type="checkbox"  class="elementoAtributos entidad_{{ $entidad->id }}" id="check_{{$atributo->id}}" name="atributos[]" value="{{ $atributo->id}}">
                       </div>
                   @endforeach
                     </div>

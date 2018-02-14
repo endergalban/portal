@@ -19,7 +19,6 @@ class CreateCaracteristicasTable extends Migration
             $table->integer('atributo_id')->unsigned()->comment('Identificador del atributo del producto');
             $table->integer('publicacion_id')->unsigned()->comment('Identificador de la publicación');
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('atributo_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->foreign('publicacion_id')->references('id')->on('publicaciones')->onDelete('cascade');
         });

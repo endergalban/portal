@@ -22,6 +22,9 @@ class CreatePublicacionesTable extends Migration
             $table->boolean('estado')->default(1)->comment('Estado de la publicación (0 = inactivo, 1 = activo, 2 = vendido, 3 = de baja)');
             $table->float('monto', 12, 2)->comment('Monto de la publicación');
             $table->integer('cantidad')->comment('cantidad de poductos publicados');
+            $table->integer('region_id')->unsigned()->comment('Password del usuario');
+            $table->string('placa')->nullable()->comment('placa del producto');
+            $table->foreign('region_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');

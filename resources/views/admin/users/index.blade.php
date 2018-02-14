@@ -124,7 +124,15 @@
 
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-12">
+                  <div class="form-group col-md-3">
+                    <select v-model="elemento.region_id" style="width:100%" class="form-control">
+                      <option value="">Selecione</option>
+                      @foreach($regiones as $region)
+                        <option value="{{ $region->id }}">{{ $region->descripcion }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group col-md-9">
                     <input type="text" class="form-control" id="direccion" placeholder="" v-model="elemento.direccion">
                   </div>
                 </div>

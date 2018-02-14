@@ -2,12 +2,14 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+
 class Publicacion extends Model
 {
     use SoftDeletes;
     protected $table = 'publicaciones';
     protected $fillable = [
-        'producto_id', 'user_id', 'descripcion', 'estado', 'monto', 
+        'producto_id', 'user_id', 'descripcion', 'estado', 'monto', 'region_id', 'placa','cantidad'
     ];
     protected $dates = [
         'deleted_at', 'created_at', 'updated_at'
@@ -41,7 +43,11 @@ class Publicacion extends Model
     {
         return $this->belongsToMany('App\Asistencia','aistencia_publicacion');
     }
-    public function setCreatedAtAttribute( $value ) {
-      $this->attributes['created_at'] = (new Carbon($value))->format('Y-m-d  h:i:s A');
+    public function atributos()
+    {
+        return $this->belongsToMany('App\Atributo','caracteristicas');
     }
+   // public function setCreatedAtAttribute( $value ) {
+     // $this->attributes['created_at'] = (new Carbon($value))->format('Y-m-d  h:i:s A');
+    //}
 }

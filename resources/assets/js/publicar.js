@@ -13,25 +13,28 @@ var vue = new Vue({
       mensajeOk: '',
       elemento: { 
           id: 0,
-          descripcion: 'dsada',
+          producto: '',
+          descripcion: '',
           estado: 1,
-          cantidad: 1,
-          producto_id: 1,
-          monto: 0,
+          cantidad: 0,
+          producto_id: '',
+          region_id: '',
+          monto: '',
       },
-
-
+      termino: false,
       index:  -1,
       entidades:  [],
-      listadoPublicaciones: 0,
+      listadoPublicaciones: 1,
       tab: 0,
       imagenes: [],
      
        
     },
     computed: {
+
       deshabilitarBtnImagenes: function (){
         return this.elemento.descripcion.toString().trim().length == 0  ||  
+                this.elemento.region_id.toString().trim().length == 0  ||  
                this.elemento.monto.toString().trim().length == 0  ||  
                !regExpSoloNumeros.test(this.elemento.estado)  ||
                ( this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) ) ||
@@ -44,6 +47,7 @@ var vue = new Vue({
         this.tab = 0;
         this.elemento.id = 0;
         this.elemento.descripcion = '';
+        this.elemento.region_id = '';
         this.elemento.estado = 1;
         this.elemento.cantidad = 1;
         this.elemento.monto = 0;
@@ -51,7 +55,17 @@ var vue = new Vue({
         this.cargarImagenALienzo(0);
       },
 
+      cargarTextoPublicacion : function() {
+        var elt = document.getElementById('producto_id');
+        if (elt.selectedIndex == '' || elt.selectedIndex == 0 ) {
+          this.elemento.producto = ''
+        } else {
+          this.elemento.producto =  elt.options[elt.selectedIndex].text;
+        }
+      },
+
       cargarAtributos: function() {
+        this.cargarTextoPublicacion();
         productos.forEach((producto) => {
           if (producto.id == this.elemento.producto_id ) {
             this.entidades = producto.entidades;
@@ -73,7 +87,7 @@ var vue = new Vue({
         for (var i=1; i < 6; i++) {
            document.getElementById('imagen_'+ i +'').src = '../images/no-image.jpg';
         };
-        document.getElementById('imagenLienzo').src = 'http://placehold.it/900x400';
+        document.getElementById('imagenLienzo').src = 'http://placehold.it/700x400';
         this.imagenes.splice((index-1),1);
         this.cargarImagenesMiniaturas();
       },
@@ -90,8 +104,8 @@ var vue = new Vue({
         if (tipo == 0) {
 
           img.onload = function() { context.drawImage(img, 0, 0); };
-          img.src = 'http://placehold.it/900x400';
-          img.setAttribute('width','900px');
+          img.src = 'http://placehold.it/700x400';
+          img.setAttribute('width','700px');
           img.setAttribute('height','400px');
           img.setAttribute('id','imagenLienzo');
           lienzo.removeChild(lienzo.childNodes[0]);
@@ -110,7 +124,7 @@ var vue = new Vue({
                 if( evt.target.readyState == FileReader.DONE) {
                     img.src = evt.target.result;
                     context.drawImage(img,100,100);
-                     img.setAttribute('width','900px');
+                     img.setAttribute('width','700px');
                      img.setAttribute('height','400px');
                      img.setAttribute('id','imagenLienzo');
                      lienzo.removeChild(lienzo.childNodes[0]);

@@ -12,7 +12,7 @@ class Producto extends Model
     protected $table = 'productos';
 
     protected $fillable = [
-		'estado', 'descripcion', 
+		'estado', 'descripcion'
     ];
 
     protected $dates = [

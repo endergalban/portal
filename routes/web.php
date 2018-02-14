@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('publicar',['uses' => 'PublicarController@index', 'as' => 'publicar.index']);
+	Route::post('publicar/store',['uses' => 'PublicarController@store', 'as' => 'publicar.store']);
 	Route::get('asistencias',['uses' => 'PublicarController@asistencia', 'as' => 'publicar.asistencia']);
 	Route::post('asistencias/store',['uses' => 'PublicarController@store_asistencia', 'as' => 'asistencia.store']);
 	Route::post('comentarios',['uses' => 'ComentarioController@comentar', 'as' => 'comentar']);

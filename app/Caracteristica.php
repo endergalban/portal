@@ -3,11 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Caracteristica extends Model
 {
-    use SoftDeletes;
 
     protected $table = 'caracteristicas';
 
@@ -16,7 +14,7 @@ class Caracteristica extends Model
 	];
 
     protected $dates = [
-        'deleted_at', 'created_at', 'updated_at'
+         'created_at', 'updated_at'
     ];
 
     

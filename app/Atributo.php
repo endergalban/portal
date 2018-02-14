@@ -12,7 +12,7 @@ class Atributo extends Model
     protected $table = 'atributos';
 
     protected $fillable = [
-		'entidad_id', 'descripcion', 'orden', 'estado', 
+		'entidad_id', 'descripcion', 'orden', 'estado',
     ];
 
     protected $dates = [

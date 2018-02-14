@@ -13,13 +13,134 @@ class EntidadesAtributos extends Seeder
      */
     public function run()
     {
-        $entidad = new Entidad;
-        $entidad->descripcion = 'Marca';
+
+    	$entidad = new Entidad;
+        $entidad->descripcion = 'Región';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 1;
         $entidad->save();
 
+        $i=0;
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Tarapacá';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Antofagasta';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Atacama';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Coquimbo';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Valparaíso';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'O’Higgins';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'El Maule';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'El Bío Bío';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'La Araucanía';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Los Lagos';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Aysén';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Magallanes y Antártica';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Chilena';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Región Metropolitana de Santiago';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Los Ríos';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+		$atributo = new Atributo;
+		$atributo->descripcion = 'Arica y Parinacota';
+		$atributo->estado = 1;
+		$atributo->entidad_id  = $entidad->id;
+		$atributo->orden = $i++;
+		$atributo->save();
+
+
+        $entidad = new Entidad;
+        $entidad->descripcion = 'Marca';
+        $entidad->tipo = 1;
+        $entidad->estado= 1;
+        $entidad->orden= 2;
+        $entidad->save();
 
 	    $i=0;
 		$atributo = new Atributo;
@@ -3557,7 +3678,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Tipo de Carrocería';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 3;
         $entidad->save();
 
         $i=0;
@@ -4042,7 +4163,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Transmisión';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 4;
         $entidad->save();
 
         $i=0;
@@ -4078,7 +4199,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Combustible';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 5;
         $entidad->save();
 
         $i=0;
@@ -4130,7 +4251,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Tracción';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 6;
         $entidad->save();
 
         $i=0;
@@ -4174,7 +4295,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Carrocería';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 7;
         $entidad->save();
 
         $i=0;
@@ -4350,7 +4471,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Dirección';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 8;
         $entidad->save();
 
         $i = 0;
@@ -4386,7 +4507,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Eléctricos';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 9;
         $entidad->save();
 
         $i = 0;
@@ -4471,7 +4592,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Frenos';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 10;
         $entidad->save();
 
         $i = 0;
@@ -4507,7 +4628,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Motor';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 11;
         $entidad->save();
 
         $i = 0;
@@ -4788,7 +4909,7 @@ class EntidadesAtributos extends Seeder
         $entidad->descripcion = 'Suspención';
         $entidad->tipo = 1;
         $entidad->estado= 1;
-        $entidad->orden= 1;
+        $entidad->orden= 12;
         $entidad->save();
 
 		$i = 0;

@@ -245,6 +245,14 @@ var vue = new Vue({
           }
         }
       };
+    },
+
+    marcarTodos: function marcarTodos(elt) {
+
+      var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
+      for (var i = 0; i < atributosselector.length; i++) {
+        atributosselector[i].checked = document.getElementById('check_' + elt).checked;
+      }
     }
 
   }

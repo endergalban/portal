@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Atributo;
 use Validator;
 
 class UserController extends Controller
@@ -19,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        $regiones = Atributo::where('entidad_id',1)->get();
+        return view('admin.users.index')->with(compact('regiones'));
     }
 
     /**
