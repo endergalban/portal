@@ -35,7 +35,7 @@ class Publicacion extends Model
     {
         return $this->hasMany('App\Caracteristica');
     }
-    public function prublicacion_imagenes()
+    public function imagenes()
     {
         return $this->hasMany('App\PublicacionImagen');
     }
@@ -47,6 +47,22 @@ class Publicacion extends Model
     {
         return $this->belongsToMany('App\Atributo','caracteristicas');
     }
+
+    public function scopeBuscar($query,$request)
+    {
+        if ($request->buscar) {
+            $query->where('descripcion','like','%'.$request->buscar.'%')
+            ->orWhereHas('atributos',function($query) use ($request) {
+                $query->where('descripcion','like','%'.$request->buscar.'%');
+            });
+        }
+
+        if ($request->region_id) {
+            $query->where('region_id',$request->region_id);
+        }
+    }
+
+
    // public function setCreatedAtAttribute( $value ) {
      // $this->attributes['created_at'] = (new Carbon($value))->format('Y-m-d  h:i:s A');
     //}

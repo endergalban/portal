@@ -110,6 +110,10 @@ var vue = new Vue({
 
     deshabilitarBtnImagenes: function deshabilitarBtnImagenes() {
       return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.region_id.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) || this.elemento.producto_id.toString().trim().length == 0;
+    },
+
+    deshabilitarBtnEditar: function deshabilitarBtnEditar() {
+      return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad);
     }
   },
   methods: {
@@ -159,7 +163,7 @@ var vue = new Vue({
       for (var i = 1; i < 6; i++) {
         document.getElementById('imagen_' + i + '').src = '../images/no-image.jpg';
       };
-      document.getElementById('imagenLienzo').src = 'http://placehold.it/700x400';
+      document.getElementById('imagenLienzo').src = 'http://placehold.it/640x580';
       this.imagenes.splice(index - 1, 1);
       this.cargarImagenesMiniaturas();
     },
@@ -179,8 +183,8 @@ var vue = new Vue({
           context.drawImage(img, 0, 0);
         };
         img.src = 'http://placehold.it/700x400';
-        img.setAttribute('width', '700px');
-        img.setAttribute('height', '400px');
+        img.setAttribute('width', '640px');
+        img.setAttribute('height', '580px');
         img.setAttribute('id', 'imagenLienzo');
         lienzo.removeChild(lienzo.childNodes[0]);
         lienzo.appendChild(img);
@@ -197,8 +201,8 @@ var vue = new Vue({
               if (evt.target.readyState == FileReader.DONE) {
                 img.src = evt.target.result;
                 context.drawImage(img, 100, 100);
-                img.setAttribute('width', '700px');
-                img.setAttribute('height', '400px');
+                img.setAttribute('width', '604px');
+                img.setAttribute('height', '580px');
                 img.setAttribute('id', 'imagenLienzo');
                 lienzo.removeChild(lienzo.childNodes[0]);
                 lienzo.appendChild(img);
@@ -211,6 +215,44 @@ var vue = new Vue({
           }
         }
       }
+    },
+
+    cargarElemento: function cargarElemento(index) {
+      this.index = index;
+      this.elemento.id = this.publicaciones[this.index].id;
+    },
+
+    editarElemento: function editarElemento(index) {
+      this.index = index;
+      this.elemento.id = this.publicaciones[this.index].id;
+      this.elemento.cantidad = this.publicaciones[this.index].cantidad;
+      this.elemento.descripcion = this.publicaciones[this.index].descripcion;
+      this.elemento.estado = this.publicaciones[this.index].estado;
+      this.elemento.monto = this.publicaciones[this.index].monto;
+    },
+
+    actualizarElemento: function actualizarElemento() {
+      var _this2 = this;
+
+      var datos = new FormData();
+      datos.append('id', this.elemento.id);
+      datos.append('descripcion', this.elemento.descripcion);
+      datos.append('cantidad', this.elemento.cantidad);
+      datos.append('monto', this.elemento.monto);
+      datos.append('estado', this.elemento.estado);
+      axios.post(urlActual + '/update', datos).then(function (response) {
+        $(window).scrollTop(0);
+        $('#editarModal').modal('hide');
+        _this2.publicaciones[_this2.index].cantidad = _this2.elemento.cantidad;
+        _this2.publicaciones[_this2.index].descripcion = _this2.elemento.descripcion;
+        _this2.publicaciones[_this2.index].estado = _this2.elemento.estado;
+        _this2.publicaciones[_this2.index].monto = _this2.elemento.monto;
+        _this2.cancelarPublicacion();
+      }).catch(function (error) {
+        $(window).scrollTop(0);
+        _this2.mensajeError = 'Error interno.';
+        $('#editarModal').modal('hide');
+      });
     }
 
   }

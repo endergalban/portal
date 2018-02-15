@@ -8,12 +8,14 @@ use App\Entidad;
 use App\Producto;
 use App\Publicacion;
 use App\AtributoProducto;
+use App\PublicacionImagen;
 use App\Asistencia;
 use App\Atributo;
 use Validator;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Storage;
 
 class PublicarController extends Controller
 {
@@ -72,7 +74,7 @@ class PublicarController extends Controller
      */
     public function store(Request $request)
     {
-      //dd($request->all());
+     // dd($request->all());
         Validator::make($request->all(), [
           'producto_id' => 'required|integer|exists:productos,id',
           'estado' => 'required|boolean',
@@ -96,12 +98,52 @@ class PublicarController extends Controller
                 'publicacion_id' => $publicacion->id
                 ]);
         }
+        if($request->imagenes) {
+          foreach ($request->imagenes as $key => $value) {
+
+            //$base64_str = substr($data->base64_image, strpos($data->base64_image, ",")+1);
+            $base64_str = substr($value, strpos($value, ",")+1);
+            //decode base64 string
+            $image = base64_decode($base64_str);
+            $imagen = $publicacion->id.'/'.date('ymdhis').$key.'.png';
+            Storage::disk('public')->put($imagen, $image);
+            $publicacionImagen = new PublicacionImagen;
+            $publicacionImagen->ruta = $imagen;
+            $publicacionImagen->publicacion_id = $publicacion->id;
+            $publicacionImagen->estado = 1;
+            $publicacionImagen->save();
+          }
+        }
         if($request->atributos) {
             $atributos = array_filter($request->atributos);
             $publicacion->atributos()->sync($atributos);
         }
             
         return redirect()->back()->with('success', $msj);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request)
+    {
+        $publicacion = Publicacion::findOrFail($request->id);
+        $publicacion->delete();
+        return 'ok';
+       
+    }
+
+
+    public function update(Request $request)
+    {
+        $publicacion = Publicacion::findOrFail($request->id);
+        $publicacion->fill($request->all());
+        $publicacion->save();
+        return 'ok';
+       
     }
 
    

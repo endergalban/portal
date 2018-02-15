@@ -24,8 +24,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 @section('content')
 
-<form action="{{ route('publicar.store')}}" method="POST">
-{{ csrf_field() }}
+
 <div class="container" id="container">
 	@if(Session::has('success'))
 	<div class="alert alert-success">
@@ -33,6 +32,8 @@
 	</div>
 	@endif
 	<!--Datos de la venta-->
+	<form action="{{ route('publicar.store')}}" method="POST">
+	{{ csrf_field() }}
 	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 0">
 	  	<div class="panel-body">
 		  	<div class="row">
@@ -130,6 +131,7 @@
 						</div>
 						<div v-if="entidad.tipo == 3">
 			              	<input type="text" class="form-control" v-for="(atributo,index) in entidad.atributos" :name="atributo.descripcion">
+			              	<input type="hidden" v-for="(atributo,index) in entidad.atributos" :value="atributo.id" name="atributos[]">
 						</div>
 						
 
@@ -198,6 +200,7 @@
 					<button @click.prevent="eliminarImagen(n)" class="btn btn-sm btn-danger pull-right" v-show="! (imagenes.length < n)"><i class="fa fa-trash"></i></button>
 				</div>
 			</div>
+			<input type="hidden" v-for="imagen in imagenes" name="imagenes[]" :value="imagen">;
 			<hr>
 
 			<div class="col-md-12">
@@ -255,7 +258,7 @@
 		              <div class="carousel-inner">
 		                <div v-for="(imagen,i) in imagenes" :class="i == 0 ? 'item active' : 'item'">
 		                
-		                  <img :src="imagen" class="d-block w-100" >
+		                  <img :src="imagen" class="d-block w-100" style="width:640px;height480px" >
 		                </div>
 		          
 		               
@@ -271,7 +274,7 @@
 		            </div>
 		            <div class="col-lg-12 " v-else>
 		            	<div class="row">
-		            	<img src="http://placehold.it/700x400" width="100%">	
+		            	<img src="http://placehold.it/700x400" style="width:640px;height480px">	
 		            	</div>
 		            </div>
 
@@ -388,7 +391,7 @@
 	  	</div>
 	</div>
 
-	
+	</form>
 	
       <div class="panel panel-default" v-show="listadoPublicaciones == 1">
         <div class="panel-heading">Últimas publicaciones</div>
@@ -418,11 +421,14 @@
                 <td>@{{ publicacion.created_at}}</td> 
                 <td>@{{ publicacion.cantidad }}</td> 
                 <td>$ @{{ publicacion.monto}}</td>        
-                <td>$ @{{ publicacion.estado}}</td>        
                 <td>
-                	<a class="btn btn-info btn-sm" >Ir</a>
-                	<button @click="cargarElemento(index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#guardarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
-                  	<button @click="cargarElemento(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
+                	<span class="label label-success" v-if="publicacion.estado == 1">Activa</span>
+                	<span class="label label-danger" v-else>Inactiva</span>
+                </td>        
+                <td>
+                	<a class="btn btn-success" :href="'../publicaciones/details/'+ publicacion.id +''" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a>
+                	<button   @click="editarElemento(index)" class="btn btn-primary" data-toggle="modal" data-target="#editarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
+                  	<button @click="cargarElemento(index)" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
                 </td>        
               </tr>
              
@@ -431,7 +437,72 @@
             </div>
           </div>
         </div>
-    </form>
+    
+
+     <!-- Modal eliminar -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="panel-body">
+            Esta seguro que desea eliminar el registro?
+          </div>
+          <div class="modal-footer">
+            <a type="button" id="btnsi" class="btn btn-success" @click="eliminarElemento()">Aceptar</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- Modal Editar -->
+    <div class="modal fade" id="editarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="panel-body">
+           	<div class="col-md-12 form-group">
+				<label>Estado</label>
+				<select class="form-control" name="estado" v-model="elemento.estado">
+					<option value="1">Activo</option>
+					<option value="0">Inactivo</option>
+				</select>
+			</div>
+
+			<div class="col-md-12 form-group">
+				<label>Descripción</label>
+				<textarea  class="form-control" name="descripcion" rows="4" style=" resize: none;" v-model="elemento.descripcion">@{{elemento.descripcion}}</textarea>
+			</div>
+
+			<div class="col-md-6 form-group">
+				<label>Monto</label>
+				<input type="text" name="monto" class="form-control" v-model="elemento.monto"/>
+			</div>
+
+			<div class="col-md-6 form-group">
+				<label>Cantidad</label>
+				<input type="number" name="cantidad" class="form-control" v-model="elemento.cantidad"/>
+			</div>
+          </div>
+          <div class="modal-footer">
+            <a type="button" id="btnsi" class="btn btn-success" @click="actualizarElemento()" :hidden="deshabilitarBtnEditar">Guardar</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 </div>
 @push('scripts')
 	<script type="text/javascript">

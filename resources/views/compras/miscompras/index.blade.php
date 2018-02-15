@@ -31,7 +31,7 @@
                 <td>{{ $compra->cantidad }}</td> 
                 <td>$ {{ number_format($compra->monto,2,',','') }}</td>        
                 <td>
-                	<a class="btn btn-success btn-sm" >Ir</a>
+                	<a class="btn btn-success btn-sm" href="{{ route('publicaciones.details',$compra->publicacion_id)}}" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a>
                 </td>        
               </tr>
               @endforeach
