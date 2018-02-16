@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container hidden" id="container">
     <!-- Usuarios -->
 
     <div class="alert alert-success" role="alert" v-show="mensajeOk != ''">
     </div>
     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''">
+    @{{ mensajeError }}
     </div>
 
   <div class="row">
@@ -123,7 +124,15 @@
 
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-12">
+                  <div class="form-group col-md-3">
+                    <select v-model="elemento.region_id" style="width:100%" class="form-control">
+                      <option value="">Selecione</option>
+                      @foreach($regiones as $region)
+                        <option value="{{ $region->id }}">{{ $region->descripcion }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group col-md-9">
                     <input type="text" class="form-control" id="direccion" placeholder="" v-model="elemento.direccion">
                   </div>
                 </div>

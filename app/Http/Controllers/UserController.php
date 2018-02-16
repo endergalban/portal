@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Atributo;
 use Validator;
 
 class UserController extends Controller
@@ -19,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users.index');
+        $regiones = Atributo::where('entidad_id',1)->get();
+        return view('admin.users.index')->with(compact('regiones'));
     }
 
     /**
@@ -43,8 +45,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         if ($request->id == 0) {
+            $userEmail = User::where('email',$request->email)->first();
+            if ($userEmail) {
+                return -2;
+            }
+            $userRut = User::where('rut',$request->rut)->first();
+            if ($userRut) {
+                 return -1;
+            }
+
             $user = new User;
+
         } else {
+            $userEmail = User::where('id','<>',$request->id)->where('email',$request->email)->first();
+            if ($userEmail) {
+                return -2;
+            }
+            $userRut = User::where('id','<>',$request->id)->where('rut',$request->rut)->first();
+            if ($userRut) {
+                 return -1;
+            }
             $user = User::findOrFail($request->id);
         }
         $user->fill($request->all());

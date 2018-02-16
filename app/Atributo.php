@@ -12,7 +12,7 @@ class Atributo extends Model
     protected $table = 'atributos';
 
     protected $fillable = [
-		'entidad_id', 'descripcion', 'orden', 'estado', 
+		'entidad_id', 'descripcion', 'orden', 'estado',
     ];
 
     protected $dates = [
@@ -22,11 +22,6 @@ class Atributo extends Model
     public function entidad()
     {
         return $this->belongsTo('App\Entidad');
-    }
-
-    public function atributo_productos()
-    {
-        return $this->hasMany('App\AtributoProducto');
     }
 
     public function scopeActivo($q)

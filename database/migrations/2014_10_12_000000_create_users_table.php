@@ -18,10 +18,14 @@ class CreateUsersTable extends Migration
             $table->increments('id')->comment('Identificador del usuario');
             $table->string('rut')->unique()->comment('Rut del usuario');
             $table->string('name')->comment('Nombre del usuario');
+            $table->string('telefono')->nullable()->comment('telefono del usuario');
+            $table->string('direccion')->nullable()->comment('telefono del usuario');
             $table->string('tipo')->default(0)->comment('Tipo de usuario (0 = usuario, 1 = administrador)');
             $table->string('estatus')->default(1)->comment('Estado de usuario (0 = inactivo, 1 = activo)');
             $table->string('email')->unique()->comment('Email del usuario');
             $table->string('password')->comment('Password del usuario');
+            $table->integer('region_id')->unsigned()->comment('región del usuario');
+            $table->foreign('region_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

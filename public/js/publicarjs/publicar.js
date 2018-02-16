@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 43:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(44);
+module.exports = __webpack_require__(46);
 
 
 /***/ }),
 
-/***/ 44:
+/***/ 46:
 /***/ (function(module, exports) {
 
 var vue = new Vue({
@@ -83,39 +83,13 @@ var vue = new Vue({
   },
   data: {
 
-    index: -2,
-    indexVentana: -2,
-    elemento: {
-      id: 0,
-      descripcion: ''
-    },
-    asistencias: asistencias
+    publicaciones: publicaciones,
+    mensajeError: '',
+    mensajeOk: ''
 
   },
   computed: {},
-  methods: {
-    limpiarElemento: function limpiarElemento() {
-      this.index = -2;
-      this.elemento.id = 0;
-      this.elemento.descripcion = '';
-    },
-    cargarElemento: function cargarElemento(index) {
-      this.index = index;
-      if (this.index == -1) {
-        this.elemento.id = 0;
-        this.elemento.descripcion = '';
-      }
-    },
-    guardar: function guardar() {
-      $('#btnGuardar').button('loading');
-    },
-
-    cargarPublicaciones: function cargarPublicaciones(index) {
-      this.indexVentana = index;
-      $('#publicacionesModal').modal();
-    }
-
-  }
+  methods: {}
 });
 
 /***/ })

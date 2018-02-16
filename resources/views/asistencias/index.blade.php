@@ -65,7 +65,7 @@
                 <td>
                 	@if($asistencia->estado == 1)
                 		<span class="label label-info">Solicitado</span>
-                	@elseif($asistencia.estado == 2)
+                	@elseif($asistencia->estado == 2)
                 		<span class="label label-primary">En proceso</span>
                 	@else
                 		<span class="label label-danger">Inactivo</span>
@@ -121,7 +121,7 @@
                   <span class="label label-success" v-else="publicacion.estado == 2">Vendido</span>
                   <span class="label label-danger" v-else="publicacion.estado == 3">De Baja</span>
                 </div>
-                <div class="col-md-1"><a href="#" target="_blank">Ir</a></div>
+                <div class="col-md-1"><a class="btn btn-success btn-sm" :href="'../publicaciones/details/'+ publicacion.id +''" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a></div>
               </div>
             </div>
           </div>

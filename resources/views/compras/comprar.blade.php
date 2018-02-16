@@ -150,10 +150,20 @@ select {
                   <h3 class="card-title">Caracteristicas del Producto</h3>
                   <table class="table" style="width: 50%;">
                     <tbody>
-                     @foreach ($entidades as $entidad)
+                     @foreach ($entidades as $key => $entidad)
                       <tr>                                              
-                        <td style="width: 50%;">{{$entidad->descripcion}}</td>
-                        <td><p class="text-center"><strong>{{$entidad->atributo}}</strong></p></td>
+                        <td style="width: 50%;">{{$key}}</td>
+                        <td>
+                        @foreach ($entidad as  $atributo)
+                        <p class="text-center"><strong>{{$atributo}}</strong></p>
+                        @endforeach
+                        </td>
+                      </tr> 
+                     @endforeach   
+                      @foreach ($entidadFija as $key => $atributo)
+                      <tr>                                              
+                        <td style="width: 50%;">{{$key}}</td>
+                        <td><p class="text-center"><strong>{{$atributo}}</strong></p></td>
                       </tr> 
                      @endforeach                      
                     </tbody>
@@ -216,7 +226,6 @@ $('#cantidad').on('change',function() {
     var monto = {{$publicacion->monto}};
     var total = cant * monto;
     $('#totalMonto').html(total);
-    alert(cant);
     $('#cant').val(cant);
   }
 </script>

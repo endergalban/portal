@@ -24,33 +24,42 @@
 
   <div class="container" id="container">
     <div class="row">
+
        
         <div class="col-lg-9">
+          @if($publicacion->estado == 0 || $publicacion->cantidad == 0)
+          <div class="alert alert-danger">
+            Producto dado de baja o fuera de las publicaciones. 
+          </div>
+          @endif
 
           <div class="card mt-4">
             <!--<img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">-->
             <div id="demo" class="carousel slide" data-ride="carousel">
               <!-- Indicators -->
+              @if(count($publicacion->imagenes) > 1)
               <ul class="carousel-indicators">
-                <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
+                  @foreach($publicacion->imagenes as  $imagen)
+                  <li data-target="#demo" data-slide-to="{{ ($loop->iteration-1) }}" class="{{ $loop->iteration == 1 ? 'active' : ''}}"></li>
+                  @endforeach
               </ul>
+              @endif
               
               <!-- The slideshow -->
               <div class="carousel-inner">
-                <div class="item active">
-                
-                  <img alt="Los Angeles" src="http://placehold.it/900x400" class="d-block w-100" >
-                </div>
-                <div class="item">
-                  <img alt="Chicago" src="http://placehold.it/900x400" class="d-block w-100">
-                </div>
-                <div class="item">
-                  <img alt="New York" src="http://placehold.it/900x400"  class="d-block w-100">
-                </div>
-              </div>
+                @if(count($publicacion->imagenes) == 0)
+                  <div class="item active">
+                    <img src="http://placehold.it/700x400" style="width:700px;height:400px" class="d-block w-100" >
+                  </div>
+                @endif
               
+                @foreach($publicacion->imagenes as  $imagen)
+                  <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
+                    <img src="{{ asset('storage/'.$imagen->ruta) }}" style="width:640px;height:580px" class="d-block w-100" >
+                  </div>
+                  @endforeach
+              </div>
+              @if(count($publicacion->imagenes) > 1)
               <!-- Left and right controls -->
               <a class="carousel-control-prev" href="#demo" data-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
@@ -58,12 +67,14 @@
               <a class="carousel-control-next" href="#demo" data-slide="next">
                 <span class="carousel-control-next-icon"></span>
               </a>
+              @endif
             </div>
 
             <div class="card-body">
-              <h3 class="card-title">{{ $producto->descripcion}}</h3>
-               @foreach ($entidades as $entidad)
-                <span class="badge badge-primary">{{$entidad->descripcion}}</span> 
+              <h3 class="card-title">{{ $publicacion->producto->descripcion}}</h3>
+               @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
+             
+                  <span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
                @endforeach
               <h4><strong>$ {{ $publicacion->monto}}</strong></h4>
               <p class="card-text">{{ $publicacion->descripcion}}</p>
@@ -75,11 +86,15 @@
                         4.0 stars
                     </div>
                     <div class="col-3">
+                        @if($publicacion->estado != 0 && $publicacion->cantidad != 0)
                         <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a>
+                        @endif
                     </div>
                 </div>
             </div>
           </div>
+          @if($publicacion->estado != 0 && $publicacion->cantidad != 0)
+
           @if(Session::has('success'))
           <div class="alert alert-success">
               {{ Session::get('success') }}
@@ -95,7 +110,7 @@
             </div>
             <div class="card-body">
               
-              @foreach($comentarios as $comentario)            
+              @foreach($publicacion->comentarios as $comentario)            
               <p>{{$comentario->descripcion}}</p>
               <hr>            
                 <div class="row">
@@ -129,6 +144,7 @@
 
             </div>
           </div>
+          @endif
           <!-- /.card -->
         </div>
         <!-- /.col-lg-9 -->

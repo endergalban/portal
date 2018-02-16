@@ -2,6 +2,7 @@ var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
+      document.getElementById("container").classList.remove('hidden');
     },
       data: {
         mensajeError: '',
@@ -16,6 +17,7 @@ var vue = new Vue({
           password: '',
           telefono: '',
           direccion: '',
+          region_id: '',
           rut: '',
           estatus: 1,
           tipo: 0,
@@ -28,7 +30,8 @@ var vue = new Vue({
           return this.paginador.last_page !== 1;
       },
       habilitarGuardar: function () {
-          return this.elemento.name.toString().trim().length == 0  ||  
+          return this.elemento.name.toString().trim().length == 0  ||
+                 this.elemento.region_id.toString().trim().length == 0  ||  
                 !regExRut.test(this.elemento.rut) || 
                 !regExpCorreoElectronico.test(this.elemento.email) ||
                 (this.index == -1 && !regExPassword.test(this.elemento.password) ) || 
@@ -45,6 +48,7 @@ var vue = new Vue({
               this.index = -2;
               this.elemento.id = 0;
               this.elemento.name = '';
+              this.elemento.region_id = '';
               this.elemento.rut = '';
               this.elemento.email = '';
               this.elemento.password = '';
@@ -127,9 +131,11 @@ var vue = new Vue({
               this.elemento.direccion = this.elementos[index].direccion;
               this.elemento.estatus = this.elementos[index].estatus;
               this.elemento.tipo = this.elementos[index].tipo;
+              this.elemento.region_id = this.elementos[index].region_id;
             } else {
               this.elemento.id = 0;
               this.elemento.name = '';
+              this.elemento.region_id = '';
               this.elemento.email = '';
               this.elemento.rut = '';
               this.elemento.telefono = '';
@@ -153,6 +159,7 @@ var vue = new Vue({
             datos.append('tipo', this.elemento.tipo);
             datos.append('telefono', this.elemento.telefono);
             datos.append('direccion', this.elemento.direccion);
+            datos.append('region_id', this.elemento.region_id);
             if (this.elemento.password.toString().trim().length > 0) {
 
               datos.append('password', this.elemento.password);
@@ -162,10 +169,16 @@ var vue = new Vue({
                 datos,
             )
             .then((response) => { 
+              if (response.data == '-1') {
+                 this.mensajeError = 'El rut ingresado ya se encuentra en los registros';
+              } else if(response.data == '-2') {
+                  this.mensajeError = 'El email ingresado ya se encuentra en los registros';
+              } else {
                 this.elementos = response.data.data;
                 this.paginador = response.data;
                 this.armarPaginador();
                 this.limpiarElemento();
+              }
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';

@@ -12,7 +12,7 @@ class Entidad extends Model
     protected $table = 'entidades';
 
     protected $fillable = [
-		'descripcion', 'orden', 'estado', 
+		'descripcion', 'orden', 'estado', 'tipo'
     ];
 
     protected $dates = [

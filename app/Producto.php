@@ -12,7 +12,7 @@ class Producto extends Model
     protected $table = 'productos';
 
     protected $fillable = [
-		'estado', 'descripcion', 
+		'estado', 'descripcion'
     ];
 
     protected $dates = [
@@ -24,13 +24,13 @@ class Producto extends Model
         return $this->hasMany('App\Publicacion');
     }
 
-    public function atributo_productos()
+    public function scopeActivo($q)
     {
-        return $this->hasMany('App\AtributoProducto');
+        return $q->where('estado',1);
     }
-
+    
     public function atributos()
     {
-        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id')->whereNull('atributo_productos.deleted_at');
+        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id');
     }
 }

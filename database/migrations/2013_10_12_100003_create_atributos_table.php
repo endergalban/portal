@@ -22,7 +22,7 @@ class CreateAtributosTable extends Migration
             $table->boolean('estado')->default(1)->comment('Estado del atributo (0 = inactivo, 1 = activo)');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('entidad_id')->references('id')->on('entidades')->onDelete('cascade');;
+            $table->foreign('entidad_id')->references('id')->on('entidades')->onDelete('cascade');
         });
     }
 

@@ -12,7 +12,6 @@ html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  font-style: normal;
 }
 
 body {
@@ -72,7 +71,7 @@ strong {
 }
 
 dfn {
-  font-style: normal;
+  font-style: italic;
 }
 
 h1 {
@@ -5678,7 +5677,7 @@ tbody.collapse.in {
     float: left !important;
   }
 
- .navbar-right {
+  .navbar-right {
     float: right !important;
     margin-right: -15px;
   }

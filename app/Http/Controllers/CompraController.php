@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -50,17 +50,24 @@ class CompraController extends Controller
         return view('compras.misventas.index')->with(compact('ventas'));
     }
 
+
     public function comprar($id) {
 
-        $publicacion = Publicacion::find($id);
-        $producto = Producto::find($publicacion->producto_id)->first();
-        $entidades = DB::table('atributo_productos')
-            ->join('atributos','atributos.id','=','atributo_productos.atributo_id')
-            ->join('entidades','entidades.id','=','atributos.entidad_id')
-            ->where('atributo_productos.producto_id','=',$producto->id)
-            ->select('entidades.descripcion','atributos.descripcion as atributo')
-            ->get();  
+        $publicacion = Publicacion::with('producto')
+        ->with('atributos')
+        ->find($id);
+        $entidades = [];
+        $entidadFija = [];
+        $aux = 0;
+        foreach ($publicacion->atributos as $key => $value) {
 
+            if ($value->entidad->tipo == 3) {
+                $entidadFija[$value->entidad->descripcion] = (Publicacion::where('id',$id)->pluck($value->descripcion)->toArray()[0]); 
+            }else {
+
+                $entidades[$value->entidad->descripcion][] = $value->descripcion;  
+            }
+        }
         $compras = DB::table('compras')->groupBy('publicacion_id')
             ->select(DB::raw('SUM(cantidad) as cantidad'))
             ->where('publicacion_id','=',$id)->first();
@@ -71,7 +78,7 @@ class CompraController extends Controller
 
 
 
-        return view('compras.comprar')->with(compact('publicacion','entidades'));
+        return view('compras.comprar')->with(compact('publicacion','entidades','entidadFija'));
 
       //  dd($id);
     }
@@ -121,53 +128,5 @@ class CompraController extends Controller
             ->with('danger','Hubo un error, intenta nuevamente realizar la compra');
         }
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function get(Request $request)
-    {
-     
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-       
-
-    }
-
-    public function edit(Request $request, $id) {
-       
-    }
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-        
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-       
-    }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container hidden" id="container">
     <!-- Usuarios -->
 
   <div class="row">
@@ -25,6 +25,8 @@
                 <thead>
                 <tr>
                   <th>ID #</th>
+                  <th>Usuario</th>
+                  <th>Email</th>
                   <th>Descripción</th>
                   <th>Fecha</th>
                   <th>Publicaciones</th>
@@ -36,6 +38,8 @@
               @foreach($asistencias as $asistencia)
               <tr >
                 <td><b>{{ $asistencia->id }}</b></td>        
+                <td>{{ $asistencia->user->name }}</td> 
+                <td>{{ $asistencia->user->email }}</td> 
                 <td>{{ $asistencia->descripcion }}</td> 
                 <td>{{ $asistencia->created_at->format('d-m-Y h:m p') }}</td>        
                 <td>
@@ -104,7 +108,7 @@
                   <span class="label label-success" v-else="publicacion.estado == 2">Vendido</span>
                   <span class="label label-danger" v-else="publicacion.estado == 3">De Baja</span>
                 </div>
-                <div class="col-md-1"><a href="#" target="_blank">Ir</a></div>
+                 <div class="col-md-1"><a class="btn btn-success btn-sm" :href="'../publicaciones/details/'+ publicacion.id +''" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a></div>
               </div>
             </div>
           </div>

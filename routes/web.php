@@ -14,9 +14,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes();
-Route::get('/home', 'PublicacionController@index')->name('home');
+
+//Route::get('/home', 'PublicacionController@index')->name('home');
 Route::get('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);
 Route::get('publicaciones/details/{id}',['uses' => 'PublicacionController@details', 'as' => 'publicaciones.details']);
+
 Route::group(['middleware' => ['auth','permiso']], function () {
 	Route::get('admin/users',['uses' => 'UserController@index', 'as' => 'users.index']);
 	Route::get('admin/users/get',['uses' => 'UserController@get', 'as' => 'users.get']);
@@ -39,15 +41,19 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 	Route::get('admin/asistencias/{id}/destroy',['uses' => 'PublicarController@asistencia_destroy', 'as' => 'admin.asistencia.destroy']);
 	Route::get('admin/asistencias',['uses' => 'PublicarController@index_asistencia_admin', 'as' => 'admin.asistencias.index']);
 });
+
 Route::group(['middleware' => ['auth']], function () {
 	Route::get('publicar',['uses' => 'PublicarController@index', 'as' => 'publicar.index']);
+	Route::post('publicar/delete',['uses' => 'PublicarController@delete', 'as' => 'publicar.delete']);
+	Route::post('publicar/store',['uses' => 'PublicarController@store', 'as' => 'publicar.store']);
+	Route::post('publicar/update',['uses' => 'PublicarController@update', 'as' => 'publicar.update']);
 	Route::get('asistencias',['uses' => 'PublicarController@asistencia', 'as' => 'publicar.asistencia']);
 	Route::post('asistencias/store',['uses' => 'PublicarController@store_asistencia', 'as' => 'asistencia.store']);
 	Route::post('comentarios',['uses' => 'ComentarioController@comentar', 'as' => 'comentar']);
 	Route::get('miscompras',['uses' => 'CompraController@miscompras', 'as' => 'miscompras']);
 	Route::get('misventas',['uses' => 'CompraController@misventas', 'as' => 'misventas']);
 	Route::get('comentarios/eliminar/{id}',['uses' => 'ComentarioController@eliminar', 'as' => 'comentar.eliminar']);
-
 	Route::get('comprar/{id}',['uses' => 'CompraController@comprar', 'as' => 'comprar']);
 	Route::post('comprar/procesar',['uses' => 'CompraController@comprar_proceso', 'as' => 'comprar.proceso']);
-}); 
+
+});

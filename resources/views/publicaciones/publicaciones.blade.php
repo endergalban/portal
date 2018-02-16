@@ -33,21 +33,17 @@
 	        <div class="block span4">
 	          <div class="product">
 
-	             <!--<img src="http://placehold.it/295x190/333333/FFFFFF"> -->
 	            <div id="demo" class="carousel slide" data-ride="carousel">	              
-	              
 	              <!-- The slideshow -->
 	              <div class="carousel-inner">
-	                <div class="item active">
-	                
-	                  <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
+	              @if(count($publicacion->imagenes) == 0 )
+	              <img src="http://placehold.it/295x190/333333/FFFFFF"  style="width:295;height:190;" class="d-block w-100" >
+	              @endif
+	              	@foreach($publicacion->imagenes as  $imagen)
+	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
+	                  <img src="{{ asset('storage/'.$imagen->ruta) }}" style="width:295;height:190;" sclass="d-block w-100" >
 	                </div>
-	                <div class="item">
-	                  <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100">
-	                </div>
-	                <div class="item">
-	                  <img src="http://placehold.it/295x190/333333/FFFFFF"  class="d-block w-100">
-	                </div>
+	                @endforeach
 	              </div>
 	              	           
 	            </div>
@@ -60,8 +56,9 @@
 	          <div class="info">
 	            <h4>{{ $publicacion->producto->descripcion }}</h4>	            
 	            <span class="description">
-	             @foreach ($publicacion->entidades as $entidad)
-	             	<span class="badge badge-primary">{{$entidad->descripcion}}</span>
+	             @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
+	           
+	             		<span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
 	             @endforeach
 	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
 	            </span>

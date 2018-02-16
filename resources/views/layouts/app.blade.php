@@ -20,7 +20,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
 
     <script type="text/javascript">
-      var urlActual = '{{ URL::current() }}';
+      var urlActual = "{{ URL::current() }}";
+      var APP_URL = "{{ env('APP_URL') }}";
     </script>
 </head>
 <body>

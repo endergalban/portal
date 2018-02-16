@@ -2,6 +2,7 @@ var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
+      document.getElementById("container").classList.remove('hidden');
     },
       data: {
         mensajeError: '',
@@ -179,7 +180,15 @@ var vue = new Vue({
            
           },
 
-     
+          marcarTodos: function(elt) {
+
+            var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
+            for (var i = 0; i <  atributosselector.length; i++) {
+              atributosselector[i].checked = document.getElementById('check_'+elt).checked; 
+            }
+
+           
+          },
 
           
       
