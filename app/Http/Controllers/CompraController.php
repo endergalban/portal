@@ -94,7 +94,7 @@ class CompraController extends Controller
         $comprar->cantidad = $request->cant;
         $comprar->save();
 
-        $compras_anteriores = DB::table('compras')->groupBy('publicacion_id')
+     /*   $compras_anteriores = DB::table('compras')->groupBy('publicacion_id')
                 ->select(DB::raw('SUM(cantidad) as cantidad'))
                 ->where('publicacion_id','=',$publicacion->id)->first();
 
@@ -104,13 +104,13 @@ class CompraController extends Controller
             $cant_compras_anterioes = $compras_anteriores->cantidad;
         }
 
-        $inventario = $publicacion->cantidad - $cant_compras_anterioes;
+        $inventario = $publicacion->cantidad - $cant_compras_anterioes;*/
        // dd($inventario);
 
-        if($inventario == 0) {
+       /*  if($inventario == 0) {
             $publicacion->estado = 0;
             $publicacion->save();
-        }
+        }*/
 
         if($comprar) {
             //Mail::to(Auth::user()->email)->send(new Venta($comprar));
