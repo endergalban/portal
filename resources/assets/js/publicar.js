@@ -21,6 +21,8 @@ var vue = new Vue({
           region_id: '',
           monto: '',
       },
+      buscarFiltro: '',
+      estadoFiltro: '',
       termino: false,
       index:  -1,
       entidades:  [],
@@ -49,6 +51,9 @@ var vue = new Vue({
       } 
     },
     methods: {
+      filtrar: function() {
+        document.location = urlActual + '?buscar='+ this.buscarFiltro +'&estado=' + this.estadoFiltro;
+      },
       cancelarPublicacion: function() {
         this.listadoPublicaciones = 1;
         this.tab = 0;
@@ -188,6 +193,26 @@ var vue = new Vue({
               $(window).scrollTop(0);
               this.mensajeError = 'Error interno.';
               $('#editarModal').modal('hide');
+          });
+      },
+
+      eliminarElemento: function () {
+          var datos = new FormData();
+          datos.append('id', this.elemento.id);
+          axios.post(
+              urlActual + '/delete', 
+              datos,
+          )
+          .then(response => {  
+              $(window).scrollTop(0);
+              $('#eliminarModal').modal('hide');
+              this.publicaciones.splice(this.index,1);
+              this.cancelarPublicacion();
+
+          }).catch(error => { 
+              $(window).scrollTop(0);
+              this.mensajeError = 'Error interno.';
+              $('#eliminarModal').modal('hide');
           });
       },
 

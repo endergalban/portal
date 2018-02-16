@@ -25,9 +25,9 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function miscompras()
+    public function miscompras(Request $request)
     {
-        $compras = Compra::where('user_id',Auth::user()->id)
+        $compras = Compra::buscar($request)->where('user_id',Auth::user()->id)
         ->with('publicacion.producto')
         ->paginate();
 
@@ -39,9 +39,9 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function misventas()
+    public function misventas(Request $request)
     {
-        $ventas = Compra::whereHas('publicacion',function ($q){
+        $ventas = Compra::buscar($request)->whereHas('publicacion',function ($q){
             $q->where('user_id',Auth::user()->id);
         })
         ->with('publicacion.producto')

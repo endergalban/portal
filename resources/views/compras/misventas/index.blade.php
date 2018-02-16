@@ -4,6 +4,22 @@
 <div class="container" id="container">
      <!-- Datos -->
     <div class="col-md-12">
+      <form>
+      <div class="panel panel-default" v-show="listadoPublicaciones == 1">
+        <div class="panel-body">
+          <div class="row" >
+
+            <div class="col-md-3">
+              <input type="text" name="buscar" placeholder="Ingresar busqueda..." class="form-control">
+            </div>
+            <div class="col-md-9">
+              <button class="btn btn-primary" >Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+
       <div class="panel panel-default">
         <div class="panel-heading">Mis ventas</div>
           <div class="panel-body">

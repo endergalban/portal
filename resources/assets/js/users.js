@@ -23,6 +23,9 @@ var vue = new Vue({
           tipo: 0,
         },
         index: -2,
+        tipoFiltro: '',
+        estatusFiltro: '',
+        buscarFiltro: '',
 
     },
     computed: {
@@ -83,7 +86,7 @@ var vue = new Vue({
           },
           obtenerElementos: function (page = 1) {
             this.limpiarMensajes(); 
-            var filtros = 'page=' + page;
+            var filtros = 'page=' + page +'&buscar=' + this.buscarFiltro + '&tipo=' + this.tipoFiltro + '&estatus=' + this.estatusFiltro;
             var url = urlActual + '/get?' + filtros;
               axios.get(url)
               .then(response => {  
@@ -95,6 +98,10 @@ var vue = new Vue({
                   $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
               });
+          },
+
+          filtrar: function() {
+            this.obtenerElementos();
           },
 
           eliminarElemento: function () {

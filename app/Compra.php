@@ -29,4 +29,18 @@ class Compra extends Model
         return $this->belongsTo('App\User');
     }
     
+    public function scopeBuscar($query,$request)
+    {
+        if ($request->buscar) {
+            $query->whereHas('publicacion',function($query) use ($request) {
+                $query->where('descripcion','like','%'.$request->buscar.'%');
+            })->orWhereHas('publicacion.producto',function($query) use ($request) {
+                $query->where('descripcion','like','%'.$request->buscar.'%');
+            });
+        }
+
+
+        return $query;
+    }
+    
 }

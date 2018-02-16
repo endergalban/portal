@@ -32,7 +32,7 @@ class UserController extends Controller
     public function get(Request $request)
     {
         //
-        $users = User::paginate();
+        $users = User::buscar($request)->paginate();
         return $users->toJson();
     }
 

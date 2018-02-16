@@ -28,7 +28,7 @@ class PublicarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
       
         $productos = Producto::activo()
@@ -50,15 +50,16 @@ class PublicarController extends Controller
 
         
         $publicaciones = Publicacion::where('user_id',Auth::user()->id)
+        ->buscar($request)
         ->with('producto')
         ->with('caracteristicas.atributo.entidad')
         ->paginate();
         return view('publicaciones.publicar')->with(compact('publicaciones','productos','regiones','asistencias'));
     }
 
-    public function asistencia()
+    public function asistencia(Request $request)
     {
-        $asistencias = Asistencia::where('user_id',Auth::user()->id)
+        $asistencias = Asistencia::buscar($request)->where('user_id',Auth::user()->id)
         ->with('publicaciones.producto')
         ->orderBy('id','DESC')
         ->paginate();
@@ -171,9 +172,9 @@ class PublicarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index_asistencia_admin()
+    public function index_asistencia_admin(Request $request)
     {
-        $asistencias = Asistencia::where('user_id',Auth::user()->id)
+        $asistencias = Asistencia::buscar($request)->where('user_id',Auth::user()->id)
         ->with('publicaciones.producto')
         ->with('user')
         ->orderBy('id','DESC')

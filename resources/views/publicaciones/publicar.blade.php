@@ -392,7 +392,25 @@
 	</div>
 
 	</form>
-	
+	<div class="panel panel-default" v-show="listadoPublicaciones == 1">
+		<div class="panel-body">
+			<div class="row" >
+				<div class="col-md-3">
+					<select v-model="estadoFiltro" class="form-control" >
+						<option value="">Estado</option>
+						<option value="1">Activo</option>
+						<option value="0">Inactivo</option>
+					</select>
+				</div>
+				<div class="col-md-3">
+					<input type="text" v-model="buscarFiltro" placeholder="Ingresar busqueda..." class="form-control">
+				</div>
+				<div class="col-md-6">
+					<button class="btn btn-primary pull-right"  @click.prevent="filtrar()">Filtrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
       <div class="panel panel-default" v-show="listadoPublicaciones == 1">
         <div class="panel-heading">Últimas publicaciones</div>
           <div class="panel-body">

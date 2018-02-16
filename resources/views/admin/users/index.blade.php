@@ -12,6 +12,33 @@
 
   <div class="row">
     <div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row" >
+            <div class="col-md-3">
+              <select v-model="estatusFiltro" class="form-control" >
+                <option value="">Estado</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select v-model="tipoFiltro" class="form-control" >
+                <option value="">Tipo</option>
+                <option value="1">Administrador</option>
+                <option value="0">Usuario</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <input type="text" v-model="buscarFiltro" placeholder="Ingresar busqueda..." class="form-control">
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary pull-right" @click="filtrar()">Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
       <div class="panel panel-default">
         <div class="panel-heading">Usuario</div>
           <div class="panel-body">
@@ -36,7 +63,7 @@
                 <td><b>@{{ elemento.id }}</b></td>        
                 <td>@{{ elemento.email }}</td>  
                 <td>
-                  <span v-if="elemento.tipo == 1">Administrado</span>
+                  <span v-if="elemento.tipo == 1">Administrador</span>
                   <span v-else>Usuario</span>
                 </td>              
                 <td>@{{ elemento.name }}</td>        
