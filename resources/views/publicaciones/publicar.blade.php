@@ -25,7 +25,7 @@
 @section('content')
 
 
-<div class="container" id="container">
+<div class="container hidden" id="container">
 	@if(Session::has('success'))
 	<div class="alert alert-success">
 	    {{ Session::get('success') }}
