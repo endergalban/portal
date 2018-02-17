@@ -22,6 +22,9 @@ class Usuarios extends Seeder
         $user->direccion = '';
         $user->region_id = 1;
         $user->tipo = 1;
-        $user->save();
+        $user->save();}
+        factory(App\User::class, 30)->make();
+
     }
+
 }

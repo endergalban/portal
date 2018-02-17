@@ -1,4 +1,4 @@
-var vue = new Vue({ 
+var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
@@ -10,7 +10,7 @@ var vue = new Vue({
         elementos: [],
         paginador: '',
         numeroPaginas: [],
-        elemento: { 
+        elemento: {
           id: 0,
           descripcion: '',
           estado: 1,
@@ -21,7 +21,7 @@ var vue = new Vue({
     },
     computed: {
       mostrarPaginador: function () {
-         
+
           return this.paginador.last_page !== 1;
       },
 
@@ -32,7 +32,7 @@ var vue = new Vue({
               this.mensajeOk = '';
           },
 
-         
+
           setCargando: function (button) {
             if (this.cargando == true) {
               $('#' + button +'').button('reset');
@@ -41,8 +41,8 @@ var vue = new Vue({
               $('#' + button +'').button('loading');
               this.cargando = true;
             }
-          }, 
-         
+          },
+
 
           limpiarElemento: function () {
             this.index = -2;
@@ -51,8 +51,8 @@ var vue = new Vue({
             this.elemento.estado = 1;
             this.elemento.atributos = [];
           },
-        
-          armarPaginador: function (paginasVisibles = 10) {
+
+          armarPaginador: function (paginasVisibles = 15) {
               this.numeroPaginas = [];
               var desde = this.paginador.current_page-paginasVisibles;
               if (desde < 1) {
@@ -62,22 +62,22 @@ var vue = new Vue({
               if (hasta > this.paginador.last_page) {
                   hasta = this.paginador.last_page;
               }
-              for (i = desde; i <= hasta; i++) { 
+              for (i = desde; i <= hasta; i++) {
                   this.numeroPaginas.push(i);
               }
-              
+
               return;
           },
           cambioPagina: function (page) {
-              this.limpiarMensajes(); 
+              this.limpiarMensajes();
               this.obtenerElementos(page);
           },
           obtenerElementos: function (page = 1) {
-            this.limpiarMensajes(); 
+            this.limpiarMensajes();
             var filtros = 'page=' + page;
             var url = urlActual + '/get?' + filtros;
               axios.get(url)
-              .then(response => {  
+              .then(response => {
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
@@ -95,17 +95,17 @@ var vue = new Vue({
               var datos = new FormData();
               datos.append('id', this.elementos[index].id);
               axios.post(
-                  urlActual + '/delete', 
+                  urlActual + '/delete',
                   datos,
               )
-              .then(response => {  
+              .then(response => {
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
                   this.setCargando('btn_eliminar' + index);
-                  
-              }).catch(error => { 
+
+              }).catch(error => {
                   $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
                   this.limpiarElemento();
@@ -130,67 +130,67 @@ var vue = new Vue({
 
           },
 
-       
+
           guardar: function (index) {
-           
+
             var atributosselector = document.querySelectorAll("input[name^='atributos[']:checked");
             var atributos = [];
             for (var j = 0; j < atributosselector.length; j++) {
              atributos.push(atributosselector.item(j).value);
             }
-            
-            this.limpiarMensajes(); 
+
+            this.limpiarMensajes();
             var datos = new FormData();
             datos.append('descripcion',  this.elemento.descripcion);
             datos.append('estado',  this.elemento.estado);
             datos.append('id',  this.elemento.id);
             datos.append('atributos',  atributos);
             axios.post(
-                urlActual + '/store', 
+                urlActual + '/store',
                 datos,
             )
-            .then((response) => { 
+            .then((response) => {
                 this.elementos = response.data.data;
                 this.paginador = response.data;
                 this.armarPaginador();
                 this.limpiarElemento();
-             
-               
+
+
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';
                 this.limpiarElemento();
-            });   
-           
+            });
+
           },
 
           verificarCheck: function (){
             var atributosselector = document.querySelectorAll("input[name^='atributos[']");
             for (var i = 0; i <  atributosselector.length; i++) {
-              atributosselector[i].checked = false; 
+              atributosselector[i].checked = false;
             }
             for (var i = 0; i <  atributosselector.length; i++) {
               for (var j = 0; j <  this.elemento.atributos.length; j++) {
                 if (atributosselector[i].value == this.elemento.atributos[j].id) {
                   atributosselector[i].checked = true;
-                } 
+                }
               }
             };
 
-           
+
           },
 
           marcarTodos: function(elt) {
 
             var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
             for (var i = 0; i <  atributosselector.length; i++) {
-              atributosselector[i].checked = document.getElementById('check_'+elt).checked; 
+              atributosselector[i].checked = document.getElementById('check_'+elt).checked;
             }
 
-           
+
           },
 
-          
-      
+
+
       }
 });
