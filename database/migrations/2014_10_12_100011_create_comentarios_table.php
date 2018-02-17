@@ -33,6 +33,8 @@ class CreateComentariosTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('comentarios');
+        Schema::enableForeignKeyConstraints();
     }
 }

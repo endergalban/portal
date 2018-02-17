@@ -38,7 +38,7 @@
           </div>
         </div>
       </div>
-    
+
       <div class="panel panel-default">
         <div class="panel-heading">Usuario</div>
           <div class="panel-body">
@@ -60,23 +60,23 @@
                 </thead>
               <tbody>
               <tr  v-for = "(elemento, index) in elementos">
-                <td><b>@{{ elemento.id }}</b></td>        
-                <td>@{{ elemento.email }}</td>  
+                <td><b>@{{ elemento.id }}</b></td>
+                <td>@{{ elemento.email }}</td>
                 <td>
                   <span v-if="elemento.tipo == 1">Administrador</span>
                   <span v-else>Usuario</span>
-                </td>              
-                <td>@{{ elemento.name }}</td>        
-                <td>@{{ elemento.rut }}</td>        
-                <td>@{{ elemento.telefono }}</td>  
+                </td>
+                <td>@{{ elemento.name }}</td>
+                <td>@{{ elemento.rut }}</td>
+                <td>@{{ elemento.telefono }}</td>
                 <td>
                   <span class="text-success" v-if="elemento.estatus == 1">Activo</span>
                   <span class="text-danger" v-else>Inactivo</span>
-                </td>        
+                </td>
                 <td nowrap="nowrap">
                   <button @click="cargarElemento(index)" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#guardarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
                   <button @click="cargarElemento(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
-                </td>        
+                </td>
               </tr>
               </tbody>
               </table>
@@ -94,7 +94,7 @@
             <span class="sr-only">Anterior</span>
           </a>
         </li>
-        
+
         <li class="page-item" v-for="numeroPagina in numeroPaginas" v-bind:class="{ active: (numeroPagina==paginador.current_page) }">
             <a href="#" class="page-link" @click="cambioPagina(numeroPagina)">@{{numeroPagina}}</a>
         </li>
@@ -153,18 +153,18 @@
                 <div class="form-row">
                   <div class="form-group col-md-3">
                     <select v-model="elemento.region_id" style="width:100%" class="form-control">
-                      <option value="">Selecione</option>
+                      <option value="">Región</option>
                       @foreach($regiones as $region)
                         <option value="{{ $region->id }}">{{ $region->descripcion }}</option>
                       @endforeach
                     </select>
                   </div>
                   <div class="form-group col-md-9">
-                    <input type="text" class="form-control" id="direccion" placeholder="" v-model="elemento.direccion">
+                    <input type="text" class="form-control" id="direccion" placeholder="Dirección" v-model="elemento.direccion">
                   </div>
                 </div>
                 <input type="hidden" v-model="elemento.id">
-               
+
             </form>
             </div>
             <div class="panel-footer">
@@ -173,7 +173,7 @@
             </div>
         </div>
       </div>
-    </div>    
+    </div>
     <!-- Modal Eliminar -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">

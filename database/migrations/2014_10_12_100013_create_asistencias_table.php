@@ -32,6 +32,8 @@ class CreateAsistenciasTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('asistencias');
+        Schema::enableForeignKeyConstraints();
     }
 }

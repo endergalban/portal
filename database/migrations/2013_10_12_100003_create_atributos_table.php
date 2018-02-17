@@ -33,6 +33,8 @@ class CreateAtributosTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('atributos');
+        Schema::enableForeignKeyConstraints();
     }
 }
