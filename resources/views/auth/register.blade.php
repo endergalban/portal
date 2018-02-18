@@ -52,6 +52,24 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('region_idl') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Región</label>
+
+                            <div class="col-md-6">
+                              <select id="region_id"  class="form-control" name="region_id" value="{{ old('region_id') }}" required>
+                                  <option value="">Seleccione</option>
+                                  @foreach(App\Atributo::where('entidad_id',1)->where('estado',1)->get() as $region)
+                                    <option value="{{ $region->id }}">{{ $region->descripcion }}</option>
+                                  @endforeach
+                              </select>
+                                @if ($errors->has('region_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('region_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

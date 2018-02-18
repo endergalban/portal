@@ -51,6 +51,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Compra');
     }
+    public function region()
+    {
+        return $this->belongsTo('App\Atributo','region_id','id');
+    }
 
     public function scopeBuscar($query,$request)
     {

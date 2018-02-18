@@ -48,10 +48,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'rut' => 'required|regex:/(^([0-9]+)-(\d+)?$)/u',
+            'rut' => 'required|regex:/^[0-9]{7,8}-[0-9kK]{1}$/',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'region_id' => 'required|exists:atributos,id',
         ]);
     }
 
@@ -67,7 +68,8 @@ class RegisterController extends Controller
             'rut' => $data['rut'],
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => $data['password'],
+            'region_id' => $data['region_id'],
         ]);
     }
 }

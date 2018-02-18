@@ -18,10 +18,10 @@
                   <form class="form-horizontal" method="POST" action="{{route('users.update', $user->id)}}">
 
                         {{ csrf_field() }}
-                        
+
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                          <label for="rut" class="col-md-4 control-label">Rut</label>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="rut" type="text" class="form-control" name="rut" value="{{ $user->rut}}"  autofocus>
 
                                 @if ($errors->has('rut'))
@@ -33,9 +33,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Nombre</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}"  autofocus>
 
                                 @if ($errors->has('name'))
@@ -47,9 +47,9 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ $user->email}}" >
 
                                 @if ($errors->has('email'))
@@ -59,11 +59,57 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group{{ $errors->has('region_idl') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Región</label>
+
+                            <div class="col-md-4">
+                              <select id="region_id"  class="form-control" name="region_id" value="{{ old('region_id') }}" required>
+                                  <option value="{{ $user->region->id}}">{{$user->region->descripcion}}</option>
+                                  @foreach(App\Atributo::where('entidad_id',1)->where('estado',1)->get() as $region)
+                                    <option value="{{ $region->id }}">{{ $region->descripcion }}</option>
+                                  @endforeach
+                              </select>
+                                @if ($errors->has('region_id'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('region_id') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('telefono') ? ' has-error' : '' }}">
+                          <label for="telefono" class="col-md-4 control-label">Teléfono</label>
+
+                          <div class="col-md-4">
+                            <input id="telefono" type="text" class="form-control" name="telefono" value="{{ $user->telefono }}"  autofocus>
+
+                            @if ($errors->has('telefono'))
+                            <span class="help-block">
+                              <strong>{{ $errors->first('telefono') }}</strong>
+                            </span>
+                            @endif
+                          </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('direccion') ? ' has-error' : '' }}">
+                            <label for="direccion" class="col-md-4 control-label">Dirección</label>
+
+                            <div class="col-md-6">
+                                <input id="direccion" type="text" class="form-control" name="direccion" value="{{ $user->direccion }}"  autofocus>
+
+                                @if ($errors->has('direccion'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('direccion') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                  <input id="password" type="password" class="form-control" name="password" >
 
                                 @if ($errors->has('password'))
@@ -77,13 +123,13 @@
                         <div class="form-group">
                             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" >
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-4 col-md-offset-4">
                                 <button  class="btn btn-primary">
                                     Update
                                 </button>
@@ -106,7 +152,7 @@
     var email = form.find('#email');
     var password = form.find('#password');
     var passwordConfirm = form.find('#password-confirm');
-  
+
   $('*').removeClass('has-error');
     var error = 0;
     if(name.val().length<6){
@@ -122,7 +168,7 @@ console.log(name);
     $('*').removeClass('has-error');
     var error = 0;
     var regx = /^([a-z0-9_\-\.])+\@([a-z0-9_\-\.])+\.([a-z]{2,4})$/i;   // regexp for e-mail
-         
+
     // check "name"
     if(name.val().length<2){
       name.addClass('has-error');
@@ -164,39 +210,39 @@ console.log(name);
             var hasError = true;
             if (this.elemento.name.toString().trim().length == 0 ) {
               document.querySelector("#nombre").parentElement.classList.add('has-error');
-              
+
               hasError = false;
             } else {
               document.querySelector("#nombre").parentElement.classList.remove('has-error');
-            } 
+            }
             if (!regExRut.test(this.elemento.rut) ) {
              document.querySelector("#rut").parentElement.classList.add('has-error');
-              
+
               hasError = false;
             } else {
               document.querySelector("#rut").parentElement.classList.remove('has-error');
-            } 
+            }
             if (this.elemento.id == 0 && !regExPassword.test(this.elemento.password)) {
               document.querySelector("#password").parentElement.classList.add('has-error');
-              
+
               hasError = false;
             } else {
               document.querySelector("#password").parentElement.classList.remove('has-error');
-            } 
+            }
             if (this.elemento.id > 0 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password)) {
               document.querySelector("#password").parentElement.classList.add('has-error');
-              
+
               hasError = false;
             } else {
               document.querySelector("#password").parentElement.classList.remove('has-error');
-            } 
+            }
             if (!regExpCorreoElectronico.test(this.elemento.email)) {
               document.querySelector("#email").parentElement.classList.add('has-error');
-              
+
               hasError = false;
             } else {
               document.querySelector("#email").parentElement.classList.remove('has-error');
-            } 
+            }
             return hasError;
           },*/
 </script>

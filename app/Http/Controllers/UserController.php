@@ -75,10 +75,10 @@ class UserController extends Controller
     }
 
     public function edit(Request $request, $id) {
-        $user = User::findOrFail($id);       
+        $user = User::findOrFail($id);
         return view('auth.edit', compact('user'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -92,19 +92,17 @@ class UserController extends Controller
         $user = User::find($id);
         Validator::make($request->all(), [
           'name' => 'required|max:255',
-          'rut' => 'required',
+          'rut' => 'required|regex:/^[0-9]{7,8}-[0-9kK]{1}$/',
           'email' => 'required|email|unique:users,email,'.$user->id,
-          'password' => 'required|confirmed'
+          'password' => 'nullable|confirmed',
+          'region_id' => 'required|exists:atributos,id',
         ])->validate();
 
-        $user->name = $request->get('name');
-        $user->rut = $request->get('rut');
-        $user->email = $request->get('email');
-        $user->password = $request->get('password');
+        $user->fill($request->all());
         $user->save();
 
         return redirect()->back()->
-        with('success','Product has been updated');
+        with('success','Cambio realizado con éxito');
     }
 
     /**
