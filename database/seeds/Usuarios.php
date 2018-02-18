@@ -15,15 +15,15 @@ class Usuarios extends Seeder
         $user = new User;
         $user->name = "administrador";
         $user->email = "administrador@admin.com";
-        $user->password = Bcrypt("123456");
+        $user->password = "123456";
         $user->estatus = 1;
         $user->rut = '11111111-1';
         $user->telefono = '';
         $user->direccion = '';
         $user->region_id = 1;
         $user->tipo = 1;
-        $user->save();}
-        factory(App\User::class, 30)->make();
+        $user->save();
+        factory(App\User::class, 30)->create();
 
     }
 
