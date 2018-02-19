@@ -4,10 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-
-                <div class="panel-body">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border"><span class="title-estilo">Login</span></legend>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
@@ -15,7 +13,7 @@
                             <label for="email" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="administrador@admin.com{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -29,7 +27,7 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" value="123456" name="password" required>
+                                <input id="password" type="password" class="form-control"  name="password" required>
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -64,8 +62,7 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
+                </fieldset>
         </div>
     </div>
 </div>

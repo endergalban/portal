@@ -24,7 +24,6 @@ class Usuarios extends Seeder
         $user->tipo = 1;
         $user->save();
         factory(App\User::class, 30)->create();
-
     }
 
 }

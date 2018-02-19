@@ -55,7 +55,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Atributo','region_id','id');
     }
-
     public function scopeBuscar($query,$request)
     {
         if ($request->buscar) {

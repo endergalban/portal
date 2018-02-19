@@ -11,7 +11,12 @@
 |
 */
 Route::get('/', function () {
-    return view('welcome');
+	$regiones = App\Atributo::where('entidad_id',1)->get();
+	$marcas = App\Atributo::where('entidad_id',2)->get();
+	$tipos = App\Atributo::where('entidad_id',3)->get();
+	$combustible = App\Atributo::where('entidad_id',5)->get();
+	$trasmision = App\Atributo::where('entidad_id',4)->get();
+    return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision'));
 });
 Auth::routes();
 
