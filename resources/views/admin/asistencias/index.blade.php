@@ -17,6 +17,29 @@
     </div>
   @endif
     <div class="col-md-12">
+    <form>
+    <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row" >
+            <div class="col-md-3">
+              <select name="estado" class="form-control" >
+                <option value="">Estado</option>
+                <option value="1">Solicitado</option>
+                <option value="2">En proceso</option>
+                <option value="0">Inactivo</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <input type="text" name="buscar" placeholder="Ingresar busqueda..." class="form-control">
+            </div>
+            <div class="col-md-6">
+              <button class="btn btn-primary pull-right" >Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
       <div class="panel panel-default">
         <div class="panel-heading">Solicitudes</div>
           <div class="panel-body">

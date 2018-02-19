@@ -32,6 +32,6 @@ class CreatePublicacionImagenTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compras');
+        Schema::dropIfExists('publicacion_imagenes');
     }
 }

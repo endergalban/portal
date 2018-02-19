@@ -29,4 +29,21 @@ class Asistencia extends Model
     {
         return $this->belongsToMany('App\Publicacion','asistencia_publicacion');
     }
+
+    public function scopeBuscar($query,$request)
+    {
+        if ($request->buscar) {
+            $query->where('descripcion','like','%'.$request->buscar.'%')
+            ->orWhereHas('user',function($query) use ($request) {
+                $query->where('name','like','%'.$request->buscar.'%')->orWhere('email','like','%'.$request->buscar.'%');
+            });
+        }
+
+        if ($request->estado != '') {
+            $query->where('estado',$request->estado);
+        }
+
+        return $query;
+    }
+
 }

@@ -24,4 +24,5 @@ class PublicacionImagen extends Model
         return $this->belongsTo('App\Publicacion');
     }
 
+
 }

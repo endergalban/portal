@@ -37,11 +37,11 @@
 	              <!-- The slideshow -->
 	              <div class="carousel-inner">
 	              @if(count($publicacion->imagenes) == 0 )
-	              <img src="http://placehold.it/295x190/333333/FFFFFF"  style="width:295;height:190;" class="d-block w-100" >
+	              <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
 	              @endif
 	              	@foreach($publicacion->imagenes as  $imagen)
 	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
-	                  <img src="{{ asset('storage/'.$imagen->ruta) }}" style="width:295;height:190;" sclass="d-block w-100" >
+	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" >
 	                </div>
 	                @endforeach
 	              </div>

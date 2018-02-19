@@ -39,6 +39,8 @@ class CreatePublicacionesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('publicaciones');
+        Schema::enableForeignKeyConstraints();
     }
 }

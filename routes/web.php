@@ -11,7 +11,12 @@
 |
 */
 Route::get('/', function () {
-    return view('welcome');
+	$regiones = App\Atributo::where('entidad_id',1)->get();
+	$marcas = App\Atributo::where('entidad_id',2)->get();
+	$tipos = App\Atributo::where('entidad_id',3)->get();
+	$combustible = App\Atributo::where('entidad_id',5)->get();
+	$trasmision = App\Atributo::where('entidad_id',4)->get();
+    return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision'));
 });
 Auth::routes();
 
@@ -23,8 +28,6 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 	Route::get('admin/users',['uses' => 'UserController@index', 'as' => 'users.index']);
 	Route::get('admin/users/get',['uses' => 'UserController@get', 'as' => 'users.get']);
 	Route::post('admin/users/store',['uses' => 'UserController@store', 'as' => 'users.store']);
-	Route::get('admin/users/edit/{id}',['uses' => 'UserController@edit', 'as' => 'users.edit']);
-	Route::post('admin/users/update/{id}',['uses' => 'UserController@update', 'as' => 'users.update']);
 	Route::post('admin/users/delete',['uses' => 'UserController@destroy', 'as' => 'users.delete']);
 	Route::get('admin/atributos',['uses' => 'AtributoController@index', 'as' => 'atributos.index']);
 	Route::get('admin/atributos/get',['uses' => 'AtributoController@get', 'as' => 'atributos.get']);
@@ -43,6 +46,8 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
+  Route::get('users/edit/{id}',['uses' => 'UserController@edit', 'as' => 'users.edit']);
+  Route::post('users/update/{id}',['uses' => 'UserController@update', 'as' => 'users.update']);
 	Route::get('publicar',['uses' => 'PublicarController@index', 'as' => 'publicar.index']);
 	Route::post('publicar/delete',['uses' => 'PublicarController@delete', 'as' => 'publicar.delete']);
 	Route::post('publicar/store',['uses' => 'PublicarController@store', 'as' => 'publicar.store']);

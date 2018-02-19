@@ -29,6 +29,8 @@ class CreateAsistenciaPublicacionTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('asistencia_publicacion');
+        Schema::enableForeignKeyConstraints();
     }
 }

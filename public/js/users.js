@@ -100,7 +100,10 @@ var vue = new Vue({
             estatus: 1,
             tipo: 0
         },
-        index: -2
+        index: -2,
+        tipoFiltro: '',
+        estatusFiltro: '',
+        buscarFiltro: ''
 
     },
     computed: {
@@ -161,7 +164,7 @@ var vue = new Vue({
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             this.limpiarMensajes();
-            var filtros = 'page=' + page;
+            var filtros = 'page=' + page + '&buscar=' + this.buscarFiltro + '&tipo=' + this.tipoFiltro + '&estatus=' + this.estatusFiltro;
             var url = urlActual + '/get?' + filtros;
             axios.get(url).then(function (response) {
                 _this.elementos = response.data.data;
@@ -172,6 +175,10 @@ var vue = new Vue({
                 $(window).scrollTop(0);
                 _this.mensajeError = 'Error interno.';
             });
+        },
+
+        filtrar: function filtrar() {
+            this.obtenerElementos();
         },
 
         eliminarElemento: function eliminarElemento() {

@@ -162,7 +162,7 @@ var vue = new Vue({
             this.indexAtributo = -2;
         },
         armarPaginador: function armarPaginador() {
-            var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+            var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 15;
 
             this.numeroPaginas = [];
             var desde = this.paginador.current_page - paginasVisibles;

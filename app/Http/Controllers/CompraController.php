@@ -25,9 +25,9 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function miscompras()
+    public function miscompras(Request $request)
     {
-        $compras = Compra::where('user_id',Auth::user()->id)
+        $compras = Compra::buscar($request)->where('user_id',Auth::user()->id)
         ->with('publicacion.producto')
         ->paginate();
 
@@ -39,9 +39,9 @@ class CompraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function misventas()
+    public function misventas(Request $request)
     {
-        $ventas = Compra::whereHas('publicacion',function ($q){
+        $ventas = Compra::buscar($request)->whereHas('publicacion',function ($q){
             $q->where('user_id',Auth::user()->id);
         })
         ->with('publicacion.producto')
@@ -111,13 +111,20 @@ class CompraController extends Controller
             $cant_compras_anterioes = $compras_anteriores->cantidad;
         }
 
-        $inventario = $publicacion->cantidad - $cant_compras_anterioes;*/
+        $inventario = $publicacion->cantidad - $cant_compras_anterioes;
        // dd($inventario);
 
-       /*  if($inventario == 0) {
+        if($inventario == 0) {
             $publicacion->estado = 0;
             $publicacion->save();
         }*/
+
+        $inventario = $publicacion->cantidad - $request->cant;
+        $publicacion->cantidad = $inventario;
+        if($inventario == 0) {
+            $publicacion->estado = 0;
+        }
+        $publicacion->save();
 
         if($comprar) {
             //Mail::to(Auth::user()->email)->send(new Venta($comprar));
@@ -130,3 +137,4 @@ class CompraController extends Controller
     }
 
 }
+

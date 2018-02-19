@@ -14,8 +14,8 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/publicaciones.css') }}" rel="stylesheet">
-    
-    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
     <!-- Iconos -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.4/js/all.js"></script>
 
@@ -25,7 +25,7 @@
     </script>
 </head>
 <body>
-    <div id="app">      
+    <div id="app" style="overflow-x:hidden;min-height:500px;">      
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -40,11 +40,11 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        <img src="{{ asset('images/home/logo.png') }}">
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="padding-top:20px;">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
@@ -122,6 +122,114 @@
         </nav>
 
         @yield('content')
+
+    </div>
+    <div class="footer">
+        <div class="row" style="margin-left: 0;margin-right: 0;">
+            <div class="col-12">                    
+                <img src="{{ asset('images/home/publicidad.jpg') }}" style="width:100%">
+            </div>
+        </div>
+
+         <div class="row" style="margin-left: 0;margin-right: 0;">
+
+            <div class="col-md-1"></div>
+            <div class="col-md-6"> 
+
+                        <div class="row" style="padding-top:20px">
+                            <div class="col-md-4" style="font-size:18px">        
+                                <strong>Compañía</strong>
+                            </div>
+                            <div class="col-md-4" style="font-size:18px">
+                                <strong>Información</strong>
+                            </div>
+                            <div class="col-md-4" style="font-size:18px">
+                                <strong>Cuenta</strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-md-4">        
+                                <span style="color:white">Nosotros</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Publica tu auto</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Mi Cuenta</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">        
+                                <span style="color:white">Servicio</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Términos y Condiciones</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Favoritos</span>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-md-4">        
+                                <span style="color:white">Contacto</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Mapa del Sitio</span>
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Carrito de Compras</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">        
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                                <span style="color:white">Estatus de Orden</span>
+                            </div>
+                        </div>
+
+            </div>
+            <div class="col-md-4">                    
+                
+
+                        <div class="row" style="padding-top:20px">
+                            <div class="col-md-12" style="font-size:18px">
+                                <strong>Contactanos a <span style="text-decotation:underline;text-decoration:  underline;color: #248adf;">contactos@chiledesarmes.cl</span></strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span style="color:#fff; font-size:18px">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <i class="fa fa-paper-plane"></i>                    
+                                    <i class="fab fa-twitter"></i>
+                                    <i class="fab fa-youtube"></i>
+                                    <i class="fab fa-google-plus-g"></i>
+                                    <i class="fa fa-share-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-12">
+                                <div class="input-group">
+                                      <input type="text" class="form-control" placeholder="EMAIL" aria-describedby="basic-addon2">
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" style="background-color: #248adf;color:#FFF;font-weight:bold;padding: 6px 16px;" type="button">SUSBRIBIRME</button>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <hr style="margin-top:10px;margin-bottom:10px;border-top: 1px solid #636b6f;">
+        <div style="text-align:center">2018 Chiledesarmes All Right Received</div>
+
+        
     </div>
 
     <!-- Scripts -->

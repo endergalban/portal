@@ -35,6 +35,8 @@ class CreateComprasTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('compras');
+        Schema::enableForeignKeyConstraints();
     }
 }

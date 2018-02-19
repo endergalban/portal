@@ -51,4 +51,26 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Compra');
     }
+
+    public function scopeBuscar($query,$request)
+    {
+        if ($request->buscar) {
+            $query->where('name','like','%'.$request->buscar.'%')->orWhere('email','like','%'.$request->buscar.'%');
+        }
+
+        if ($request->estatus != '') {
+            $query->where('estatus',$request->estatus);
+        }
+
+        if ($request->tipo != '') {
+            $query->where('tipo',$request->tipo);
+        }
+
+        return $query;
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Bcrypt($value);
+    }
 }

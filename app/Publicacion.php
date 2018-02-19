@@ -54,12 +54,20 @@ class Publicacion extends Model
             $query->where('descripcion','like','%'.$request->buscar.'%')
             ->orWhereHas('atributos',function($query) use ($request) {
                 $query->where('descripcion','like','%'.$request->buscar.'%');
+            })->orWhereHas('producto',function($query) use ($request) {
+                $query->where('descripcion','like','%'.$request->buscar.'%');
             });
         }
 
         if ($request->region_id) {
             $query->where('region_id',$request->region_id);
         }
+
+        if ($request->estado != '') {
+            $query->where('estado',$request->estado);
+        }
+
+        return $query;
     }
 
 
