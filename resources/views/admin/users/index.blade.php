@@ -79,7 +79,7 @@
                 </tbody>
             </table>
           </div>
-          <div class="footer">
+          <div>
             <nav aria-label="Page navigation" v-show="mostrarPaginador">
               <ul class="pagination">
                 <li class="page-item" :disabled="paginador.current_page == 1">

@@ -72,7 +72,7 @@
 					@endif
 
 					<div class="col-md-12 form-group">
-						<label>Tipo de Publicación</label>
+						<label>Producto</label>
 						<select class="form-control" v-model="elemento.producto_id" :change="cargarAtributos()" id="producto_id" name="producto_id">
 							<option value="">Seleccione</option>
 							<option v-for="(producto,index) in productos" :value="producto.id" >@{{producto.descripcion}}</option>
@@ -103,7 +103,7 @@
 						<input type="number" name="cantidad" class="form-control" v-model="elemento.cantidad"/>
 					</div>
 
-					
+
 					<div class="col-md-12 form-group">
 						<label>Región</label>
 						<select v-model="elemento.region_id" name="region_id" style="width:100%" class="form-control">
@@ -113,7 +113,7 @@
 	                      @endforeach
 	                    </select>
 					</div>
-					
+
 				</div>
 				<div class="col-md-8" >
 					<div class="col-md-4" v-for="entidad in entidades">
@@ -133,7 +133,7 @@
 			              	<input type="text" class="form-control" v-for="(atributo,index) in entidad.atributos" :name="atributo.descripcion">
 			              	<input type="hidden" v-for="(atributo,index) in entidad.atributos" :value="atributo.id" name="atributos[]">
 						</div>
-						
+
 
 					</div>
 				</div>
@@ -149,7 +149,7 @@
 	  			</div>
 	  		</div>
 	  		</div>
-	  		
+
 	  	</div>
 	</div>
 	<!--Imagenes-->
@@ -187,7 +187,7 @@
 							<hr>
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
-							<input type="file" name="imagen" id="imagen" class="form-control" @change="cargarImagenALienzo(1)">	
+							<input type="file" name="imagen" id="imagen" class="form-control" @change="cargarImagenALienzo(1)">
 						</div>
 					</div>
 				</div>
@@ -209,12 +209,12 @@
 	    				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
 	    			</div>
 	    			<div class="col-md-6">
-						<button type="button" class="btn  btn-success pull-right" @click.prevent="tab = 2"  >Continuar</button>
+						<button type="button" class="btn  btn-success pull-right" @click.prevent="tab = 2;obtenerEntidades()"  >Continuar</button>
 	    				<button type="button" class="btn  btn-default pull-right" @click.prevent="tab = 0"  >Atras</button>
 		  			</div>
 		  		</div>
 	  		</div>
-	  		
+
 	  	</div>
 	</div>
 
@@ -249,21 +249,21 @@
 		            <div id="demo" class="carousel slide" data-ride="carousel" v-if="imagenes.length > 0">
 		              <!-- Indicators -->
 		              <ul class="carousel-indicators">
-		                
+
 		                <li data-target="#demo" v-for="(imagen,i) in imagenes" :data-slide-to="i"  :class="i == 0 ? 'active' : ''"></li>
-		               
+
 		              </ul>
-		              
+
 		              <!-- The slideshow -->
 		              <div class="carousel-inner">
 		                <div v-for="(imagen,i) in imagenes" :class="i == 0 ? 'item active' : 'item'">
-		                
+
 		                  <img :src="imagen" class="d-block w-100" style="width:640px;height480px" >
 		                </div>
-		          
-		               
+
+
 		              </div>
-		              
+
 		              <!-- Left and right controls -->
 		              <a class="carousel-control-prev" href="#demo" data-slide="prev">
 		                <span class="carousel-control-prev-icon"></span>
@@ -274,15 +274,15 @@
 		            </div>
 		            <div class="col-lg-12 " v-else>
 		            	<div class="row">
-		            	<img src="http://placehold.it/700x400" style="width:640px;height480px">	
+		            	<img src="http://placehold.it/700x400" style="width:640px;height480px">
 		            	</div>
 		            </div>
 
 		            <div class="card-body">
 		              <h3 class="card-title">@{{ elemento.producto }}</h3>
-		              
-		                <span class="badge badge-primary">gfgfg</span> 
-		               
+
+		                <span class="badge badge-primary" v-for="item in entidadesSeleccionadas" >@{{ item }}</span>
+
 		              <h4><strong>$ @{{ elemento.monto}}</strong></h4>
 		              <p class="card-text">@{{ elemento.descripcion }}</p>
 		              <hr>
@@ -316,7 +316,7 @@
 		  			</div>
 		  		</div>
 	  		</div>
-			
+
 	  	</div>
 	</div>
 
@@ -387,7 +387,7 @@
 		  			</div>
 		  		</div>
 	  		</div>
-			
+
 	  	</div>
 	</div>
 
@@ -431,31 +431,31 @@
                     </tr>
                 </thead>
               <tbody>
-              
+
               <tr v-for="(publicacion,index) in publicaciones">
-                <td><b>@{{ publicacion.id }}</b></td>        
-                <td>@{{ publicacion.producto.descripcion }}</td> 
-                <td>@{{ publicacion.descripcion }}</td> 
-                <td>@{{ publicacion.created_at}}</td> 
-                <td>@{{ publicacion.cantidad }}</td> 
-                <td>$ @{{ publicacion.monto}}</td>        
+                <td><b>@{{ publicacion.id }}</b></td>
+                <td>@{{ publicacion.producto.descripcion }}</td>
+                <td>@{{ publicacion.descripcion }}</td>
+                <td>@{{ publicacion.created_at}}</td>
+                <td>@{{ publicacion.cantidad }}</td>
+                <td>$ @{{ publicacion.monto}}</td>
                 <td>
                 	<span class="label label-success" v-if="publicacion.estado == 1">Activa</span>
                 	<span class="label label-danger" v-else>Inactiva</span>
-                </td>        
+                </td>
                 <td>
                 	<a class="btn btn-success" :href="'../publicaciones/details/'+ publicacion.id +''" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a>
                 	<button   @click="editarElemento(index)" class="btn btn-primary" data-toggle="modal" data-target="#editarModal"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
-                  	<button @click="cargarElemento(index)" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
-                </td>        
+                  	<!--<button @click="cargarElemento(index)" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>-->
+                </td>
               </tr>
-             
+
               </tbody>
               </table>
             </div>
           </div>
         </div>
-    
+
 
      <!-- Modal eliminar -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -528,7 +528,7 @@
 		var publicaciones = publicacionesData.data;
 		var auxproductos = <?php echo json_encode($productos);?>;
 		var productos = [];
-	
+
 		auxproductos.forEach(function(producto) {
 			var productoNuevo = {
     			id: producto.id,
@@ -536,7 +536,7 @@
     			entidades: []
 			};
 			productos.push(productoNuevo);
-			
+
 		});
 		var i = 0;
 		auxproductos.forEach(function(producto) {
@@ -544,7 +544,7 @@
 			var j = -1;
 			producto.atributos.forEach(function(atributo) {
 				if (auxEntidad != atributo.entidad.id) {
-					
+
 					auxEntidad = atributo.entidad.id;
 					var entidadNuevo = {
 		    			id: auxEntidad,
@@ -560,11 +560,11 @@
 	    			descripcion: atributo.descripcion,
 				};
 				productos[i].entidades[j].atributos.push(atributoNuevo)
-				
+
 			});
 			i= i + 1;
 		});
-	 
+
 	</script>
   <script src="{{ asset('js/validaciones.js') }}"></script>
   <script src="{{ asset('js/publicar.js') }}"></script>

@@ -29,29 +29,29 @@
                       <tr  v-for = "(elemento, index) in elementos">
                         <td>
                             <b>@{{ elemento.id }}</b>
-                        </td>        
+                        </td>
                         <td>
                            @{{elemento.descripcion}}
-                        </td>        
-                        <td>        
+                        </td>
+                        <td>
                             @{{ elemento.orden }}
-                        </td> 
-                        <td>        
+                        </td>
+                        <td>
                             <span class="label label-success" v-if="elemento.estado == 1">Activo</span>
                             <span class="label label-danger" v-if="elemento.estado == 0">Inactivo</span>
-                        </td>    
-                         <td>        
+                        </td>
+                         <td>
                             <span class="label label-info" v-if="elemento.tipo == 1">Selección Simple</span>
                             <span class="label label-info" v-if="elemento.tipo == 2">Selección Multiple</span>
                             <span class="label label-info" v-if="elemento.tipo == 3">Caja de Texto</span>
-                        </td>     
-                        <td>        
+                        </td>
+                        <td>
                              <button @click="cargarElementoEntidadAtributo(index)" class="btn btn-primary btn-sm">@{{ elemento.atributos.length }}</button>
-                        </td>  
-                        <td>        
+                        </td>
+                        <td>
                              <button @click="cargarElementoEntidad(index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
                              <button @click="cargarElementoEntidad(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModalEntidad"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
-                        </td>       
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -65,7 +65,7 @@
                     <span class="sr-only">Anterior</span>
                   </a>
                 </li>
-                
+
                 <li class="page-item" v-for="numeroPagina in numeroPaginas" v-bind:class="{ active: (numeroPagina==paginador.current_page) }">
                     <a href="#" class="page-link" @click="cambioPagina(numeroPagina)">@{{numeroPagina}}</a>
                 </li>
@@ -119,7 +119,7 @@
                         </div>
                       </div>
                 </div>
-         
+
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success" @click.prevent="guardarElementoEntidad()" :disabled="habilitarGuardarEntidad" >Guardar</button>
@@ -128,10 +128,10 @@
             </form>
         </div>
       </div>
-    </div>    
+    </div>
 
     <!--Atributos-->
-    <div v-if="indexEntidadAtributo > -1">
+    <div v-if="indexEntidadAtributo > -1" id="divEdicion">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Items de @{{ elementos[indexEntidadAtributo].descripcion }} ( @{{ elementos[indexEntidadAtributo].atributos.length }}  )</div>
@@ -151,27 +151,27 @@
                         <tr  v-for = "(elementoAtt, index) in elementos[indexEntidadAtributo].atributos">
                           <td>
                               <b>@{{ elementoAtt.id }}</b>
-                          </td>        
+                          </td>
                           <td>
                              @{{elementoAtt.descripcion}}
-                          </td>        
-                          <td>        
+                          </td>
+                          <td>
                               @{{ elementoAtt.orden }}
-                          </td> 
-                          <td>        
+                          </td>
+                          <td>
                               <span class="label label-success" v-if="elementoAtt.estado == 1">Activo</span>
                               <span class="label label-danger" v-if="elementoAtt.estado == 0">Inactivo</span>
-                          </td>       
-                          <td>        
+                          </td>
+                          <td>
                                <button @click="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
                                <button @click="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModalAtributo"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
-                          </td>       
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                      
-                  
+
+
                 </div>
             </div>
         </div>
@@ -206,7 +206,7 @@
                         </div>
                       </div>
                 </div>
-         
+
             </div>
             <div class="panel-footer">
               <button type="button" class="btn btn-success" @click.prevent="guardarElementoAtributo()" :disabled="habilitarGuardarAtributo" >Guardar</button>
@@ -215,7 +215,7 @@
             </form>
         </div>
       </div>
-    </div> 
+    </div>
 
     <!-- Modal Eliminar -->
     <div class="modal fade" id="eliminarModalEntidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

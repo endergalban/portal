@@ -105,7 +105,8 @@ var vue = new Vue({
     entidades: [],
     listadoPublicaciones: 1,
     tab: 0,
-    imagenes: []
+    imagenes: [],
+    entidadesSeleccionadas: []
 
   },
   computed: {
@@ -133,6 +134,7 @@ var vue = new Vue({
       this.elemento.monto = 0;
       this.elemento.producto_id = '';
       this.cargarImagenALienzo(0);
+      this.entidadesSeleccionadas = [];
     },
 
     cargarTextoPublicacion: function cargarTextoPublicacion() {
@@ -144,13 +146,24 @@ var vue = new Vue({
       }
     },
 
-    cargarAtributos: function cargarAtributos() {
+    obtenerEntidades: function obtenerEntidades() {
       var _this = this;
+
+      var elems = document.getElementsByName('atributos[]');
+      elems.forEach(function (selector) {
+        if (selector.value.toString().trim().length > 0 && _this.entidadesSeleccionadas.indexOf(selector.parentElement.parentElement.firstChild.textContent) < 0) {
+          _this.entidadesSeleccionadas.push(selector.parentElement.parentElement.firstChild.textContent);
+        }
+      });
+    },
+
+    cargarAtributos: function cargarAtributos() {
+      var _this2 = this;
 
       this.cargarTextoPublicacion();
       productos.forEach(function (producto) {
-        if (producto.id == _this.elemento.producto_id) {
-          _this.entidades = producto.entidades;
+        if (producto.id == _this2.elemento.producto_id) {
+          _this2.entidades = producto.entidades;
         }
       });
     },
@@ -237,7 +250,7 @@ var vue = new Vue({
     },
 
     actualizarElemento: function actualizarElemento() {
-      var _this2 = this;
+      var _this3 = this;
 
       var datos = new FormData();
       datos.append('id', this.elemento.id);
@@ -248,31 +261,31 @@ var vue = new Vue({
       axios.post(urlActual + '/update', datos).then(function (response) {
         $(window).scrollTop(0);
         $('#editarModal').modal('hide');
-        _this2.publicaciones[_this2.index].cantidad = _this2.elemento.cantidad;
-        _this2.publicaciones[_this2.index].descripcion = _this2.elemento.descripcion;
-        _this2.publicaciones[_this2.index].estado = _this2.elemento.estado;
-        _this2.publicaciones[_this2.index].monto = _this2.elemento.monto;
-        _this2.cancelarPublicacion();
+        _this3.publicaciones[_this3.index].cantidad = _this3.elemento.cantidad;
+        _this3.publicaciones[_this3.index].descripcion = _this3.elemento.descripcion;
+        _this3.publicaciones[_this3.index].estado = _this3.elemento.estado;
+        _this3.publicaciones[_this3.index].monto = _this3.elemento.monto;
+        _this3.cancelarPublicacion();
       }).catch(function (error) {
         $(window).scrollTop(0);
-        _this2.mensajeError = 'Error interno.';
+        _this3.mensajeError = 'Error interno.';
         $('#editarModal').modal('hide');
       });
     },
 
     eliminarElemento: function eliminarElemento() {
-      var _this3 = this;
+      var _this4 = this;
 
       var datos = new FormData();
       datos.append('id', this.elemento.id);
       axios.post(urlActual + '/delete', datos).then(function (response) {
         $(window).scrollTop(0);
         $('#eliminarModal').modal('hide');
-        _this3.publicaciones.splice(_this3.index, 1);
-        _this3.cancelarPublicacion();
+        _this4.publicaciones.splice(_this4.index, 1);
+        _this4.cancelarPublicacion();
       }).catch(function (error) {
         $(window).scrollTop(0);
-        _this3.mensajeError = 'Error interno.';
+        _this4.mensajeError = 'Error interno.';
         $('#eliminarModal').modal('hide');
       });
     }

@@ -1,9 +1,9 @@
-var vue = new Vue({ 
+var vue = new Vue({
     el: '#container',
     created: function(){
       document.getElementById("container").classList.remove('hidden');
       this.cargarImagenALienzo(0);
-    
+
     },
     data: {
 
@@ -11,7 +11,7 @@ var vue = new Vue({
       productos : productos,
       mensajeError: '',
       mensajeOk: '',
-      elemento: { 
+      elemento: {
           id: 0,
           producto: '',
           descripcion: '',
@@ -29,26 +29,26 @@ var vue = new Vue({
       listadoPublicaciones: 1,
       tab: 0,
       imagenes: [],
-     
-       
+      entidadesSeleccionadas: [],
+
     },
     computed: {
 
       deshabilitarBtnImagenes: function (){
-        return this.elemento.descripcion.toString().trim().length == 0  ||  
-                this.elemento.region_id.toString().trim().length == 0  ||  
-               this.elemento.monto.toString().trim().length == 0  ||  
+        return this.elemento.descripcion.toString().trim().length == 0  ||
+                this.elemento.region_id.toString().trim().length == 0  ||
+               this.elemento.monto.toString().trim().length == 0  ||
                !regExpSoloNumeros.test(this.elemento.estado)  ||
                ( this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) ) ||
                this.elemento.producto_id.toString().trim().length == 0 ;
-      }, 
+      },
 
       deshabilitarBtnEditar: function (){
-        return this.elemento.descripcion.toString().trim().length == 0  ||  
-               this.elemento.monto.toString().trim().length == 0  ||  
+        return this.elemento.descripcion.toString().trim().length == 0  ||
+               this.elemento.monto.toString().trim().length == 0  ||
                !regExpSoloNumeros.test(this.elemento.estado)  ||
                ( this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) );
-      } 
+      }
     },
     methods: {
       filtrar: function() {
@@ -65,6 +65,7 @@ var vue = new Vue({
         this.elemento.monto = 0;
         this.elemento.producto_id = '';
         this.cargarImagenALienzo(0);
+        this.entidadesSeleccionadas=[];
       },
 
       cargarTextoPublicacion : function() {
@@ -76,13 +77,22 @@ var vue = new Vue({
         }
       },
 
+      obtenerEntidades: function(){
+        var elems = document.getElementsByName('atributos[]');
+        elems.forEach((selector) => {
+          if (selector.value.toString().trim().length > 0  &&  this.entidadesSeleccionadas.indexOf(selector.parentElement.parentElement.firstChild.textContent) < 0 ) {
+            this.entidadesSeleccionadas.push(selector.parentElement.parentElement.firstChild.textContent);
+          }
+        });
+      },
+
       cargarAtributos: function() {
         this.cargarTextoPublicacion();
         productos.forEach((producto) => {
           if (producto.id == this.elemento.producto_id ) {
             this.entidades = producto.entidades;
           }
-          
+
         });
       },
       cargarImagenesMiniaturas: function() {
@@ -110,7 +120,7 @@ var vue = new Vue({
 
       cargarImagenALienzo: function(tipo){
         var canvas = document.getElementById('canvas');
-        var context = canvas.getContext("2d"); 
+        var context = canvas.getContext("2d");
         var img = new Image();
         var lienzo = document.getElementById("lienzo");
         if (tipo == 0) {
@@ -124,7 +134,7 @@ var vue = new Vue({
           lienzo.appendChild(img);
         } else {
 
-          var fileinput = document.getElementById('imagen'); 
+          var fileinput = document.getElementById('imagen');
           if(document.querySelector('#imagen').value.length > 0 && this.imagenes.length < 7)
           {
             var file = fileinput.files[0];
@@ -149,14 +159,14 @@ var vue = new Vue({
                 alert("Solo se permiten imagenes");
             }
           }
-         
+
         }
       },
 
       cargarElemento: function(index){
         this.index = index;
         this.elemento.id = this.publicaciones[this.index].id;
-  
+
       },
 
       editarElemento: function(index){
@@ -166,7 +176,7 @@ var vue = new Vue({
         this.elemento.descripcion = this.publicaciones[this.index].descripcion;
         this.elemento.estado = this.publicaciones[this.index].estado;
         this.elemento.monto = this.publicaciones[this.index].monto;
-      
+
       },
 
        actualizarElemento: function () {
@@ -177,10 +187,10 @@ var vue = new Vue({
           datos.append('monto', this.elemento.monto);
           datos.append('estado', this.elemento.estado);
           axios.post(
-              urlActual + '/update', 
+              urlActual + '/update',
               datos,
           )
-          .then(response => {  
+          .then(response => {
               $(window).scrollTop(0);
               $('#editarModal').modal('hide');
               this.publicaciones[this.index].cantidad = this.elemento.cantidad;
@@ -189,7 +199,7 @@ var vue = new Vue({
               this.publicaciones[this.index].monto = this.elemento.monto;
               this.cancelarPublicacion();
 
-          }).catch(error => { 
+          }).catch(error => {
               $(window).scrollTop(0);
               this.mensajeError = 'Error interno.';
               $('#editarModal').modal('hide');
@@ -200,16 +210,16 @@ var vue = new Vue({
           var datos = new FormData();
           datos.append('id', this.elemento.id);
           axios.post(
-              urlActual + '/delete', 
+              urlActual + '/delete',
               datos,
           )
-          .then(response => {  
+          .then(response => {
               $(window).scrollTop(0);
               $('#eliminarModal').modal('hide');
               this.publicaciones.splice(this.index,1);
               this.cancelarPublicacion();
 
-          }).catch(error => { 
+          }).catch(error => {
               $(window).scrollTop(0);
               this.mensajeError = 'Error interno.';
               $('#eliminarModal').modal('hide');
