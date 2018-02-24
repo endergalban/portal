@@ -127,8 +127,6 @@ class CompraController extends Controller
         $publicacion->save();
 
         if($comprar) {
-            //Mail::to(Auth::user()->email)->send(new Venta($comprar));
-            //Mail::to(Auth::user()->email)->send(new OrderCompra($comprar));
             return view('compras.confirmacion');
         } else {
             return redirect()->back()

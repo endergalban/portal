@@ -133,70 +133,70 @@
 
          <div class="row" style="margin-left: 0;margin-right: 0;">
 
-            <div class="col-md-1"></div>
-            <div class="col-md-6"> 
+            <div class="col-md-1 col-xs-1"></div>
+            <div class="col-md-6 col-xs-6"> 
 
                         <div class="row" style="padding-top:20px">
-                            <div class="col-md-4" style="font-size:18px">        
+                            <div class="col-md-4 col-xs-4" style="font-size:18px">        
                                 <strong>Compañía</strong>
                             </div>
-                            <div class="col-md-4" style="font-size:18px">
+                            <div class="col-md-4 col-xs-4" style="font-size:18px">
                                 <strong>Información</strong>
                             </div>
-                            <div class="col-md-4" style="font-size:18px">
+                            <div class="col-md-4 col-xs-4" style="font-size:18px">
                                 <strong>Cuenta</strong>
                             </div>
                         </div>
                         <div class="row">
                             
-                            <div class="col-md-4">        
+                            <div class="col-md-4 col-xs-4">        
                                 <span style="color:white">Nosotros</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Publica tu auto</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Mi Cuenta</span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">        
+                            <div class="col-md-4 col-xs-4">        
                                 <span style="color:white">Servicio</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Términos y Condiciones</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Favoritos</span>
                             </div>
                         </div>
                          <div class="row">
-                            <div class="col-md-4">        
+                            <div class="col-md-4 col-xs-4">        
                                 <span style="color:white">Contacto</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Mapa del Sitio</span>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Carrito de Compras</span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">        
+                            <div class="col-md-4 col-xs-4">        
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                                 <span style="color:white">Estatus de Orden</span>
                             </div>
                         </div>
 
             </div>
-            <div class="col-md-4">                    
+            <div class="col-md-4 col-xs-4">                    
                 
 
                         <div class="row" style="padding-top:20px">
-                            <div class="col-md-12" style="font-size:18px">
+                            <div class="col-md-12 col-xs-12" style="font-size:18px">
                                 <strong>Contactanos a <span style="text-decotation:underline;text-decoration:  underline;color: #248adf;">contactos@chiledesarmes.cl</span></strong>
                             </div>
                         </div>
@@ -224,7 +224,7 @@
                         </div>
 
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-1 col-xs-1"></div>
         </div>
         <hr style="margin-top:10px;margin-bottom:10px;border-top: 1px solid #636b6f;">
         <div style="text-align:center">2018 Chiledesarmes All Right Received</div>

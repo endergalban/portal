@@ -67,10 +67,7 @@
 	            <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a>
 	          </div>
 	          <div class="details">
-	            <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>
-	            <span class="rating pull-right">
-	               <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-	             </span>
+	            <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>	           
 	          </div>
 	        </div>
 	    </div>

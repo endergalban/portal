@@ -16,7 +16,15 @@ Route::get('/', function () {
 	$tipos = App\Atributo::where('entidad_id',3)->get();
 	$combustible = App\Atributo::where('entidad_id',5)->get();
 	$trasmision = App\Atributo::where('entidad_id',4)->get();
-    return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision'));
+	$publicaciones =  App\Publicacion::where('estado','=',1)
+        ->with(['user'])
+        ->with(['producto'])
+        ->with(['atributos.entidad'])
+        ->with(['imagenes'])
+        ->limit(4)
+        ->get();
+        $now = Carbon\Carbon::parse(Carbon\Carbon::now()->format('Y-m-d  h:i:s A'));
+    return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','publicaciones','now'));
 });
 Auth::routes();
 
