@@ -10,22 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-	$regiones = App\Atributo::where('entidad_id',1)->get();
-	$marcas = App\Atributo::where('entidad_id',2)->get();
-	$tipos = App\Atributo::where('entidad_id',3)->get();
-	$combustible = App\Atributo::where('entidad_id',5)->get();
-	$trasmision = App\Atributo::where('entidad_id',4)->get();
-	$publicaciones =  App\Publicacion::where('estado','=',1)
-        ->with(['user'])
-        ->with(['producto'])
-        ->with(['atributos.entidad'])
-        ->with(['imagenes'])
-        ->limit(4)
-        ->get();
-        $now = Carbon\Carbon::parse(Carbon\Carbon::now()->format('Y-m-d  h:i:s A'));
-    return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','publicaciones','now'));
-});
+Route::get('/','PublicacionController@dashboard');
 Auth::routes();
 
 //Route::get('/home', 'PublicacionController@index')->name('home');
