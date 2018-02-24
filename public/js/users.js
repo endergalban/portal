@@ -104,7 +104,6 @@ var vue = new Vue({
         tipoFiltro: '',
         estatusFiltro: '',
         buscarFiltro: ''
-
     },
     computed: {
         mostrarPaginador: function mostrarPaginador() {
@@ -176,11 +175,9 @@ var vue = new Vue({
                 _this.mensajeError = 'Error interno.';
             });
         },
-
         filtrar: function filtrar() {
             this.obtenerElementos();
         },
-
         eliminarElemento: function eliminarElemento() {
             var _this2 = this;
 
@@ -199,7 +196,6 @@ var vue = new Vue({
                 $('#eliminarModal').modal('hide');
             });
         },
-
         cargarElemento: function cargarElemento(index) {
             this.limpiarElemento();
             // this.limpiarMensajes();
@@ -225,8 +221,8 @@ var vue = new Vue({
                 this.elemento.estatus = 1;
                 this.elemento.tipo = 0;
             }
+            $(window).scrollTop(0);
         },
-
         guardar: function guardar() {
             var _this3 = this;
 

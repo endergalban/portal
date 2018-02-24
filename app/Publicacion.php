@@ -22,7 +22,7 @@ class Publicacion extends Model
     {
         return $this->belongsTo('App\User');
     }
-    
+
     public function comentarios()
     {
         return $this->hasMany('App\Comentario');
@@ -56,6 +56,12 @@ class Publicacion extends Model
                 $query->where('descripcion','like','%'.$request->buscar.'%');
             })->orWhereHas('producto',function($query) use ($request) {
                 $query->where('descripcion','like','%'.$request->buscar.'%');
+            });
+        }
+
+        if ($request->atributo) {
+            $query->whereHas('atributos',function($query) use ($request) {
+                $query->whereIn('atributo_id',$request->atributo);
             });
         }
 

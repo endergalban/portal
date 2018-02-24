@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
 
@@ -30,7 +30,7 @@ class PublicarController extends Controller
      */
     public function index(Request $request)
     {
-      
+
         $productos = Producto::activo()
         ->has('atributos.entidad')
         ->with(['atributos' => function ($q){
@@ -48,7 +48,7 @@ class PublicarController extends Controller
         ->orderBy('id','DESC')
         ->get();
 
-        
+
         $publicaciones = Publicacion::where('user_id',Auth::user()->id)
         ->buscar($request)
         ->with('producto')
@@ -87,9 +87,9 @@ class PublicarController extends Controller
         ])->validate();
         if ($request->publicacion_id == 0) {
             $publicacion = new Publicacion;
-            $msj="Felicidades tu publicación se encuentra disponible!";    
+            $msj="Felicidades tu publicación se encuentra disponible!";
         } else {
-            $msj="Felicidades tu publicación ha sido actualizada!";    
+            $msj="Felicidades tu publicación ha sido actualizada!";
         }
         $publicacion->fill(array_add($request->all(),'user_id', Auth::user()->id));
         $publicacion->save();
@@ -119,7 +119,7 @@ class PublicarController extends Controller
             $atributos = array_filter($request->atributos);
             $publicacion->atributos()->sync($atributos);
         }
-            
+
         return redirect()->back()->with('success', $msj);
     }
 
@@ -134,7 +134,7 @@ class PublicarController extends Controller
         $publicacion = Publicacion::findOrFail($request->id);
         $publicacion->delete();
         return 'ok';
-       
+
     }
 
 
@@ -144,10 +144,10 @@ class PublicarController extends Controller
         $publicacion->fill($request->all());
         $publicacion->save();
         return 'ok';
-       
+
     }
 
-   
+
     /**ión
      * Store a newly created resource in storage.
      *
@@ -178,7 +178,7 @@ class PublicarController extends Controller
         ->with('publicaciones.producto')
         ->with('user')
         ->orderBy('id','DESC')
-        ->paginate();
+        ->paginate(2);
         return view('admin.asistencias.index')->with(compact('asistencias'));
     }
 
@@ -190,7 +190,7 @@ class PublicarController extends Controller
         return redirect()->back();
     }
 
-  
+
     /**
      * Remove the specified resource from storage.
      *
@@ -201,7 +201,7 @@ class PublicarController extends Controller
     {
         $asistencia = Asistencia::findOrFail($id);
         $asistencia->delete();
-      
+
         return redirect()->back();
     }
 }

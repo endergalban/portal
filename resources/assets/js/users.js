@@ -1,4 +1,4 @@
-var vue = new Vue({ 
+var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
@@ -10,7 +10,7 @@ var vue = new Vue({
         elementos: [],
         paginador: '',
         numeroPaginas: [],
-        elemento: { 
+        elemento: {
           id: 0,
           name: '',
           email: '',
@@ -26,7 +26,6 @@ var vue = new Vue({
         tipoFiltro: '',
         estatusFiltro: '',
         buscarFiltro: '',
-
     },
     computed: {
       mostrarPaginador: function () {
@@ -34,10 +33,10 @@ var vue = new Vue({
       },
       habilitarGuardar: function () {
           return this.elemento.name.toString().trim().length == 0  ||
-                 this.elemento.region_id.toString().trim().length == 0  ||  
-                !regExRut.test(this.elemento.rut) || 
+                 this.elemento.region_id.toString().trim().length == 0  ||
+                !regExRut.test(this.elemento.rut) ||
                 !regExpCorreoElectronico.test(this.elemento.email) ||
-                (this.index == -1 && !regExPassword.test(this.elemento.password) ) || 
+                (this.index == -1 && !regExPassword.test(this.elemento.password) ) ||
                 (this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password ))
                 ;
       },
@@ -74,22 +73,22 @@ var vue = new Vue({
               if (hasta > this.paginador.last_page) {
                   hasta = this.paginador.last_page;
               }
-              for (i = desde; i <= hasta; i++) { 
+              for (i = desde; i <= hasta; i++) {
                   this.numeroPaginas.push(i);
               }
-              
+
               return;
           },
           cambioPagina: function (page) {
-              this.limpiarMensajes(); 
+              this.limpiarMensajes();
               this.obtenerElementos(page);
           },
           obtenerElementos: function (page = 1) {
-            this.limpiarMensajes(); 
+            this.limpiarMensajes();
             var filtros = 'page=' + page +'&buscar=' + this.buscarFiltro + '&tipo=' + this.tipoFiltro + '&estatus=' + this.estatusFiltro;
             var url = urlActual + '/get?' + filtros;
               axios.get(url)
-              .then(response => {  
+              .then(response => {
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
@@ -99,32 +98,29 @@ var vue = new Vue({
                   this.mensajeError = 'Error interno.';
               });
           },
-
           filtrar: function() {
             this.obtenerElementos();
           },
-
           eliminarElemento: function () {
               var datos = new FormData();
               datos.append('id', this.elementos[this.index].id);
               axios.post(
-                  urlActual + '/delete', 
+                  urlActual + '/delete',
                   datos,
               )
-              .then(response => {  
+              .then(response => {
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
                   $(window).scrollTop(0);
                   $('#eliminarModal').modal('hide');
-              }).catch(error => { 
+              }).catch(error => {
                   $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
                   $('#eliminarModal').modal('hide');
               });
           },
-
           cargarElemento: function (index) {
             this.limpiarElemento();
            // this.limpiarMensajes();
@@ -150,13 +146,11 @@ var vue = new Vue({
               this.elemento.estatus = 1;
               this.elemento.tipo = 0;
             }
+            $(window).scrollTop(0);
           },
-
-          
-
           guardar: function () {
-         
-            this.limpiarMensajes(); 
+
+            this.limpiarMensajes();
             var datos = new FormData();
             datos.append('id', this.elemento.id);
             datos.append('name', this.elemento.name);
@@ -172,10 +166,10 @@ var vue = new Vue({
               datos.append('password', this.elemento.password);
             }
             axios.post(
-                urlActual + '/store', 
+                urlActual + '/store',
                 datos,
             )
-            .then((response) => { 
+            .then((response) => {
               if (response.data == '-1') {
                  this.mensajeError = 'El rut ingresado ya se encuentra en los registros';
               } else if(response.data == '-2') {
@@ -189,8 +183,8 @@ var vue = new Vue({
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';
-            });   
-          
+            });
+
 
           },
       }

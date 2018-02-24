@@ -3669,7 +3669,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->estado = 1;
 		$atributo->entidad_id = $entidad->id;
 		$atributo->orden = $i++;
-		$atributo->save();		
+		$atributo->save();
 
 
 
@@ -4905,12 +4905,12 @@ class EntidadesAtributos extends Seeder
 		$atributo->entidad_id = $entidad->id;
 		$atributo->save();
 
-        $entidad = new Entidad;
-        $entidad->descripcion = 'Suspención';
-        $entidad->tipo = 1;
-        $entidad->estado= 1;
-        $entidad->orden= 12;
-        $entidad->save();
+    $entidad = new Entidad;
+    $entidad->descripcion = 'Suspención';
+    $entidad->tipo = 1;
+    $entidad->estado= 1;
+    $entidad->orden= 12;
+    $entidad->save();
 
 		$i = 0;
 		$atributo = new Atributo;
@@ -4961,6 +4961,38 @@ class EntidadesAtributos extends Seeder
 		$atributo->estado = 1;
 		$atributo->entidad_id = $entidad->id;
 		$atributo->save();
+
+    $entidad = new Entidad;
+    $entidad->descripcion = 'Año';
+    $entidad->tipo = 1;
+    $entidad->estado= 1;
+    $entidad->orden= 13;
+    $entidad->save();
+
+    for ($i = 1920; $i < (date('Y')+1); $i++) {
+      $atributo = new Atributo;
+      $atributo->descripcion = $i;
+      $atributo->orden = $i;
+      $atributo->estado = 1;
+      $atributo->entidad_id = $entidad->id;
+      $atributo->save();
+    }
+    $entidad = new Entidad;
+    $entidad->descripcion = 'Kilometraje';
+    $entidad->tipo = 1;
+    $entidad->estado= 1;
+    $entidad->orden= 14;
+    $entidad->save();
+
+    for ($i = 0; $i < 400001; $i=$i+10000) {
+      $atributo = new Atributo;
+      $atributo->descripcion = $i;
+      $atributo->orden = $i;
+      $atributo->estado = 1;
+      $atributo->entidad_id = $entidad->id;
+      $atributo->save();
+    }
+
 
     }
 }

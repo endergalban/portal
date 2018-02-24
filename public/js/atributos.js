@@ -222,7 +222,6 @@ var vue = new Vue({
                 $("#eliminarModalEntidad").modal('hide');
             });
         },
-
         cargarElementoEntidad: function cargarElementoEntidad(i) {
             this.indexEntidadAtributo = -1;
             this.indexAtributo = -2;
@@ -242,6 +241,7 @@ var vue = new Vue({
                 this.elementoEntidad.estado = this.elementos[this.index].estado;
                 this.elementoEntidad.atributos = this.elementos[this.index].atributos;
             }
+            $(window).scrollTop(0);
         },
 
         guardarElementoEntidad: function guardarElementoEntidad(index) {
@@ -269,6 +269,9 @@ var vue = new Vue({
             this.limpiarElementoAtributo();
             this.limpiarElementoEntidad();
             this.indexEntidadAtributo = index;
+            $('html, body').animate({
+                scrollTop: $("#divEdicion").offset().top
+            }, 1000);
         },
 
         cargarElementoAtributo: function cargarElementoAtributo(indexAtributoEntidad, indexAtributo) {
@@ -285,6 +288,9 @@ var vue = new Vue({
                 this.elementoAtributo.estado = this.elementos[indexAtributoEntidad].atributos[indexAtributo].estado;
             }
             this.elementoAtributo.entidad_id = this.elementos[indexAtributoEntidad].id;
+            $('html, body').animate({
+                scrollTop: $("#divEdicion").offset().top
+            }, 1000);
         },
 
         guardarElementoAtributo: function guardarElementoAtributo(index) {
