@@ -30,7 +30,7 @@ class PublicacionController extends Controller
             ->with(['producto'])
             ->with(['atributos.entidad'])
             ->with(['imagenes'])
-            ->limit(4)
+            ->limit(6)
             ->get();
       return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','kilometrajes','anios','publicaciones','now'));
     }
@@ -42,7 +42,7 @@ class PublicacionController extends Controller
         ->with(['producto'])
         ->with(['atributos.entidad'])
         ->with(['imagenes'])
-        ->get();
+        ->paginate(12);
         $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
         return view('publicaciones.publicaciones', compact('publicaciones','now'));
     }

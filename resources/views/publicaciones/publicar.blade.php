@@ -34,8 +34,8 @@
 	<!--Datos de la venta-->
 	<form action="{{ route('publicar.store')}}" method="POST">
 	{{ csrf_field() }}
-	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 0">
-	  	<div class="panel-body">
+	 <fieldset class="scheduler-border"  v-show="listadoPublicaciones == 0 && tab == 0">
+        <legend class="scheduler-border"><span class="title-estilo">Publicar</span></legend>
 		  	<div class="row">
 				<div class="col-md-4 text-center">
 					<h3>Datos de la Publicación</h3>
@@ -145,13 +145,12 @@
     				<button type="button" class="btn btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
     			</div>
     			<div class="col-md-6">
-					<button type="button" class="btn btn-success pull-right" @click.prevent="tab = 1" :disabled="deshabilitarBtnImagenes" >Continuar</button>
+					<button type="button" class="btn btn-success pull-right" @click.prevent="tab = 1" :disabled="deshabilitarBtnImagenes" >Continuar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
 	  			</div>
 	  		</div>
 	  		</div>
 
-	  	</div>
-	</div>
+   </fieldset>
 	<!--Imagenes-->
 	<div class="panel panel-default" v-show="listadoPublicaciones == 0 && tab == 1">
 	  	<div class="panel-body">
@@ -285,17 +284,6 @@
 
 		              <h4><strong>$ @{{ elemento.monto}}</strong></h4>
 		              <p class="card-text">@{{ elemento.descripcion }}</p>
-		              <hr>
-		                <div class="row">
-		                    <div class="col-9">
-		                        Publicado por: <br>
-		                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-		                        4.0 stars
-		                    </div>
-		                    <div class="col-3">
-		                        <a class="btn btn-primary pull-right disabled"><i class="icon-shopping-cart"></i> Comprar</a>
-		                    </div>
-		                </div>
 		            </div>
 		          </div>
 		          <!-- /.card -->
@@ -392,8 +380,11 @@
 	</div>
 
 	</form>
-	<div class="panel panel-default" v-show="listadoPublicaciones == 1">
-		<div class="panel-body">
+	
+	 <fieldset class="scheduler-border" v-show="listadoPublicaciones == 1">
+        <legend class="scheduler-border"><span class="title-estilo">Publicar</span></legend>
+
+		
 			<div class="row" >
 				<div class="col-md-3">
 					<select v-model="estadoFiltro" class="form-control" >
@@ -409,12 +400,13 @@
 					<button class="btn btn-primary pull-right"  @click.prevent="filtrar()">Filtrar</button>
 				</div>
 			</div>
-		</div>
-	</div>
-      <div class="panel panel-default" v-show="listadoPublicaciones == 1">
-        <div class="panel-heading">Últimas publicaciones</div>
-          <div class="panel-body">
-         <button type="button" class="btn btn-success" @click.prevent="listadoPublicaciones = 0"  >Publicar</button>
+		
+	</fieldset>
+
+	<fieldset class="scheduler-border" v-show="listadoPublicaciones == 1">
+        <legend class="scheduler-border"><span class="title-estilo">Últimas publicaciones</span></legend>
+
+         <button type="button" class="btn btn-primary" @click.prevent="listadoPublicaciones = 0"  >Publicar</button>
          <hr>
             <div class="table-responsive">
               <table class="table .table-striped">
@@ -456,7 +448,7 @@
           </div>
         </div>
 
-
+    </fieldset>
      <!-- Modal eliminar -->
     <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog " role="document">

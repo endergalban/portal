@@ -2,101 +2,7 @@
 <link href="{{ asset('css/productos.css') }}" rel="stylesheet">
 <link href="{{ asset('css/grid.css') }}" rel="stylesheet">
 <link href="{{ asset('css/carousel.css') }}" rel="stylesheet">
-<style type="text/css">
-.badge-primary {
-  color: #fff !important;
-  background-color: #007bff !important;
-}
-.badge-primary[href]:hover, .badge-primary[href]:focus {
-  color: #fff !important;
-  text-decoration: none !important;
-  background-color: #0062cc !important;
-}
-.d-block {
-  display: block !important;
-}
-.w-100 {
-  width: 100% !important;
-}
-input,
-button,
-select,
-optgroup,
-textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-} 
-
-button,
-input {
-  overflow: visible;
-}
-
-button,
-select {
-  text-transform: none;
-}
-
-.custom-select {
-  display: inline-block;
-  width: 100%;
-  height: calc(2.25rem + 10px);
-  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-  line-height: 18px;
-  color: #495057;
-  vertical-align: middle;
-  background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.75rem center;
-  background-size: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.custom-select:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075), 0 0 5px rgba(128, 189, 255, 0.5);
-}
-
-.custom-select:focus::-ms-value {
-  color: #495057;
-  background-color: #fff;
-}
-
-.custom-select[multiple], .custom-select[size]:not([size="1"]) {
-  height: auto;
-  padding-right: 0.75rem;
-  background-image: none;
-}
-
-.custom-select:disabled {
-  color: #6c757d;
-  background-color: #e9ecef;
-}
-
-.custom-select::-ms-expand {
-  opacity: 0;
-}
-
-.custom-select-sm {
-  height: calc(1.8125rem + 2px);
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  font-size: 75%;
-}
-
-.custom-select-lg {
-  height: calc(2.875rem + 2px);
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
-  font-size: 125%;
-}
-
-</style>
+<link href="{{ asset('css/comprar.css') }}" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 @section('content')
 
@@ -112,14 +18,13 @@ select {
           @endif
 
         <div class="col-lg-9">
-          <div class="card mt-4">
             
-                <div class="card-header">
-                  <h2>Comprar</h2>
-                </div>
-                <div class="card-body">
-                  <h3 class="card-title">Descripción de la Publicación</h3>
-                  <p class="card-text">{{ $publicacion->descripcion}}</p><br>
+       <fieldset class="scheduler-border">
+        <legend class="scheduler-border"><span class="title-estilo">Comprar</span></legend>
+
+             
+                  <h3>Descripción de la Publicación</h3>
+                  <p>{{ $publicacion->descripcion}}</p><br>
                   <p><small>Publicado por {{$publicacion->user->name}}</small></p>
 
                   <hr>
@@ -147,7 +52,7 @@ select {
                     </tbody>
                   </table>
                   <hr>
-                  <h3 class="card-title">Caracteristicas del Producto</h3>
+                  <h3>Caracteristicas del Producto</h3>
                   <table class="table" style="width: 50%;">
                     <tbody>
                      @foreach ($entidades as $key => $entidad)
@@ -175,7 +80,7 @@ select {
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">                        
                         <div class="modal-body">
-                          <p class="h5"><strong>¿Deseas realizar la compra del producto?</strong></h5>
+                          <p class="h5"><strong>¿Deseas realizar la compra del producto?</strong></p>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -194,13 +99,8 @@ select {
                     </div>
                   </div>
 
-                </div>
-             
-          </div>
+             </fieldset> 
          
-          <!-- /.card -->
-
-          <!-- /.card -->
         </div>
         <!-- /.col-lg-9 -->
          <div class="col-lg-3">

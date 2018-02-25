@@ -13,7 +13,7 @@
 
 </style>
 	@section('content')
-	<div class="container" id="container">
+	<div class="container" id="container" style="padding-top:20px">
 		<div class="row"> 
 		
 		@if(Session::has('success'))
@@ -40,8 +40,8 @@
 	              <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
 	              @endif
 	              	@foreach($publicacion->imagenes as  $imagen)
-	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
-	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" >
+	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}" style="width: 100%; height:200px">
+	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" style="max-width: 100%;max-height: 100%;">
 	                </div>
 	                @endforeach
 	              </div>
@@ -82,5 +82,6 @@
         </div>
         
 	  </div>
+	 	{{ $publicaciones->links() }}
 	 </div>
 @endsection
