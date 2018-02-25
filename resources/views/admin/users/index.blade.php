@@ -51,8 +51,8 @@
         <div class="panel-heading" v-else>Nuevo usuario</div> --}}
       <hr>
       <form>
-        <div class="form-group">
-          <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-xs-12">
+          <div class="form-group">
             <input type="text" class="form-control" id="nombre" placeholder="Nombre del usuario" v-model="elemento.name">
           </div>
         </div>
@@ -93,7 +93,7 @@
           </div>
         </div>
         <div class="col-md-3 col-xs-12">
-          <div class="form-row">
+          <div class="form-group">
             <select v-model="elemento.region_id" style="width:100%" class="form-control">
               <option value="">Región</option>
               @foreach($regiones as $region)
@@ -107,13 +107,13 @@
             <input type="text" class="form-control" id="direccion" placeholder="Dirección" v-model="elemento.direccion">
           </div>
         </div>
-        <input type="hidden" v-model="elemento.id">
         <div class="col-md-12 col-xs-12">
           <div class="form-group">
             <button type="button" class="btn btn-primary" @click.prevent="guardar()" :disabled="habilitarGuardar" >Guardar</button>
             <button type="button" class="btn btn-default" @click.prevent="limpiarElemento()">Cancelar</button>
           </div>
         </div>
+        <input type="hidden" v-model="elemento.id">
       </form>
     </div>
     {{-- Listado --}}

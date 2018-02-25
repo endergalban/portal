@@ -15,7 +15,7 @@
                      <button  @click="cargarElemento(-1)" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#guardarModal"><i class="fas fa-plus" data-toggle="tooltip" title="Nuevo" ></i></button>
                     <div class="table-responsive">
                         <table class="table .table-striped">
-                            <thead>
+                          <thead>
                                 <th>#</th>
                                 <th>Email</th>
                                 <th>Nombre</th>
@@ -26,19 +26,19 @@
                             </thead>
                             <tbody>
                             <tr  v-for = "(elemento, index) in elementos">
-                                <td>@{{ elemento.id }}</td>        
-                                <td>@{{ elemento.email }}</td>        
-                                <td>@{{ elemento.name }}</td>        
-                                <td>@{{ elemento.rut }}</td>        
+                                <td>@{{ elemento.id }}</td>
+                                <td>@{{ elemento.email }}</td>
+                                <td>@{{ elemento.name }}</td>
+                                <td>@{{ elemento.rut }}</td>
                                 <td>
                                     <span class="text-success" v-if="elemento.estatus == 1">Activo</span>
                                     <span class="text-danger" v-else>Inactivo</span>
-                                </td>        
+                                </td>
                                 <td nowrap="nowrap">
                                     <a class="btn btn-primary btn-sm" href="{{route('users.edit',1)}}"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></a>
                                     <button @click="cargarElemento(index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModal"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
 
-                                </td>        
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -52,7 +52,7 @@
                             <span class="sr-only">Anterior</span>
                           </a>
                         </li>
-                        
+
                         <li class="page-item" v-for="numeroPagina in numeroPaginas" v-bind:class="{ active: (numeroPagina==paginador.current_page) }">
                             <a href="#" class="page-link" @click="cambioPagina(numeroPagina)">@{{numeroPagina}}</a>
                         </li>
@@ -82,31 +82,37 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-row">
-                <div class="form-group col-md-6">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group">
                   <input type="text" class="form-control" id="nombre" placeholder="Nombre" v-model="elemento.name">
                 </div>
-                <div class="form-group col-md-6">
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group">
                   <input type="text" class="form-control" id="rut" placeholder="Rut" v-model="elemento.rut">
                 </div>
               </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group">
                   <input type="email" class="form-control" id="email" placeholder="Email" v-model="elemento.email">
                 </div>
-                <div class="form-group col-md-6">
-                  <input type="password" class="form-control" id="password" placeholder="Password" v-model="elemento.password">
+              </div>
+              <div class="col-md-6 col-xs-12">
+                  <div class="form-group">
+                    <input type="password" class="form-control" id="password" placeholder="Password" v-model="elemento.password">
+                  </div>
+                </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck" v-model="elemento.estatus">
+                    <label class="form-check-label" for="gridCheck">
+                      Activo
+                    </label>
+                  </div>
                 </div>
               </div>
               <input type="hidden" v-model="elemento.id">
-              <div class="form-group">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck" v-model="elemento.estatus">
-                  <label class="form-check-label" for="gridCheck">
-                    Activo
-                  </label>
-                </div>
-              </div>
             </form>
           </div>
           <div class="modal-footer">

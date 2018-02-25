@@ -14,10 +14,10 @@ var vue = new Vue({
           producto: '',
           descripcion: '',
           estado: 1,
-          cantidad: 0,
+          cantidad: 1,
           producto_id: '',
           region_id: '',
-          monto: '',
+          monto: 0,
       },
       buscarFiltro: '',
       estadoFiltro: '',
@@ -32,12 +32,17 @@ var vue = new Vue({
     },
     computed: {
       deshabilitarBtnImagenes: function (){
-        return this.elemento.descripcion.toString().trim().length == 0  ||
-                this.elemento.region_id.toString().trim().length == 0  ||
-               this.elemento.monto.toString().trim().length == 0  ||
-               !regExpSoloNumeros.test(this.elemento.estado)  ||
-               ( this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) ) ||
-               this.elemento.producto_id.toString().trim().length == 0 ;
+        return this.elemento.producto.toString().trim().length == 0 ||
+        this.elemento.estado.toString().trim().length == 0 ||
+        this.elemento.descripcion.toString().trim().length == 0 ||
+        this.elemento.monto.toString().trim().length == 0 ||
+        !regExpSoloNumeros.test(this.elemento.monto)  ||
+        this.elemento.monto == 0  ||
+        this.elemento.cantidad.toString().trim().length == 0 ||
+        this.elemento.cantidad == 0  ||
+        this.elemento.region_id.toString().trim().length == 0
+         ;
+
       },
       deshabilitarBtnEditar: function (){
         return this.elemento.descripcion.toString().trim().length == 0  ||

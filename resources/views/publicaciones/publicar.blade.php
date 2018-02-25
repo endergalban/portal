@@ -25,11 +25,6 @@
 @section('content')
 
 <div class="container hidden" id="container">
-	@if(Session::has('success'))
-	<div class="alert alert-success">
-	    {{ Session::get('success') }}
-	</div>
-	@endif
 	<form action="{{ route('publicar.store')}}" method="POST">
   	{{ csrf_field() }}
     <!--Datos de la venta-->
@@ -127,7 +122,7 @@
   			<div class="col-md-12">
     			<div class="row">
       			<div class="col-md-6">
-      				<button type="button" class="btn btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+      				<button type="button" class="btn btn-primary hidden-xs" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
       			</div>
       			<div class="col-md-6">
   					<button type="button" class="btn btn-primary pull-right" @click.prevent="tab = 1;top()" :disabled="deshabilitarBtnImagenes" >Continuar</button>
@@ -142,7 +137,7 @@
         <legend class="scheduler-border"><span class="title-estilo">Publicando</span></legend>
   			<div class="row">
   				<div class="col-md-12" >
-  					<div class="row">
+  					<div class="row  hidden-xs">
   						<div class="col-md-12 text-center">
   							<canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
   							<div id="lienzo">
@@ -159,10 +154,14 @@
   			</div>
   			<hr>
   			<div class="row">
-  				<div class="col-md-2 " v-for="n in 6">
-  					<img :id="'imagen_' + n " src="../images/no-image.jpg" class="img-thumbnail" style="width:120px;height:89px"/>
-  					<button @click.prevent="previsualizarImagen(n)" class="btn btn-sm btn-primary pull-right" v-show="! (imagenes.length < n)"><i class="fa fa-search"></i></button>
-  					<button @click.prevent="eliminarImagen(n)" class="btn btn-sm btn-danger pull-right" v-show="! (imagenes.length < n)"><i class="fa fa-trash"></i></button>
+  				<div class="col-md-2 col-xs-6" v-for="n in 6">
+  				  <div class="col-md-12 col-xs-12">
+  					  <img :id="'imagen_' + n " src="../images/no-image.jpg" class="img-thumbnail" style="width:120px;height:89px"/>
+            </div>
+            <div class="col-md-122 col-xs-12">
+					    <button @click.prevent="previsualizarImagen(n)" class="btn btn-sm btn-primary" v-show="! (imagenes.length < n)"><i class="fa fa-search"></i></button>
+					    <button @click.prevent="eliminarImagen(n)" class="btn btn-sm btn-danger" v-show="! (imagenes.length < n)"><i class="fa fa-trash"></i></button>
+				    </div>
   				</div>
   			</div>
   			<input type="hidden" v-for="imagen in imagenes" name="imagenes[]" :value="imagen">;
@@ -170,7 +169,7 @@
   			<div class="col-md-12">
   				<div class="row">
   	    			<div class="col-md-6">
-  	    				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+  	    				<button type="button" class="btn  btn-primary hidden-xs" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
   	    			</div>
   	    			<div class="col-md-6">
   						<button type="button" class="btn  btn-PRIMARY pull-right" @click.prevent="tab = 2;obtenerEntidades();top()"  >Continuar</button>
@@ -185,14 +184,14 @@
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"><span class="title-estilo">Publicando</span></legend>
 		    <div class="col-md-8 col-md-offset-2">
-          <div class="card mt-4" style="width:640px;">
+          <div class="card mt-4" >
             <div id="demo" class="carousel slide" data-ride="carousel" v-if="imagenes.length > 0">
               <ul class="carousel-indicators">
                 <li data-target="#demo" v-for="(imagen,i) in imagenes" :data-slide-to="i"  :class="i == 0 ? 'active' : ''"></li>
               </ul>
               <div class="carousel-inner">
                 <div v-for="(imagen,i) in imagenes" :class="i == 0 ? 'item active' : 'item'">
-                <img :src="imagen" style="width:640px;height:580px" >
+                <img :src="imagen" style="width:100%;" >
               </div>
               </div>
               <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -204,7 +203,7 @@
             </div>
             <div class="col-md-7" v-else>
             	<div class="row">
-            	<img src="http://placehold.it/700x400" style="width:640px;">
+            	<img src="http://placehold.it/700x400" style="width:100%">
             	</div>
             </div>
             <div class="card-body">
@@ -230,7 +229,7 @@
           <hr>
   			  <div class="row">
       			<div class="col-md-6">
-      				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+      				<button type="button" class="btn  btn-primary hidden-xs" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
       			</div>
       			<div class="col-md-6">
   					<button type="button" class="btn  btn-primary pull-right" @click.prevent="tab = 3;top()"  >Continuar</button>
@@ -266,7 +265,7 @@
           <hr>
   			  <div class="row">
       			<div class="col-md-6">
-      				<button type="button" class="btn  btn-primary" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
+      				<button type="button" class="btn  btn-primary hidden-xs" @click.prevent="cancelarPublicacion()"  >Publicaciones Anteriores</button>
       			</div>
       			<div class="col-md-6">
     				  <button type="submit" class="btn  btn-primary pull-right"  :disabled="!termino">Guardar</button>
@@ -280,6 +279,13 @@
     <div v-show="listadoPublicaciones == 1">
     <fieldset class="scheduler-border">
       <legend class="scheduler-border"><span class="title-estilo">Últimas publicaciones</span></legend>
+      @if(Session::has('success'))
+        <div col-md-12>
+          <div class="alert alert-success">
+              {{ Session::get('success') }}
+          </div>
+        </div>
+      @endif
       <div class="col-md-12 col-xs-12">
         <fieldset class="scheduler-border">
         <legend class="scheduler-border"></legend>
