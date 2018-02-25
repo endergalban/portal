@@ -8,16 +8,20 @@
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"></legend>
         <form>
-          <div class="col-md-4">
-            <input type="text" name="buscar" placeholder="Ingresar busqueda..." class="form-control">
+          <div class="col-md-4 col-xs-12">
+            <div class="form-group">
+              <input type="text" name="buscar" placeholder="Ingresar busqueda..." class="form-control">
+            </div>
           </div>
-          <div class="col-md-8">
-            <button class="btn btn-primary pull-right" >Filtrar</button>
+          <div class="col-md-8 col-xs-12">
+            <div class="form-group">
+              <button class="btn btn-primary pull-right" >Filtrar</button>
+            </div>
           </div>
         </form>
       </fieldset>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12">
       <div class="table-responsive">
         <table class="table .table-striped">
           <thead>

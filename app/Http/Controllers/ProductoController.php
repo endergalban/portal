@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -58,18 +58,14 @@ class ProductoController extends Controller
         }
         $producto->fill($request->all());
         $producto->save();
-        if($request->atributos) {
-            $producto->atributos()->sync(explode(',',$request->atributos));
-        } else {
-            DB::table('atributo_productos')->where('producto_id',$producto->id)->delete();
-
-        }
+        DB::table('atributo_productos')->where('producto_id',$producto->id)->delete();
+        $producto->atributos()->sync(explode(',',$request->atributos));
         $productos = Producto::with('atributos')->paginate();
         return $productos->toJson();
 
     }
 
-  
+
     /**
      * Remove the specified resource from storage.
      *
