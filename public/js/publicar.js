@@ -83,7 +83,6 @@ var vue = new Vue({
     this.cargarImagenALienzo(0);
   },
   data: {
-
     publicaciones: publicaciones,
     productos: productos,
     mensajeError: '',
@@ -110,11 +109,9 @@ var vue = new Vue({
 
   },
   computed: {
-
     deshabilitarBtnImagenes: function deshabilitarBtnImagenes() {
       return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.region_id.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) || this.elemento.producto_id.toString().trim().length == 0;
     },
-
     deshabilitarBtnEditar: function deshabilitarBtnEditar() {
       return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad);
     }
@@ -122,6 +119,9 @@ var vue = new Vue({
   methods: {
     filtrar: function filtrar() {
       document.location = urlActual + '?buscar=' + this.buscarFiltro + '&estado=' + this.estadoFiltro;
+    },
+    top: function top() {
+      $(window).scrollTop(0);
     },
     cancelarPublicacion: function cancelarPublicacion() {
       this.listadoPublicaciones = 1;
@@ -136,7 +136,6 @@ var vue = new Vue({
       this.cargarImagenALienzo(0);
       this.entidadesSeleccionadas = [];
     },
-
     cargarTextoPublicacion: function cargarTextoPublicacion() {
       var elt = document.getElementById('producto_id');
       if (elt.selectedIndex == '' || elt.selectedIndex == 0) {
@@ -145,7 +144,6 @@ var vue = new Vue({
         this.elemento.producto = elt.options[elt.selectedIndex].text;
       }
     },
-
     obtenerEntidades: function obtenerEntidades() {
       var _this = this;
 
@@ -156,7 +154,6 @@ var vue = new Vue({
         }
       });
     },
-
     cargarAtributos: function cargarAtributos() {
       var _this2 = this;
 
@@ -176,7 +173,6 @@ var vue = new Vue({
         i = i + 1;
       });
     },
-
     eliminarImagen: function eliminarImagen(index) {
       for (var i = 1; i < 6; i++) {
         document.getElementById('imagen_' + i + '').src = '../images/no-image.jpg';
@@ -185,11 +181,9 @@ var vue = new Vue({
       this.imagenes.splice(index - 1, 1);
       this.cargarImagenesMiniaturas();
     },
-
     previsualizarImagen: function previsualizarImagen(index) {
       document.getElementById('imagenLienzo').src = this.imagenes[index - 1];
     },
-
     cargarImagenALienzo: function cargarImagenALienzo(tipo) {
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext("2d");
@@ -219,7 +213,7 @@ var vue = new Vue({
               if (evt.target.readyState == FileReader.DONE) {
                 img.src = evt.target.result;
                 context.drawImage(img, 100, 100);
-                img.setAttribute('width', '604px');
+                img.setAttribute('width', '640px');
                 img.setAttribute('height', '580px');
                 img.setAttribute('id', 'imagenLienzo');
                 lienzo.removeChild(lienzo.childNodes[0]);
@@ -234,12 +228,10 @@ var vue = new Vue({
         }
       }
     },
-
     cargarElemento: function cargarElemento(index) {
       this.index = index;
       this.elemento.id = this.publicaciones[this.index].id;
     },
-
     editarElemento: function editarElemento(index) {
       this.index = index;
       this.elemento.id = this.publicaciones[this.index].id;
@@ -248,7 +240,6 @@ var vue = new Vue({
       this.elemento.estado = this.publicaciones[this.index].estado;
       this.elemento.monto = this.publicaciones[this.index].monto;
     },
-
     actualizarElemento: function actualizarElemento() {
       var _this3 = this;
 
@@ -272,7 +263,6 @@ var vue = new Vue({
         $('#editarModal').modal('hide');
       });
     },
-
     eliminarElemento: function eliminarElemento() {
       var _this4 = this;
 
@@ -289,7 +279,6 @@ var vue = new Vue({
         $('#eliminarModal').modal('hide');
       });
     }
-
   }
 });
 

@@ -5,20 +5,19 @@
   <fieldset class="scheduler-border">
     <legend class="scheduler-border"><span class="title-estilo">Ventas Asistidas</span></legend>
     <!-- Errores -->
-    <div class="row">
-      @if ($errors->any())
-        <div class="col-md-12">
-    	    <div class="alert alert-danger">
-    	        <ul>
-    	            @foreach ($errors->all() as $error)
-    	                <li>{{ $error }}</li>
-    	            @endforeach
-    	        </ul>
-    	    </div>
-        </div>
-    	@endif
+    @if ($errors->any())
+      <div class="col-md-12">
+  	    <div class="alert alert-danger">
+  	        <ul>
+  	            @foreach ($errors->all() as $error)
+  	                <li>{{ $error }}</li>
+  	            @endforeach
+  	        </ul>
+  	    </div>
+      </div>
+  	@endif
     {{-- Filtros --}}
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12">
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"></legend>
         <form>
@@ -48,7 +47,6 @@
         </form>
       </fieldset>
     </div>
-
     <div class="col-md-12">
       <div id="divElemento" v-show="index > -2">
         <hr>
@@ -109,11 +107,9 @@
       </div>
       {{$asistencias->appends(Input::all())->links()}}
     </div>
-</div>
-
-
-<!-- Modal Publicaciones -->
-<div class="modal fade" id="publicacionesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  </fieldset>
+    <!-- Modal Publicaciones -->
+    <div class="modal fade" id="publicacionesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -159,6 +155,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 @push('scripts')
 	<script type="text/javascript">

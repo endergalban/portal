@@ -3,10 +3,8 @@ var vue = new Vue({
     created: function(){
       document.getElementById("container").classList.remove('hidden');
       this.cargarImagenALienzo(0);
-
     },
     data: {
-
       publicaciones : publicaciones,
       productos : productos,
       mensajeError: '',
@@ -33,7 +31,6 @@ var vue = new Vue({
 
     },
     computed: {
-
       deshabilitarBtnImagenes: function (){
         return this.elemento.descripcion.toString().trim().length == 0  ||
                 this.elemento.region_id.toString().trim().length == 0  ||
@@ -42,7 +39,6 @@ var vue = new Vue({
                ( this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad) ) ||
                this.elemento.producto_id.toString().trim().length == 0 ;
       },
-
       deshabilitarBtnEditar: function (){
         return this.elemento.descripcion.toString().trim().length == 0  ||
                this.elemento.monto.toString().trim().length == 0  ||
@@ -53,6 +49,9 @@ var vue = new Vue({
     methods: {
       filtrar: function() {
         document.location = urlActual + '?buscar='+ this.buscarFiltro +'&estado=' + this.estadoFiltro;
+      },
+      top: function() {
+        $(window).scrollTop(0);
       },
       cancelarPublicacion: function() {
         this.listadoPublicaciones = 1;
@@ -67,7 +66,6 @@ var vue = new Vue({
         this.cargarImagenALienzo(0);
         this.entidadesSeleccionadas=[];
       },
-
       cargarTextoPublicacion : function() {
         var elt = document.getElementById('producto_id');
         if (elt.selectedIndex == '' || elt.selectedIndex == 0 ) {
@@ -76,7 +74,6 @@ var vue = new Vue({
           this.elemento.producto =  elt.options[elt.selectedIndex].text;
         }
       },
-
       obtenerEntidades: function(){
         var elems = document.getElementsByName('atributos[]');
         elems.forEach((selector) => {
@@ -85,7 +82,6 @@ var vue = new Vue({
           }
         });
       },
-
       cargarAtributos: function() {
         this.cargarTextoPublicacion();
         productos.forEach((producto) => {
@@ -104,7 +100,6 @@ var vue = new Vue({
           i = i + 1;
         });
       },
-
       eliminarImagen: function(index) {
         for (var i=1; i < 6; i++) {
            document.getElementById('imagen_'+ i +'').src = '../images/no-image.jpg';
@@ -113,11 +108,9 @@ var vue = new Vue({
         this.imagenes.splice((index-1),1);
         this.cargarImagenesMiniaturas();
       },
-
       previsualizarImagen: function(index) {
         document.getElementById('imagenLienzo').src = this.imagenes[index-1];
       },
-
       cargarImagenALienzo: function(tipo){
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext("2d");
@@ -146,7 +139,7 @@ var vue = new Vue({
                 if( evt.target.readyState == FileReader.DONE) {
                     img.src = evt.target.result;
                     context.drawImage(img,100,100);
-                     img.setAttribute('width','604px');
+                     img.setAttribute('width','640px');
                      img.setAttribute('height','580px');
                      img.setAttribute('id','imagenLienzo');
                      lienzo.removeChild(lienzo.childNodes[0]);
@@ -162,13 +155,11 @@ var vue = new Vue({
 
         }
       },
-
       cargarElemento: function(index){
         this.index = index;
         this.elemento.id = this.publicaciones[this.index].id;
 
       },
-
       editarElemento: function(index){
         this.index = index;
         this.elemento.id = this.publicaciones[this.index].id;
@@ -178,7 +169,6 @@ var vue = new Vue({
         this.elemento.monto = this.publicaciones[this.index].monto;
 
       },
-
        actualizarElemento: function () {
           var datos = new FormData();
           datos.append('id', this.elemento.id);
@@ -205,7 +195,6 @@ var vue = new Vue({
               $('#editarModal').modal('hide');
           });
       },
-
       eliminarElemento: function () {
           var datos = new FormData();
           datos.append('id', this.elemento.id);
@@ -225,7 +214,5 @@ var vue = new Vue({
               $('#eliminarModal').modal('hide');
           });
       },
-
-
     }
 });
