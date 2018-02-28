@@ -224,3 +224,14 @@ a.preview {
     content: "\f005";
     color: #e3cf7a;
 }
+
+.badge-primary {
+  color: #fff !important;
+  background-color: #007bff !important;
+}
+
+.badge-primary[href]:hover, .badge-primary[href]:focus {
+  color: #fff !important;
+  text-decoration: none !important;
+  background-color: #0062cc !important;
+}

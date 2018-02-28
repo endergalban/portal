@@ -25,11 +25,11 @@
   <div class="container" id="container">
     <div class="row">
 
-       
+
         <div class="col-lg-9">
           @if($publicacion->estado == 0 || $publicacion->cantidad == 0)
           <div class="alert alert-danger">
-            Producto dado de baja o fuera de las publicaciones. 
+            Producto dado de baja o fuera de las publicaciones.
           </div>
           @endif
 
@@ -44,7 +44,7 @@
                   @endforeach
               </ul>
               @endif
-              
+
               <!-- The slideshow -->
               <div class="carousel-inner">
                 @if(count($publicacion->imagenes) == 0)
@@ -52,7 +52,7 @@
                     <img src="http://placehold.it/700x400" style="width:700px;height:400px" class="d-block w-100" >
                   </div>
                 @endif
-              
+
                 @foreach($publicacion->imagenes as  $imagen)
                   <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
                     <img src="{{ asset('storage/'.$imagen->ruta) }}" style="width:640px;height:580px" class="d-block w-100" >
@@ -72,18 +72,19 @@
 
             <div class="card-body">
               <h3 class="card-title">{{ $publicacion->producto->descripcion}}</h3>
-               @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
-             
-                  <span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
+               @foreach ($publicacion->atributos as $atributo)
+
+                  <span class="badge badge-primary">{{$atributo->descripcion}}</span>
                @endforeach
               <h4><strong>$ {{ $publicacion->monto}}</strong></h4>
               <p class="card-text">{{ $publicacion->descripcion}}</p>
               <hr>
                 <div class="row">
                     <div class="col-9">
-                        Publicado por: {{$publicacion->user->name}}<br>
-                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                        4.0 stars
+                        Publicado {{Carbon\Carbon::now()->diffForHumans($publicacion->created_at)}}<br>
+                        Por: {{$publicacion->user->name}}<br>
+                        {{-- <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                        4.0 stars --}}
                     </div>
                     <div class="col-3">
                         @if($publicacion->estado != 0 && $publicacion->cantidad != 0)
@@ -109,10 +110,10 @@
               Comentarios
             </div>
             <div class="card-body">
-              
-              @foreach($publicacion->comentarios as $comentario)            
+
+              @foreach($publicacion->comentarios as $comentario)
               <p>{{$comentario->descripcion}}</p>
-              <hr>            
+              <hr>
                 <div class="row">
                   <div class="col-3">
                     <small class="text-muted">Posteado por:  <br><strong>{{$comentario->user->name}}</strong> el {{date('d-m-Y', strtotime($comentario->created_at))}}</small>
@@ -123,10 +124,10 @@
                       @endif
                   </div>
 
-                </div>              
+                </div>
               <hr>
               @endforeach
-              
+
               <div class="form-group{{ $errors->has('comentario') ? ' has-error' : '' }}">
                 <form class="form-horizontal" method="POST" action="{{ route('comentar') }}">
                           {{ csrf_field() }}
@@ -136,7 +137,7 @@
                             <strong>{{ $errors->first('comentario') }}</strong>
                         </span>
                     @endif
-                    <input type="hidden" name="id_publicacion"  id="id_publicacion" value="{{ $publicacion->id}}">                
+                    <input type="hidden" name="id_publicacion"  id="id_publicacion" value="{{ $publicacion->id}}">
                     <br>
                     <button class="btn btn-success">Comenta</button>
                 </form>

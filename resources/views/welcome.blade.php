@@ -97,7 +97,8 @@
                 </div>
 
                 <hr>
-                <form method="get" action="{{ route('publicaciones.index')}}">
+                <form method="post" action="{{ route('publicaciones.index')}}">
+                    {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 col-xs-12">
                             <div class="input-group custom-search-form">
@@ -118,13 +119,14 @@
                     </div>
                 </div>
 
-                <form method="get" action="{{ route('publicaciones.index')}}">
+                <form method="post" action="{{ route('publicaciones.index')}}">
+                {{ csrf_field() }}
                 <div id="campos_busqueda_avanzanda" style="display:none">
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <select name="atributo[]" class="form-control">
-                                  <option value="0">Tipos de Repuestos</option>
+                                  <option value="">Tipos de Repuestos</option>
                                   @foreach( $tipos as $tipo)
                                     <option value="{{ $tipo->id }}">{{$tipo->descripcion}}</option>
                                   @endforeach
@@ -134,7 +136,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                             <select name="atributo[]" class="form-control">
-                                <option value="0">Combustible</option>
+                                <option value="">Combustible</option>
                                 @foreach( $combustible as $c)
                                     <option value="{{ $c->id }}">{{$c->descripcion}}</option>
                                 @endforeach
@@ -146,7 +148,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                             <select name="atributo[]" class="form-control">
-                                <option value="0">Marcas</option>
+                                <option value="">Marcas</option>
                                 @foreach( $marcas as $marca)
                                     <option value="{{ $marca->id }}">{{$marca->descripcion}}</option>
                                 @endforeach
@@ -156,7 +158,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                             <select name="atributo[]" class="form-control">
-                                <option value="0">Modelo</option>
+                                <option value="">Modelo</option>
                             </select>
                             </div>
                         </div>
@@ -165,7 +167,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                             <select name="atributo[]" class="form-control" name="region">
-                                <option value="0">Region</option>
+                                <option value="">Region</option>
                                 @foreach( $regiones as $region)
                                     <option value="{{ $region->id }}">{{$region->descripcion}}</option>
                                 @endforeach
@@ -175,7 +177,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                             <select name="atributo[]" class="form-control">
-                                <option value="0">Año</option>
+                                <option value="">Año</option>
                                 @foreach( $anios as $anio)
                                     <option value="{{ $anio->id }}">{{$anio->descripcion}}</option>
                                 @endforeach
@@ -187,7 +189,7 @@
                             <div class="col-md-6 col-xs-12">
                                 <div class="form-group">
                                 <select name="atributo[]" class="form-control">
-                                    <option value="0">Kilometraje</option>
+                                    <option value="">Kilometraje</option>
                                     @foreach( $kilometrajes as $kilometraje)
                                         <option value="{{ $kilometraje->id }}">{{number_format($kilometraje->descripcion,0,'','.')}} Km</option>
                                     @endforeach
@@ -197,7 +199,7 @@
                             <div class="col-md-6 col-xs-6">
                                 <div class="form-group">
                                 <select name="atributo[] " class="form-control">
-                                    <option value="0">Transmision</option>
+                                    <option value="">Transmision</option>
                                     @foreach( $trasmision as $t)
                                         <option value="{{ $t->id }}">{{$t->descripcion}}</option>
                                     @endforeach

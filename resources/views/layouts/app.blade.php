@@ -80,7 +80,7 @@
                                     Publicaciones <span class="caret"></span>
                                 </a>
                                     <ul class="dropdown-menu">
-                                        <!--<li><a href="#">Publicaciones de Usuarios</a></li>-->
+                                        <li><a href="{{ route('publicaciones.index')}}">Publicaciones</a></li>  
                                         <li><a href="{{ route('admin.asistencias.index')}}">Ventas Asistidas</a></li>
                                     </ul>
                                 </li>
@@ -95,7 +95,7 @@
                                     <li>
                                         <a href="{{ route('users.edit', Auth::user()->id) }}"
                                            >
-                                            Edit
+                                            Editar
                                         </a>
 
                                         <form id="edit-form" action="{{ route('users.edit', Auth::user()->id ) }}" method="POST" style="display: none;">
@@ -106,7 +106,7 @@
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                            Logout
+                                            Salir
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -13,9 +13,9 @@
 
 </style>
 	@section('content')
-	<div class="container" id="container">
-		<div class="row"> 
-		
+	<div class="container" id="container" style="padding-top:20px">
+		<div class="row">
+
 		@if(Session::has('success'))
 	    <div class="alert alert-success">
 	        {{ Session::get('success') }}
@@ -25,62 +25,178 @@
 	    </div>
 	    @endif
 
-	    <div class="col-lg-9">
-	    
-	    @foreach ($publicaciones as $publicacion)
-    
-	      <div class="col-md-4">
-	        <div class="block span4">
-	          <div class="product">
-
-	            <div id="demo" class="carousel slide" data-ride="carousel">	              
-	              <!-- The slideshow -->
-	              <div class="carousel-inner">
-	              @if(count($publicacion->imagenes) == 0 )
-	              <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
-	              @endif
-	              	@foreach($publicacion->imagenes as  $imagen)
-	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
-	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" >
-	                </div>
-	                @endforeach
-	              </div>
-	              	           
-	            </div>
-
-
-	              <div class="buttons">
-	                <a class="preview btn btn-large btn-info" href="{{ route('publicaciones.details', $publicacion->id) }}"><i class="icon-eye-open"></i> Ver</a>
-	            </div>
-	          </div>
-	          <div class="info">
-	            <h4>{{ $publicacion->producto->descripcion }}</h4>	            
-	            <span class="description">
-	             @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
-	           
-	             		<span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
-	             @endforeach
-	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
-	            </span>
-	            <h6>Publicado por: <strong>{{ $publicacion->user->name }}</strong></h6>
-	            <span class="price">$ {{ $publicacion->monto }}</span>
-	            <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a>
-	          </div>
-	          <div class="details">
-	            <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>	           
-	          </div>
-	        </div>
-	    </div>
-	    @endforeach
-	    </div>
-
-	     <div class="col-lg-3">
+      <div class="col-lg-3">
+         <div class="row">
+          <form method="post" action="{{ route('publicaciones.index')}}">
+               {{ csrf_field() }}
+               <div class="row">
+                 <fieldset class="scheduler-border" style="margin:0px !important;">
+                   <legend class="scheduler-border"><span class="title-estilo">Precio</span></legend>
+                   <div class="col-md-6 col-xs-12">
+                       <div class="form-group">
+                          <input type="text" name="min" placeholder="Min." class="form-control">
+                       </div>
+                   </div>
+                   <div class="col-md-6 col-xs-12">
+                       <div class="form-group">
+                         <div class="form-group">
+                            <input type="text" name="max" placeholder="Max" class="form-control">
+                         </div>
+                       </div>
+                   </div>
+               </fieldset>
+            <fieldset class="scheduler-border">
+                 <legend class="scheduler-border"><span class="title-estilo">Caracteristicas</span></legend>
+                  <div class="row">
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                             <select name="atributo[]" class="form-control">
+                               <option value="">Tipos de Repuestos</option>
+                               @foreach( $tipos as $tipo)
+                                 <option value="{{ $tipo->id }}">{{$tipo->descripcion}}</option>
+                               @endforeach
+                             </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control">
+                             <option value="">Combustible</option>
+                             @foreach( $combustible as $c)
+                                 <option value="{{ $c->id }}">{{$c->descripcion}}</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control">
+                             <option value="">Marcas</option>
+                             @foreach( $marcas as $marca)
+                                 <option value="{{ $marca->id }}">{{$marca->descripcion}}</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control">
+                             <option value="">Modelo</option>
+                         </select>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control" name="region">
+                             <option value="">Region</option>
+                             @foreach( $regiones as $region)
+                                 <option value="{{ $region->id }}">{{$region->descripcion}}</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control">
+                             <option value="">Año</option>
+                             @foreach( $anios as $anio)
+                                 <option value="{{ $anio->id }}">{{$anio->descripcion}}</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="atributo[]" class="form-control">
+                             <option value="">Kilometraje</option>
+                             @foreach( $kilometrajes as $kilometraje)
+                                 <option value="{{ $kilometraje->id }}">{{number_format($kilometraje->descripcion,0,'','.')}} Km</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-6">
+                         <div class="form-group">
+                         <select name="atributo[] " class="form-control">
+                             <option value="">Transmision</option>
+                             @foreach( $trasmision as $t)
+                                 <option value="{{ $t->id }}">{{$t->descripcion}}</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                 </div>
+            </fieldset>
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border"></legend>
+              <div class="row">
+                <div class="col-md-12 col-xs-12">
+                  <button class="btn  btn-primary" type="submit" style="width:100%">Buscar</button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </form>
+         </div>
           <h1 class="my-4">Publicidad</h1>
           <div class="list-group">
             <a href="#" class="list-group-item active">Publicidad</a>
           </div>
         </div>
-        
+	    <div class="col-lg-9">
+  	    @foreach ($publicaciones as $publicacion)
+  	      <div class="col-md-4" style="margin-bottom:20px">
+  	        <div class="block span4">
+  	          <div class="product">
+
+  	            <div id="demo" class="carousel slide" data-ride="carousel">
+  	              <!-- The slideshow -->
+  	              <div class="carousel-inner">
+  	              @if(count($publicacion->imagenes) == 0 )
+  	              <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
+  	              @endif
+  	              	@foreach($publicacion->imagenes as  $imagen)
+  	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}" style="width: 100%; height:200px">
+  	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" style="max-width: 100%;max-height: 100%;">
+  	                </div>
+  	                @endforeach
+  	              </div>
+
+  	            </div>
+
+
+                <div class="buttons">
+                  <a class="preview btn btn-large btn-info" href="{{ route('publicaciones.details', $publicacion->id) }}"><i class="icon-eye-open"></i> Ver</a>
+              </div>
+  	          </div>
+  	          <div class="info">
+  	            <h4>{{ $publicacion->producto->descripcion }}</h4>
+  	            {{-- <span class="description"> --}}
+  	             {{-- @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
+
+  	             		<span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
+  	             @endforeach --}}
+  	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
+  	            {{-- </span> --}}
+                <h6>Publicado {{ $now->diffForHumans($publicacion->created_at)}}</h6>
+                <h6>Por: <strong>{{ $publicacion->user->name }}</strong></h6>
+  	            <span class="price">$ {{ $publicacion->monto }}</span>
+  	            {{-- <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a> --}}
+  	          </div>
+  	          {{-- <div class="details">
+                <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>
+  	          </div> --}}
+  	        </div>
+  	    </div>
+  	    @endforeach
+	    </div>
+
+
 	  </div>
+	 	{{ $publicaciones->links() }}
 	 </div>
 @endsection

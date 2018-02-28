@@ -58,11 +58,26 @@ class Publicacion extends Model
                 $query->where('descripcion','like','%'.$request->buscar.'%');
             });
         }
-
+        if ($request->min) {
+          $query->where('monto','>',$request->min);
+        }
+        if ($request->max) {
+          $query->where('monto','<',$request->max);
+        }
+        
         if ($request->atributo) {
-            $query->whereHas('atributos',function($query) use ($request) {
-                $query->whereIn('atributo_id',$request->atributo);
+          $arrayAtributo = [];
+          foreach ($request->atributo as $key => $value) {
+            if ($value) {
+              $arrayAtributo[] =$value;
+            }
+          }
+          if (count($arrayAtributo) > 0){
+            $query->whereHas('atributos',function($query) use ($arrayAtributo) {
+              $query->whereIn('atributo_id',$arrayAtributo);
             });
+
+          }
         }
 
         if ($request->region_id) {

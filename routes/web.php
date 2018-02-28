@@ -14,7 +14,7 @@ Route::get('/','PublicacionController@dashboard');
 Auth::routes();
 
 //Route::get('/home', 'PublicacionController@index')->name('home');
-Route::get('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);
+Route::any('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);
 Route::get('publicaciones/details/{id}',['uses' => 'PublicacionController@details', 'as' => 'publicaciones.details']);
 
 Route::group(['middleware' => ['auth','permiso']], function () {
