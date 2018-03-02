@@ -53,6 +53,7 @@ class PublicarController extends Controller
         ->buscar($request)
         ->with('producto')
         ->with('caracteristicas.atributo.entidad')
+        ->orderBy('id','DESC')
         ->paginate();
         return view('publicaciones.publicar')->with(compact('publicaciones','productos','regiones','asistencias'));
     }

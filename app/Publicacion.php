@@ -64,19 +64,48 @@ class Publicacion extends Model
         if ($request->max) {
           $query->where('monto','<',$request->max);
         }
-        
-        if ($request->atributo) {
-          $arrayAtributo = [];
-          foreach ($request->atributo as $key => $value) {
-            if ($value) {
-              $arrayAtributo[] =$value;
-            }
-          }
-          if (count($arrayAtributo) > 0){
-            $query->whereHas('atributos',function($query) use ($arrayAtributo) {
-              $query->whereIn('atributo_id',$arrayAtributo);
-            });
+        if ($request->tipo || $request->combustible ||$request->marca ||$request->modelo ||$request->region_id || $request->anio || $request->kilmetraje  || $request->transmision ) {
 
+          $arrayAtributo = [];
+          if ($request->tipo) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->tipo);
+            });
+          }
+          if ($request->combustible) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->combustible);
+            });
+          }
+          if ($request->marca) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->marca);
+            });
+          }
+          if ($request->modelo) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->modelo);
+            });
+          }
+          if ($request->region_id) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->region_id);
+            });
+          }
+          if ($request->anio) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->anio);
+            });
+          }
+          if ($request->kilometraje) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->kilometraje);
+            });
+          }
+          if ($request->transmision) {
+            $query->whereHas('atributos',function($query) use ($request) {
+              $query->where('atributo_id',$request->transmision);
+            });
           }
         }
 

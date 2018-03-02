@@ -15,15 +15,14 @@
 	@section('content')
 	<div class="container" id="container" style="padding-top:20px">
 		<div class="row">
-
-		@if(Session::has('success'))
+      @if(Session::get('success'))
 	    <div class="alert alert-success">
 	        {{ Session::get('success') }}
 	        @php
 	        Session::forget('success');
 	        @endphp
 	    </div>
-	    @endif
+    @endif
 
       <div class="col-lg-3">
          <div class="row">
@@ -34,13 +33,13 @@
                    <legend class="scheduler-border"><span class="title-estilo">Precio</span></legend>
                    <div class="col-md-6 col-xs-12">
                        <div class="form-group">
-                          <input type="text" name="min" placeholder="Min." class="form-control">
+                          <input type="text" name="min" placeholder="Min." value="{{Input::get('min')}}" class="form-control">
                        </div>
                    </div>
                    <div class="col-md-6 col-xs-12">
                        <div class="form-group">
                          <div class="form-group">
-                            <input type="text" name="max" placeholder="Max" class="form-control">
+                            <input type="text" name="max" placeholder="Max" value="{{Input::get('max')}}" class="form-control">
                          </div>
                        </div>
                    </div>
@@ -50,37 +49,37 @@
                   <div class="row">
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                             <select name="atributo[]" class="form-control">
+                             <select name="tipo" class="form-control">
                                <option value="">Tipos de Repuestos</option>
                                @foreach( $tipos as $tipo)
-                                 <option value="{{ $tipo->id }}">{{$tipo->descripcion}}</option>
+                                 <option value="{{ $tipo->id }}" {{ Input::get('tipo') == $tipo->id ? 'selected' : '' }}>{{$tipo->descripcion}}</option>
                                @endforeach
                              </select>
                          </div>
                      </div>
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control">
+                         <select name="combustible" class="form-control">
                              <option value="">Combustible</option>
                              @foreach( $combustible as $c)
-                                 <option value="{{ $c->id }}">{{$c->descripcion}}</option>
+                                 <option value="{{ $c->id }}" {{ Input::get('combustible') == $c->id ? 'selected' : '' }}>{{$c->descripcion}}</option>
                              @endforeach
                          </select>
                          </div>
                      </div>
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control">
+                         <select name="marca" class="form-control">
                              <option value="">Marcas</option>
                              @foreach( $marcas as $marca)
-                                 <option value="{{ $marca->id }}">{{$marca->descripcion}}</option>
+                                 <option value="{{ $marca->id }}" {{ Input::get('marca') == $marca->id ? 'selected' : '' }}>{{$marca->descripcion}}</option>
                              @endforeach
                          </select>
                          </div>
                      </div>
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control">
+                         <select name="modelo" class="form-control">
                              <option value="">Modelo</option>
                          </select>
                          </div>
@@ -89,20 +88,20 @@
                  <div class="row">
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control" name="region">
+                         <select name="region_id" class="form-control" name="region">
                              <option value="">Region</option>
                              @foreach( $regiones as $region)
-                                 <option value="{{ $region->id }}">{{$region->descripcion}}</option>
+                                 <option value="{{ $region->id }}" {{ Input::get('region_id') == $region->id ? 'selected' : '' }}>{{$region->descripcion}}</option>
                              @endforeach
                          </select>
                          </div>
                      </div>
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control">
+                         <select name="anio" class="form-control">
                              <option value="">Año</option>
                              @foreach( $anios as $anio)
-                                 <option value="{{ $anio->id }}">{{$anio->descripcion}}</option>
+                                 <option value="{{ $anio->id }}" {{ Input::get('anio') == $anio->id ? 'selected' : '' }}>{{$anio->descripcion}}</option>
                              @endforeach
                          </select>
                          </div>
@@ -111,20 +110,20 @@
                  <div class="row">
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="atributo[]" class="form-control">
+                         <select name="kilometraje" class="form-control">
                              <option value="">Kilometraje</option>
                              @foreach( $kilometrajes as $kilometraje)
-                                 <option value="{{ $kilometraje->id }}">{{number_format($kilometraje->descripcion,0,'','.')}} Km</option>
+                                 <option value="{{ $kilometraje->id }}" {{ Input::get('kilometraje') == $kilometraje->id ? 'selected' : '' }}>{{number_format($kilometraje->descripcion,0,'','.')}} Km</option>
                              @endforeach
                          </select>
                          </div>
                      </div>
                      <div class="col-md-12 col-xs-6">
                          <div class="form-group">
-                         <select name="atributo[] " class="form-control">
+                         <select name="transmision" class="form-control">
                              <option value="">Transmision</option>
                              @foreach( $trasmision as $t)
-                                 <option value="{{ $t->id }}">{{$t->descripcion}}</option>
+                                 <option value="{{ $t->id }}" {{ Input::get('transmision') == $t->id ? 'selected' : '' }}>{{$t->descripcion}}</option>
                              @endforeach
                          </select>
                          </div>

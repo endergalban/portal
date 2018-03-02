@@ -214,9 +214,8 @@
               <hr>
               <div class="row">
                 <div class="col-9">
-                  Publicado por: <br>
-                  <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                  4.0 stars
+                  Publicado: en este momento<br>
+                  Por {{Auth::user()->name}}
                 </div>
                 <div class="col-3">
                   <a class="btn btn-primary pull-right disabled"><i class="icon-shopping-cart"></i> Comprar</a>
