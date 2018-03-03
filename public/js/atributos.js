@@ -86,8 +86,13 @@ var vue = new Vue({
         mensajeError: '',
         mensajeOk: '',
         elementos: [],
+        atributos: [],
         paginador: '',
+        paginaVisible: 1,
+        paginaVisible2: 1,
+        cantidadAtributos: 0,
         numeroPaginas: [],
+        numeroPaginas2: [],
         elementoEntidad: {
             id: 0,
             orden: 0,
@@ -102,10 +107,11 @@ var vue = new Vue({
             orden: 0,
             descripcion: '',
             estado: 1,
-            entidad_id: 0
+            entidad_id: 0,
+            entidad_descripcion: ''
         },
 
-        cargando: false,
+        // cargando: false,
         index: -2,
         indexAtributo: -2,
         indexEntidadAtributo: -1
@@ -159,24 +165,31 @@ var vue = new Vue({
             this.elementoAtributo.orden = 0;
             this.elementoAtributo.estado = 1;
             this.elementoAtributo.entidad_id = 0;
+            this.elementoAtributo.entidad_descripcion = '';
             this.indexAtributo = -2;
         },
         armarPaginador: function armarPaginador() {
-            var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 15;
+            var tipo = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-            this.numeroPaginas = [];
-            var desde = this.paginador.current_page - paginasVisibles;
-            if (desde < 1) {
-                desde = 1;
-            }
-            hasta = this.paginador.current_page + paginasVisibles;
-            if (hasta > this.paginador.last_page) {
-                hasta = this.paginador.last_page;
-            }
-            for (i = desde; i <= hasta; i++) {
-                this.numeroPaginas.push(i);
+            var visibles = this.paginador.per_page;
+            var arrayPaginador = [];
+            if (tipo == 1) {
+                this.numeroPaginas = [];
+                this.paginaVisible = this.paginador.current_page;
+            } else {
+                this.numeroPaginas2 = [];
+                this.paginaVisible2 = this.paginador.current_page;
+                this.cantidadAtributos = this.paginador.total;
             }
 
+            for (i = 1; i <= this.paginador.last_page; i++) {
+                arrayPaginador.push(i);
+            }
+            if (tipo == 1) {
+                this.numeroPaginas = arrayPaginador;
+            } else {
+                this.numeroPaginas2 = arrayPaginador;
+            }
             return;
         },
         cambioPagina: function cambioPagina(page) {
@@ -194,7 +207,7 @@ var vue = new Vue({
             axios.get(url).then(function (response) {
                 _this.elementos = response.data.data;
                 _this.paginador = response.data;
-                _this.armarPaginador();
+                _this.armarPaginador(1);
                 // ventanaCargando();
                 $(window).scrollTop(0);
             }).catch(function (error) {
@@ -212,7 +225,7 @@ var vue = new Vue({
             axios.post(urlActual + '/delete', datos).then(function (response) {
                 _this2.elementos = response.data.data;
                 _this2.paginador = response.data;
-                _this2.armarPaginador();
+                _this2.armarPaginador(1);
                 _this2.limpiarElementoEntidad();
                 $("#eliminarModalEntidad").modal('hide');
             }).catch(function (error) {
@@ -257,21 +270,36 @@ var vue = new Vue({
             axios.post(urlActual + '/store', datos).then(function (response) {
                 _this3.elementos = response.data.data;
                 _this3.paginador = response.data;
-                _this3.armarPaginador();
+                _this3.armarPaginador(1);
                 _this3.limpiarElementoEntidad();
             }).catch(function (error) {
                 _this3.mensajeError = 'Error interno.';
                 _this3.limpiarElementoEntidad();
             });
         },
-
+        cambioPagina2: function cambioPagina2(index, page) {
+            this.limpiarMensajes();
+            this.cargarElementoEntidadAtributo(index, page);
+        },
         cargarElementoEntidadAtributo: function cargarElementoEntidadAtributo(index) {
+            var _this4 = this;
+
+            var page = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
             this.limpiarElementoAtributo();
             this.limpiarElementoEntidad();
             this.indexEntidadAtributo = index;
-            $('html, body').animate({
-                scrollTop: $("#divEdicion").offset().top
-            }, 1000);
+            this.elementoAtributo.entidad_descripcion = this.elementos[index].descripcion;
+            var url = urlActual + '/obeneratributos/' + this.elementos[index].id + '?page=' + page;
+            axios.get(url).then(function (response) {
+                _this4.atributos = response.data.data;
+                _this4.paginador = response.data;
+                _this4.armarPaginador(2);
+            }).catch(function (error) {
+                $(window).scrollTop(0);
+                // ventanaCargando();
+                _this4.mensajeError = 'Error interno.';
+            });
         },
 
         cargarElementoAtributo: function cargarElementoAtributo(indexAtributoEntidad, indexAtributo) {
@@ -282,19 +310,16 @@ var vue = new Vue({
                 this.elementoAtributo.orden = 0;
                 this.elementoAtributo.estado = 1;
             } else {
-                this.elementoAtributo.id = this.elementos[indexAtributoEntidad].atributos[indexAtributo].id;
-                this.elementoAtributo.descripcion = this.elementos[indexAtributoEntidad].atributos[indexAtributo].descripcion;
-                this.elementoAtributo.orden = this.elementos[indexAtributoEntidad].atributos[indexAtributo].orden;
-                this.elementoAtributo.estado = this.elementos[indexAtributoEntidad].atributos[indexAtributo].estado;
+                this.elementoAtributo.id = this.atributos[indexAtributo].id;
+                this.elementoAtributo.descripcion = this.atributos[indexAtributo].descripcion;
+                this.elementoAtributo.orden = this.atributos[indexAtributo].orden;
+                this.elementoAtributo.estado = this.atributos[indexAtributo].estado;
             }
             this.elementoAtributo.entidad_id = this.elementos[indexAtributoEntidad].id;
-            $('html, body').animate({
-                scrollTop: $("#divEdicion").offset().top
-            }, 1000);
         },
 
         guardarElementoAtributo: function guardarElementoAtributo(index) {
-            var _this4 = this;
+            var _this5 = this;
 
             var datos = new FormData();
             datos.append('orden', this.elementoAtributo.orden);
@@ -303,30 +328,30 @@ var vue = new Vue({
             datos.append('entidad_id', this.elementoAtributo.entidad_id);
             datos.append('id', this.elementoAtributo.id);
             axios.post(urlActual + '/store_atributo', datos).then(function (response) {
-                _this4.elementos = response.data.data;
-                _this4.paginador = response.data;
-                _this4.armarPaginador();
-                _this4.limpiarElementoAtributo();
+                _this5.atributos = response.data.data;
+                _this5.paginador = response.data;
+                _this5.armarPaginador(2);
+                _this5.limpiarElementoAtributo();
             }).catch(function (error) {
-                _this4.mensajeError = 'Error interno.';
-                _this4.limpiarElementoAtributo();
+                _this5.mensajeError = 'Error interno.';
+                _this5.limpiarElementoAtributo();
             });
         },
 
         eliminarElementoAtributo: function eliminarElementoAtributo() {
-            var _this5 = this;
+            var _this6 = this;
 
             var datos = new FormData();
-            datos.append('id', this.elementos[this.indexEntidadAtributo].atributos[this.indexAtributo].id);
+            datos.append('id', this.atributos[this.indexAtributo].id);
             axios.post(urlActual + '/destroy_atributo', datos).then(function (response) {
-                _this5.elementos = response.data.data;
-                _this5.paginador = response.data;
-                _this5.armarPaginador();
-                _this5.limpiarElementoAtributo();
+                _this6.atributos = response.data.data;
+                _this6.paginador = response.data;
+                _this6.armarPaginador(2);
+                _this6.limpiarElementoAtributo();
                 $("#eliminarModalAtributo").modal('hide');
             }).catch(function (error) {
-                _this5.mensajeError = 'Error interno.';
-                _this5.limpiarElementoAtributo();
+                _this6.mensajeError = 'Error interno.';
+                _this6.limpiarElementoAtributo();
                 $("#eliminarModalAtributo").modal('hide');
             });
         }

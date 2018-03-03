@@ -87,7 +87,7 @@
                       <span class="label label-info" v-if="elemento.tipo == 3">Caja de Texto</span>
                   </td>
                   <td>
-                       <button @click="cargarElementoEntidadAtributo(index)" class="btn btn-primary btn-sm">@{{ elemento.atributos.length }}</button>
+                       <button @click="cargarElementoEntidadAtributo(index,1)" class="btn btn-primary btn-sm">@{{ elemento.atributos.length }}</button>
                   </td>
                   <td>
                        <button @click="cargarElementoEntidad(index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
@@ -97,21 +97,21 @@
               </tbody>
             </table>
           </div>
-          <nav aria-label="Page navigation" v-show="mostrarPaginador">
+          <nav aria-label="Page navigation" v-show="numeroPaginas.length > 1">
           <ul class="pagination">
-            <li class="page-item" :disabled="paginador.current_page == 1">
-              <a class="page-link" href="#" aria-label="Previous" @click.prevent="cambioPagina(paginador.current_page - 1)">
+            <li class="page-item" v-show="paginaVisible > 1">
+              <a class="page-link" href="#" aria-label="Previous" @click.prevent="cambioPagina(paginaVisible - 1)">
                 <span aria-hidden="true">&laquo;</span>
                 <span class="sr-only">Anterior</span>
               </a>
             </li>
 
-            <li class="page-item" v-for="numeroPagina in numeroPaginas" v-bind:class="{ active: (numeroPagina==paginador.current_page) }">
+            <li class="page-item" v-for="numeroPagina in numeroPaginas" v-bind:class="{ active: (numeroPagina==paginaVisible) }">
                 <a href="#" class="page-link" @click="cambioPagina(numeroPagina)">@{{numeroPagina}}</a>
             </li>
 
-            <li class="page-item"  :disabled="paginador.current_page < paginador.last_page">
-              <a class="page-link" href="#" aria-label="Next" @click.prevent="cambioPagina(paginador.current_page + 1)">
+            <li class="page-item"  v-show="paginaVisible < numeroPaginas.length">
+              <a class="page-link" href="#" aria-label="Next" @click.prevent="cambioPagina(paginaVisible + 1)">
                 <span aria-hidden="true">&raquo;</span>
                 <span class="sr-only">Siguiente</span>
               </a>
@@ -121,9 +121,9 @@
         </div>
     </div>
     <!--Atributos-->
-    <div class="col-md-12" v-if="indexEntidadAtributo > -1"  id="divEdicion">
+    <div class="col-md-12" v-show="atributos.length > 0"  id="divEdicion">
       <hr>
-      <span><b>Items de @{{ elementos[indexEntidadAtributo].descripcion }} ( @{{ elementos[indexEntidadAtributo].atributos.length }}  )</b></span>
+      <span><b>Items de @{{ elementoAtributo.entidad_descripcion }} ( @{{ cantidadAtributos }}  )</b></span>
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"></legend>
         <button @click.prevent="cargarElementoAtributo(indexEntidadAtributo,'-1')" class="btn btn-primary" :disabled="indexAtributo > -2"><i class="fas fa-plus"></i> Nuevo Item</button>
@@ -171,7 +171,7 @@
               <th><b>Acciones</b></th>
             </thead>
             <tbody>
-            <tr  v-for = "(elementoAtt, index) in elementos[indexEntidadAtributo].atributos">
+            <tr  v-for = "(elementoAtt, index) in atributos">
               <td>
                 <b>@{{ elementoAtt.id }}</b>
               </td>
@@ -186,13 +186,34 @@
                 <span class="label label-danger" v-if="elementoAtt.estado == 0">Inactivo</span>
               </td>
               <td>
-                <button @click="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
-                <button @click="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModalAtributo"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
+                <button @click.prevent="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-primary btn-sm"><i class="fas fa-edit" data-toggle="tooltip" title="Editar"></i></button>
+                <button @click.prevent="cargarElementoAtributo(indexEntidadAtributo,index)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarModalAtributo"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>
               </td>
             </tr>
           </tbody>
           </table>
         </div>
+        <nav aria-label="Page navigation" v-show="numeroPaginas2.length > 1">
+        <ul class="pagination">
+          <li class="page-item" v-show="paginaVisible2 > 1">
+            <a class="page-link" href="#" aria-label="Previous" @click.prevent="cambioPagina2(indexEntidadAtributo,paginaVisible2 - 1)">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Anterior</span>
+            </a>
+          </li>
+
+          <li class="page-item" v-for="numeroPagina in numeroPaginas2" v-bind:class="{ active: (numeroPagina==paginaVisible2) }">
+              <a href="#" class="page-link" @click.prevent="cambioPagina2(indexEntidadAtributo,numeroPagina)">@{{numeroPagina}}</a>
+          </li>
+
+          <li class="page-item"  v-show="paginaVisible2 < numeroPaginas2.length">
+            <a class="page-link" href="#" aria-label="Next" @click.prevent="cambioPagina2(indexEntidadAtributo,paginaVisible2 + 1)">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Siguiente</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
       </div>
     </div>
   </fieldset>

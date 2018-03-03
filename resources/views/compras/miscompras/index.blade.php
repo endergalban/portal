@@ -22,18 +22,19 @@
       </fieldset>
     </div>
     <div class="col-md-12">
+      <hr>
       <div class="table-responsive">
         <table class="table .table-striped">
           <thead>
           <tr>
-            <td># ID</td>
-             <td>Producto</td>
-            <td >Descripción</td>
-            <td>Vendedor</td>
-            <td>Fecha</td>
-            <td>Cantidad</td>
-            <td>Precio</td>
-            <td>Ver</td>
+            <th># ID</th>
+             <th>Producto</th>
+            <th >Descripción</th>
+            <th>Vendedor</th>
+            <th>Fecha</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Ver</th>
               </tr>
           </thead>
         <tbody>

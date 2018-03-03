@@ -34,6 +34,12 @@ class AtributoController extends Controller
         return $entidades->toJson();
     }
 
+    public function obtenerAtributos($id)
+    {
+      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->paginate();
+      return $atributos->toJson();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -69,8 +75,8 @@ class AtributoController extends Controller
         }
         $atributo->fill($request->all());
         $atributo->save();
-        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate();
-        return $entidades->toJson();
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$atributo->entidad_id)->paginate();
+        return $atributos->toJson();
 
     }
 
@@ -95,9 +101,10 @@ class AtributoController extends Controller
      */
     public function destroy_atributo(Request $request)
     {
-        $entidad = Atributo::findOrFail($request->id);
-        $entidad->delete();
-        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate();
-        return $entidades->toJson();
+        $atributo = Atributo::findOrFail($request->id);
+        $entidad_id = $atributo->entidad_id;
+        $atributo->delete();
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$entidad_id)->paginate();
+        return $atributos->toJson();
     }
 }

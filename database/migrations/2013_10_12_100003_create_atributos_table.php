@@ -20,6 +20,7 @@ class CreateAtributosTable extends Migration
             $table->string('descripcion')->comment('Descripción del item de la tabla virtual');
             $table->integer('orden')->comment('Orden del item de la tabla virtual');
             $table->boolean('estado')->default(1)->comment('Estado del atributo (0 = inactivo, 1 = activo)');
+            $table->integer('padre')->unsigned()->comment('Tabla virtual padre');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('entidad_id')->references('id')->on('entidades')->onDelete('cascade');
