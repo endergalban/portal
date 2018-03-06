@@ -56,3 +56,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('comprar/procesar',['uses' => 'CompraController@comprar_proceso', 'as' => 'comprar.proceso']);
 
 });
+
+//*********** Cargar Imagenes Subidas ***********//
+Route::get('images/{filename}', function ($filename) {
+	  return Image::make(storage_path() . '/app/public/' . base64_decode($filename))->response();
+})->name('imagen_almacenada');

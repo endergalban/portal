@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->increments('id')->comment('Identificador del usuario');
             $table->string('rut')->unique()->comment('Rut del usuario');
             $table->string('name')->comment('Nombre del usuario');
+            $table->string('lastname')->comment('Apellido del usuario');
             $table->string('telefono')->nullable()->comment('telefono del usuario');
             $table->string('direccion')->nullable()->comment('telefono del usuario');
             $table->string('tipo')->default(0)->comment('Tipo de usuario (0 = usuario, 1 = administrador)');

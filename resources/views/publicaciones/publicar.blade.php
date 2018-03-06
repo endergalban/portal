@@ -140,7 +140,7 @@
   					<div class="row  hidden-xs">
   						<div class="col-md-12 text-center">
   							<canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
-  							<div id="lienzo">
+  							<div id="lienzo"  class="col-md-8 col-md-offset-2">
   							</div>
   						</div>
   					</div>
@@ -201,14 +201,12 @@
                 <span class="carousel-control-next-icon"></span>
               </a>
             </div>
-            <div class="col-md-7" v-else>
-            	<div class="row">
+            <div class="col-mt-4" v-else>
             	<img src="http://placehold.it/700x400" style="width:100%">
-            	</div>
             </div>
             <div class="card-body">
               <h3 class="card-title">@{{ elemento.producto }}</h3>
-                <span class="badge badge-primary" v-for="item in entidadesSeleccionadas" >@{{ item }}</span>
+                <span class="badge badge-primary" v-for="item in entidadesSeleccionadas" >@{{ item }}&nbsp;</span>
               <h4><strong>$ @{{ elemento.monto}}</strong></h4>
               <p class="card-text">@{{ elemento.descripcion }}</p>
               <hr>

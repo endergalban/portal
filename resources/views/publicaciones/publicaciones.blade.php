@@ -160,7 +160,7 @@
   	              @endif
   	              	@foreach($publicacion->imagenes as  $imagen)
   	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}" style="width: 100%; height:200px">
-  	                  <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" style="max-width: 100%;max-height: 100%;">
+  	                  <img src="{{ route('imagen_almacenada',base64_encode($imagen->ruta)) }}"  class="d-block w-100" style="max-width: 100%;max-height: 100%;">
   	                </div>
   	                @endforeach
   	              </div>

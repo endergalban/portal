@@ -80,10 +80,11 @@ var vue = new Vue({
         }
       },
       obtenerEntidades: function(){
+        this.entidadesSeleccionadas = [];
         var elems = document.getElementsByName('atributos[]');
         elems.forEach((selector) => {
-          if (selector.value.toString().trim().length > 0  &&  this.entidadesSeleccionadas.indexOf(selector.parentElement.parentElement.firstChild.textContent) < 0 ) {
-            this.entidadesSeleccionadas.push(selector.parentElement.parentElement.firstChild.textContent);
+          if (selector.value.toString().trim().length > 0 ) {
+            this.entidadesSeleccionadas.push(selector.options[ selector.selectedIndex ].text);
           }
         });
       },
@@ -126,7 +127,7 @@ var vue = new Vue({
           img.onload = function() { context.drawImage(img, 0, 0); };
           img.src = 'http://placehold.it/700x400';
           img.setAttribute('width','640px');
-          img.setAttribute('height','580px');
+          //img.setAttribute('height','580px');
           img.setAttribute('id','imagenLienzo');
           lienzo.removeChild(lienzo.childNodes[0]);
           lienzo.appendChild(img);
@@ -145,7 +146,7 @@ var vue = new Vue({
                     img.src = evt.target.result;
                     context.drawImage(img,100,100);
                      img.setAttribute('width','640px');
-                     img.setAttribute('height','580px');
+                  //   img.setAttribute('height','580px');
                      img.setAttribute('id','imagenLienzo');
                      lienzo.removeChild(lienzo.childNodes[0]);
                      lienzo.appendChild(img);

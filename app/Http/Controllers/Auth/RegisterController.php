@@ -50,6 +50,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'rut' => 'required|regex:/^[0-9]{7,8}-[0-9kK]{1}$/',
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'region_id' => 'required|exists:atributos,id',

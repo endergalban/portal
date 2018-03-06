@@ -18,12 +18,13 @@
           @endif
 
         <div class="col-lg-9">
-            
+
        <fieldset class="scheduler-border">
         <legend class="scheduler-border"><span class="title-estilo">Comprar</span></legend>
 
-             
+
                   <h3>Descripción de la Publicación</h3>
+                  <p>{{ $publicacion->producto->descripcion}}</p>
                   <p>{{ $publicacion->descripcion}}</p><br>
                   <p><small>Publicado por {{$publicacion->user->name}}</small></p>
 
@@ -37,15 +38,15 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>                        
-                        <td>{{ $publicacion->producto->descripcion}}</td>                      
+                      <tr>
+                        <td>{{ $publicacion->producto->descripcion}}</td>
                         <td>
                         <select class="custom-select" id="cantidad">
-                          @for ($i = 1; $i <= $publicacion->cantidad; $i++)                           
+                          @for ($i = 1; $i <= $publicacion->cantidad; $i++)
                             <option value="{{ $i }}" @if($i == 1 ) selected @endif >{{ $i }}</option>
                           @endfor
                         </select>
-                       
+
                         </td>
                         <td><p class="text-right"><strong><span id="totalMonto">{{ $publicacion->monto}}</span> $</strong></p></td>
                       </tr>
@@ -56,29 +57,29 @@
                   <table class="table" style="width: 50%;">
                     <tbody>
                      @foreach ($entidades as $key => $entidad)
-                      <tr>                                              
+                      <tr>
                         <td style="width: 50%;">{{$key}}</td>
                         <td>
                         @foreach ($entidad as  $atributo)
                         <p class="text-center"><strong>{{$atributo}}</strong></p>
                         @endforeach
                         </td>
-                      </tr> 
-                     @endforeach   
+                      </tr>
+                     @endforeach
                       @foreach ($entidadFija as $key => $atributo)
-                      <tr>                                              
+                      <tr>
                         <td style="width: 50%;">{{$key}}</td>
                         <td><p class="text-center"><strong>{{$atributo}}</strong></p></td>
-                      </tr> 
-                     @endforeach                      
+                      </tr>
+                     @endforeach
                     </tbody>
                   </table>
-                  <p class="text-right"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="datosCompra()">Continuar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a></p>   
+                  <p class="text-right"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="datosCompra()">Continuar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></a></p>
 
                   <!-- Modal -->
                   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">                        
+                      <div class="modal-content">
                         <div class="modal-body">
                           <p class="h5"><strong>¿Deseas realizar la compra del producto?</strong></p>
                         </div>
@@ -99,8 +100,8 @@
                     </div>
                   </div>
 
-             </fieldset>  
-         
+             </fieldset>
+
         </div>
         <!-- /.col-lg-9 -->
          <div class="col-lg-3">

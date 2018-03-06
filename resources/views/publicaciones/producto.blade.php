@@ -55,7 +55,7 @@
 
                 @foreach($publicacion->imagenes as  $imagen)
                   <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}">
-                    <img src="{{ asset('storage/'.$imagen->ruta) }}" style="width:640px;height:580px" class="d-block w-100" >
+                    <img src="{{ route('imagen_almacenada',base64_encode($imagen->ruta)) }}" style="width:640px;height:580px" class="d-block w-100" >
                   </div>
                   @endforeach
               </div>

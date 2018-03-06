@@ -102,12 +102,13 @@ class PublicarController extends Controller
         }
         if($request->imagenes) {
           foreach ($request->imagenes as $key => $value) {
-
-            //$base64_str = substr($data->base64_image, strpos($data->base64_image, ",")+1);
             $base64_str = substr($value, strpos($value, ",")+1);
-            //decode base64 string
             $image = base64_decode($base64_str);
-            $imagen = $publicacion->id.'/'.date('ymdhis').$key.'.png';
+            $f = finfo_open();
+            $mime_type = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
+            $extensionArray = explode('/',$mime_type);
+            $extension = $extensionArray[count($extensionArray)-1];
+            $imagen = $publicacion->id.'/'.date('ymdhis').$key.'.'.$extension;
             Storage::disk('public')->put($imagen, $image);
             $publicacionImagen = new PublicacionImagen;
             $publicacionImagen->ruta = $imagen;
