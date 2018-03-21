@@ -58,10 +58,15 @@
         </div>
         <div class="col-md-4 col-xs-12">
           <div class="form-group">
+            <input type="text" class="form-control" id="lastname" placeholder="Apellido del usuario" v-model="elemento.lastname">
+          </div>
+        </div>
+        <div class="col-md-2 col-xs-12">
+          <div class="form-group">
             <input type="text" class="form-control" id="rut" placeholder="########-#" v-model="elemento.rut">
           </div>
         </div>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-2 col-xs-12">
           <div class="form-group">
             <input type="text" class="form-control" id="telefono" placeholder="###-#########" v-model="elemento.telefono">
           </div>
@@ -126,7 +131,7 @@
               <th nowrap="nowrap">ID #</th>
               <th>Email</th>
               <th>Tipo</th>
-              <th>Nombre</th>
+              <th>Nombre y Apellido</th>
               <th>Rut</th>
               <th>Teléfono</th>
               <th class="text-center">Estatus</th>
@@ -141,7 +146,7 @@
                   <span v-if="elemento.tipo == 1">Administrador</span>
                   <span v-else>Usuario</span>
                 </td>
-                <td>@{{ elemento.name }}</td>
+                <td>@{{ elemento.name }} @{{ elemento.lastname }}</td>
                 <td>@{{ elemento.rut }}</td>
                 <td>@{{ elemento.telefono }}</td>
                 <td class="text-center">

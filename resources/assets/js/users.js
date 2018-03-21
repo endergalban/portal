@@ -13,6 +13,7 @@ var vue = new Vue({
         elemento: {
           id: 0,
           name: '',
+          lastname: '',
           email: '',
           password: '',
           telefono: '',
@@ -50,6 +51,7 @@ var vue = new Vue({
               this.index = -2;
               this.elemento.id = 0;
               this.elemento.name = '';
+              this.elemento.lastname = '';
               this.elemento.region_id = '';
               this.elemento.rut = '';
               this.elemento.email = '';
@@ -128,6 +130,7 @@ var vue = new Vue({
             if (this.index > -1) {
               this.elemento.id = this.elementos[index].id;
               this.elemento.name = this.elementos[index].name;
+              this.elemento.lastname = this.elementos[index].lastname;
               this.elemento.email = this.elementos[index].email;
               this.elemento.rut = this.elementos[index].rut;
               this.elemento.telefono = this.elementos[index].telefono;
@@ -138,6 +141,7 @@ var vue = new Vue({
             } else {
               this.elemento.id = 0;
               this.elemento.name = '';
+              this.elemento.lastname = '';
               this.elemento.region_id = '';
               this.elemento.email = '';
               this.elemento.rut = '';
@@ -154,6 +158,7 @@ var vue = new Vue({
             var datos = new FormData();
             datos.append('id', this.elemento.id);
             datos.append('name', this.elemento.name);
+            datos.append('lastname', this.elemento.lastname);
             datos.append('email', this.elemento.email);
             datos.append('rut', this.elemento.rut);
             datos.append('estatus', this.elemento.estatus);
