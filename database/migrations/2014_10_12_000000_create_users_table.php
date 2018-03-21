@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('estatus')->default(1)->comment('Estado de usuario (0 = inactivo, 1 = activo)');
             $table->string('email')->unique()->comment('Email del usuario');
             $table->string('password')->comment('Password del usuario');
+            $table->timestamp('valido')->nullable()->comment('Verificado por email');
             $table->integer('region_id')->unsigned()->comment('región del usuario');
             $table->foreign('region_id')->references('id')->on('atributos')->onDelete('cascade');
             $table->rememberToken();

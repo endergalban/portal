@@ -8,7 +8,12 @@
               <legend class="scheduler-border"><span class="title-estilo">Login</span></legend>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
-
+                         @if($errors->has('valido'))
+                             <div class="alert alert-danger">{{ $errors->first('valido')}}</div>
+                         @endif
+                         @if($errors->has('estado'))
+                             <div class="alert alert-danger">{{ $errors->first('estado')}}</div>
+                         @endif
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Email</label>
 

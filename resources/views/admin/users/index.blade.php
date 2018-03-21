@@ -52,37 +52,44 @@
       <hr>
       <form>
         <div class="col-md-4 col-xs-12">
+          <label for="nombre">Nombres</label>
           <div class="form-group">
             <input type="text" class="form-control" id="nombre" placeholder="Nombre del usuario" v-model="elemento.name">
           </div>
         </div>
         <div class="col-md-4 col-xs-12">
+            <label for="lastname">Apellidos</label>
           <div class="form-group">
             <input type="text" class="form-control" id="lastname" placeholder="Apellido del usuario" v-model="elemento.lastname">
           </div>
         </div>
         <div class="col-md-2 col-xs-12">
+            <label for="rut">Rut</label>
           <div class="form-group">
-            <input type="text" class="form-control" id="rut" placeholder="########-#" v-model="elemento.rut">
+            <input type="text" class="form-control" id="rut" @change="formatoRut" placeholder="##.###.###-#" v-model="elemento.rut">
           </div>
         </div>
         <div class="col-md-2 col-xs-12">
+            <label for="telefono">Teléfono</label>
           <div class="form-group">
             <input type="text" class="form-control" id="telefono" placeholder="###-#########" v-model="elemento.telefono">
           </div>
         </div>
         <div class="col-md-4 col-xs-12">
+            <label for="email">Email</label>
           <div class="form-group">
             <input type="email" class="form-control" id="email" placeholder="ejemplo@ejemplo.com" v-model="elemento.email">
           </div>
         </div>
         <div class="col-md-4 col-xs-12">
+            <label for="password">Password</label>
           <div class="form-group">
             <input type="password" class="form-control" id="password" placeholder="**********" v-model="elemento.password">
           </div>
         </div>
         <div class="col-md-2 col-xs-12">
           <div class="form-group">
+              <label>Tipo de Usuario</label>
             <select v-model="elemento.tipo" style="width:100%" class="form-control">
               <option value="0">Usuario</option>
               <option value="1">Administrador</option>
@@ -90,6 +97,7 @@
           </div>
         </div>
         <div class="col-md-2 col-xs-12">
+            <label>Estado</label>
           <div class="form-group">
             <select v-model="elemento.estatus" style="width:100%" class="form-control">
               <option value="1">Activo</option>
@@ -99,6 +107,7 @@
         </div>
         <div class="col-md-3 col-xs-12">
           <div class="form-group">
+              <label>Región</label>
             <select v-model="elemento.region_id" style="width:100%" class="form-control">
               <option value="">Región</option>
               @foreach($regiones as $region)
@@ -108,6 +117,7 @@
           </div>
         </div>
         <div class="col-md-9 col-xs-12">
+            <label>Dirección</label>
           <div class="form-group">
             <input type="text" class="form-control" id="direccion" placeholder="Dirección" v-model="elemento.direccion">
           </div>

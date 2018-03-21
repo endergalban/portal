@@ -81,6 +81,17 @@
                          <div class="form-group">
                          <select name="modelo" class="form-control">
                              <option value="">Modelo</option>
+                             @foreach( $modelos as $modelo)
+                                 <option value="{{ $modelo->id }}" {{ Input::get('modelo') == $modelo->id ? 'selected' : '' }}>{{$modelo->descripcion}} Km</option>
+                             @endforeach
+                         </select>
+                         </div>
+                     </div>
+                     <div class="col-md-12 col-xs-12">
+                         <div class="form-group">
+                         <select name="anio" class="form-control">
+                             <option value="">Año</option>
+
                          </select>
                          </div>
                      </div>
@@ -96,16 +107,7 @@
                          </select>
                          </div>
                      </div>
-                     <div class="col-md-12 col-xs-12">
-                         <div class="form-group">
-                         <select name="anio" class="form-control">
-                             <option value="">Año</option>
-                             @foreach( $anios as $anio)
-                                 <option value="{{ $anio->id }}" {{ Input::get('anio') == $anio->id ? 'selected' : '' }}>{{$anio->descripcion}}</option>
-                             @endforeach
-                         </select>
-                         </div>
-                     </div>
+
                  </div>
                  <div class="row">
                      <div class="col-md-12 col-xs-12">

@@ -12,7 +12,7 @@
                          <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
                          <label for="rut" class="col-md-4 control-label">Rut</label>
                             <div class="col-md-6">
-                                <input id="rut" type="text" class="form-control" name="rut" value="{{ old('rut') }}" placeholder="########-#" required>
+                                <input id="rut" type="text" onblur="verificar()" class="form-control" name="rut" value="{{ old('rut') }}" placeholder="##.###.####-#" required>
 
                                 @if ($errors->has('rut'))
                                     <span class="help-block">
@@ -51,12 +51,24 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="email" class="col-md-4 control-label">E-Mail</label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="ejemplo@ejemplo.cl" required>
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('email-confirm') ? ' has-error' : '' }}">
+                            <label for="email_confirmation" class="col-md-4 control-label">Confirmar E-Mail</label>
+                            <div class="col-md-6">
+                                <input id="email_confirmation" type="email" class="form-control" name="email_confirmation" value="{{ old('email_confirmation') }}" placeholder="ejemplo@ejemplo.cl" required>
+                                @if ($errors->has('email_confirmation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email_confirmation') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -138,4 +150,24 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('js/validaciones.js') }}"></script>
+<script>
+function verificar(){
+
+    document.getElementById("rut").parentElement.parentElement.classList.remove('has-error');
+    var rut = document.getElementById("rut").value;
+    rut = rut.replace(new RegExp('[.]', 'g'),'');
+    rut = rut.replace(new RegExp('[-]', 'g'),'');
+    if ( validaRut(rut)) {
+        var numero = new Intl.NumberFormat('de-DE').format((rut.substr(0, rut.length - 1)));
+    	var dv = (rut.substr(rut.length - 1)).toLowerCase();
+    	document.getElementById("rut").value = numero + '-' + dv;
+    } else {
+        document.getElementById("rut").parentElement.parentElement.classList.add('has-error');
+    }
+}
+
+
+</script>
 @endsection

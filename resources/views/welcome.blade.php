@@ -159,6 +159,9 @@
                             <div class="form-group">
                             <select name="modelo" class="form-control">
                                 <option value="">Modelo</option>
+                                @foreach( $modelos as $modelo)
+                                    <option value="{{ $modelo->id }}" {{ Input::get('modelo') == $modelo->id ? 'selected' : '' }}>{{$modelo->descripcion}} Km</option>
+                                @endforeach
                             </select>
                             </div>
                         </div>

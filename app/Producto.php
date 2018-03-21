@@ -28,9 +28,9 @@ class Producto extends Model
     {
         return $q->where('estado',1);
     }
-    
+
     public function atributos()
     {
-        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id');
+        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id')->where('atributo_productos.padre',0);
     }
 }

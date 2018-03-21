@@ -111,10 +111,30 @@ var vue = new Vue({
             return this.paginador.last_page !== 1;
         },
         habilitarGuardar: function habilitarGuardar() {
-            return this.elemento.name.toString().trim().length == 0 || this.elemento.region_id.toString().trim().length == 0 || !regExRut.test(this.elemento.rut) || !regExpCorreoElectronico.test(this.elemento.email) || this.index == -1 && !regExPassword.test(this.elemento.password) || this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password);
+            return this.elemento.name.toString().trim().length == 0 || this.elemento.region_id.toString().trim().length == 0 || !this.verificar(this.elemento.rut) || !regExpCorreoElectronico.test(this.elemento.email) || this.index == -1 && !regExPassword.test(this.elemento.password) || this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password);
         }
     },
     methods: {
+        formatoRut: function formatoRut(data) {
+            if (this.verificar(this.elemento.rut)) {
+                var rut = this.elemento.rut;
+                rut = rut.replace(new RegExp('[.]', 'g'), '');
+                rut = rut.replace(new RegExp('[-]', 'g'), '');
+                var numero = new Intl.NumberFormat('de-DE').format(rut.substr(0, rut.length - 1));
+                var dv = rut.substr(rut.length - 1).toLowerCase();
+                this.elemento.rut = numero + '-' + dv;
+            }
+        },
+        verificar: function verificar(rut) {
+            rut = rut.replace(new RegExp('[.]', 'g'), '');
+            rut = rut.replace(new RegExp('[-]', 'g'), '');
+            if (validaRut(rut)) {
+
+                return true;
+            }
+
+            return false;
+        },
         limpiarMensajes: function limpiarMensajes() {
             this.mensajeError = '';
             this.mensajeOk = '';
