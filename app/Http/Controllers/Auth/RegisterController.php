@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Mail;
+use App\Notifications\ConfirmacionUsuario;
 
 class RegisterController extends Controller
 {
@@ -55,6 +59,19 @@ class RegisterController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'region_id' => 'required|exists:atributos,id',
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+    //    $this->guard()->login($user);
+        Mail::to($user->email)->send(new ConfirmacionUsuario($user));
+        return $this->registered($request, $user)
+                        ?: redirect('/login')->with('success','Usuario creado con éxito.
+                        Te Hemos enviado un email para la confirmación de tu usuario');
     }
 
     /**

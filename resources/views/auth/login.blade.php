@@ -14,6 +14,11 @@
                          @if($errors->has('estado'))
                              <div class="alert alert-danger">{{ $errors->first('estado')}}</div>
                          @endif
+                         @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Email</label>
 

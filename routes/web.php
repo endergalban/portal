@@ -12,6 +12,14 @@
 */
 Route::get('/','PublicacionController@dashboard');
 Auth::routes();
+Route::get('/confirmacion/{id}',function ($id){
+    $user = App\User::whereRaw("SHA1(CONCAT(id,password)) = '$id'")->whereNull('valido')->firstOrFail();
+    $user->valido = Carbon\Carbon::now();
+    $user->save();
+    Auth::login($user);
+    return redirect('/');
+});
+
 
 //Route::get('/home', 'PublicacionController@index')->name('home');
 Route::any('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);
