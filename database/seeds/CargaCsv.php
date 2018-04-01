@@ -16,20 +16,20 @@ class CargaCsv extends Seeder
     {
       $líneas = file(database_path().'/seeds/data2.csv');
 
-      $producto = new Producto;
-      $producto->descripcion = 'Vehiculo';
-      $producto->estado = 1;
-      $producto->save();
+      // $producto = new Producto;
+      // $producto->descripcion = 'Vehiculo';
+      // $producto->estado = 1;
+      // $producto->save();
 
       $marca = new Entidad;
-      $marca->descripcion = 'Marca';
+      $marca->descripcion = 'marca';
       $marca->tipo = 1;
       $marca->estado = 1;
       $marca->orden = 2;
       $marca->save();
 
       $modelo = new Entidad;
-      $modelo->descripcion = 'Modelo';
+      $modelo->descripcion = 'modelo';
       $modelo->tipo = 1;
       $modelo->estado = 1;
       $modelo->orden = 3;
@@ -59,25 +59,26 @@ class CargaCsv extends Seeder
             if (! $modeloAtributo) {
                 $modeloAtributo = new Atributo;
                 $modeloAtributo->descripcion = $auxModelo;
+                $modeloAtributo->padre = $marcaAtributo->id;
                 $modeloAtributo->estado = 1;
                 $modeloAtributo->entidad_id = $modelo->id;
                 $modeloAtributo->orden = $modeloContador++;
                 $modeloAtributo->save();
             }
-            if (! DB::table('atributo_productos')->where('atributo_id', $marcaAtributo->id)->select('id')->first()) {
-                DB::table('atributo_productos')->insert(['atributo_id' => $marcaAtributo->id,'producto_id' =>$producto->id]);
-            }
-
-            if (! DB::table('atributo_productos')->where('atributo_id', $modeloAtributo->id)->select('id')->first()) {
-                DB::table('atributo_productos')->insert(['atributo_id' => $modeloAtributo->id,'producto_id' =>$producto->id, 'padre'=>$marcaAtributo->id]);
-            }
-            $arrayAnios = explode('|',htmlspecialchars($arrayItems[5]));
-            foreach ($arrayAnios as $key => $anio) {
-                $anioAtributo = Atributo::where('descripcion',trim($anio))->first();
-                if($anioAtributo){
-                    DB::table('atributo_productos')->insert(['atributo_id' => $anioAtributo->id,'producto_id' =>$producto->id, 'padre'=>$modeloAtributo->id]);
-                }
-            }
+            // if (! DB::table('atributo_productos')->where('atributo_id', $marcaAtributo->id)->select('id')->first()) {
+            //     DB::table('atributo_productos')->insert(['atributo_id' => $marcaAtributo->id,'producto_id' =>$producto->id]);
+            // }
+            //
+            // if (! DB::table('atributo_productos')->where('atributo_id', $modeloAtributo->id)->select('id')->first()) {
+            //     DB::table('atributo_productos')->insert(['atributo_id' => $modeloAtributo->id,'producto_id' =>$producto->id, 'padre'=>$marcaAtributo->id]);
+            // }
+            // $arrayAnios = explode('|',htmlspecialchars($arrayItems[5]));
+            // foreach ($arrayAnios as $key => $anio) {
+            //     $anioAtributo = Atributo::where('descripcion',trim($anio))->first();
+            //     if($anioAtributo){
+            //         DB::table('atributo_productos')->insert(['atributo_id' => $anioAtributo->id,'producto_id' =>$producto->id, 'padre'=>$modeloAtributo->id]);
+            //     }
+            // }
       }
     }
 }

@@ -12,12 +12,16 @@
 */
 Route::get('/','PublicacionController@dashboard');
 Auth::routes();
-Route::get('/confirmacion/{id}',function ($id){
-    $user = App\User::whereRaw("SHA1(CONCAT(id,password)) = '$id'")->whereNull('valido')->firstOrFail();
+Route::get('/confirmar/{id}',function ($id){
+    $user = App\User::whereRaw("SHA1(email) = '$id'")->whereNull('valido')->firstOrFail();
     $user->valido = Carbon\Carbon::now();
     $user->save();
     Auth::login($user);
     return redirect('/');
+});
+Route::get('/modelos/{id}/obtener',function ($id){
+    $data = App\Atributo::where('padre',$id)->activo()->get();
+    return $data;
 });
 
 
@@ -51,6 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('users/edit/{id}',['uses' => 'UserController@edit', 'as' => 'users.edit']);
   Route::post('users/update/{id}',['uses' => 'UserController@update', 'as' => 'users.update']);
 	Route::get('publicar',['uses' => 'PublicarController@index', 'as' => 'publicar.index']);
+	Route::get('publicar/{id}/obtener',['uses' => 'PublicarController@obtener', 'as' => 'publicar.obtener']);
 	Route::post('publicar/delete',['uses' => 'PublicarController@delete', 'as' => 'publicar.delete']);
 	Route::post('publicar/store',['uses' => 'PublicarController@store', 'as' => 'publicar.store']);
 	Route::post('publicar/update',['uses' => 'PublicarController@update', 'as' => 'publicar.update']);

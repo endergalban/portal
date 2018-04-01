@@ -31,6 +31,6 @@ class Producto extends Model
 
     public function atributos()
     {
-        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id')->where('atributo_productos.padre',0);
+        return $this->belongsToMany('App\Atributo','atributo_productos','producto_id','atributo_id');
     }
 }

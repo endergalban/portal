@@ -17,15 +17,31 @@ class PublicacionController extends Controller
 
     public function dashboard(){
 
-        $marcas = Atributo::where('entidad_id',14)->get();
-        $modelos = Atributo::where('entidad_id',15)->get();
-    	$regiones = Atributo::where('entidad_id',13)->get();
-    	$tipos = Atributo::where('entidad_id',1)->get();
-    	$combustible = Atributo::where('entidad_id',3)->get();
-    	$trasmision = Atributo::where('entidad_id',2)->get();
-        $anios = Atributo::where('entidad_id',11)->get();
-        $kilometrajes = Atributo::where('entidad_id',12)->get();
-        $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
+      $marcas = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Marca');
+        })->get();
+      $modelos = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Modelo');
+        })->get();
+      $anios = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Año');
+        })->get();
+    	$regiones = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Región');
+        })->get();
+    	$tipos = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Tipo de Carrocería');
+        })->get();
+    	$combustible = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Combustible');
+        })->get();
+    	$trasmision = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Región');
+        })->get();
+      $kilometrajes = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','Kilometraje');
+        })->get();
+      $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
     	$publicaciones =  Publicacion::where('estado','=',1)->where('cantidad','>',0)
             ->with(['user'])
             ->with(['producto'])
@@ -35,6 +51,7 @@ class PublicacionController extends Controller
             ->get();
       return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos'));
     }
+    
     public function index(Request $request)
     {
         $marcas = Atributo::where('entidad_id',14)->get();

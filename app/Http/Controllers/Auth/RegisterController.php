@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Mail;
-use App\Notifications\ConfirmacionUsuario;
+use App\Mail\ConfirmacionUsuario;
 
 class RegisterController extends Controller
 {

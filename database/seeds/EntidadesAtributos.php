@@ -501,7 +501,7 @@ class EntidadesAtributos extends Seeder
 
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Transmisión';
+        $entidad->descripcion = 'tranmision';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 4;
@@ -537,7 +537,7 @@ class EntidadesAtributos extends Seeder
         $atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Combustible';
+        $entidad->descripcion = 'combustible';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 5;
@@ -589,7 +589,7 @@ class EntidadesAtributos extends Seeder
 
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Tracción';
+        $entidad->descripcion = 'traccion';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 6;
@@ -633,7 +633,7 @@ class EntidadesAtributos extends Seeder
         $atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Carrocería';
+        $entidad->descripcion = 'carroceria';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 7;
@@ -809,7 +809,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Dirección';
+        $entidad->descripcion = 'direccion';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 8;
@@ -845,7 +845,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Eléctricos';
+        $entidad->descripcion = 'electrico';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 9;
@@ -930,7 +930,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Frenos';
+        $entidad->descripcion = 'freno';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 10;
@@ -966,7 +966,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Motor';
+        $entidad->descripcion = 'motor';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 11;
@@ -1247,7 +1247,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
         $entidad = new Entidad;
-        $entidad->descripcion = 'Suspención';
+        $entidad->descripcion = 'suspencion';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 12;
@@ -1304,7 +1304,7 @@ class EntidadesAtributos extends Seeder
 		$atributo->save();
 
     $entidad = new Entidad;
-    $entidad->descripcion = 'Año';
+    $entidad->descripcion = 'anio';
     $entidad->tipo = 1;
     $entidad->estado= 1;
     $entidad->orden= 13;
@@ -1319,7 +1319,7 @@ class EntidadesAtributos extends Seeder
       $atributo->save();
     }
     $entidad = new Entidad;
-    $entidad->descripcion = 'Kilometraje';
+    $entidad->descripcion = 'kilometraje';
     $entidad->tipo = 1;
     $entidad->estado= 1;
     $entidad->orden= 14;

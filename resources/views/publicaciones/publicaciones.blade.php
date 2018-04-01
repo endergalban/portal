@@ -158,7 +158,9 @@
   	              <!-- The slideshow -->
   	              <div class="carousel-inner">
   	              @if(count($publicacion->imagenes) == 0 )
-  	              <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
+                    <div class="item active" style="width: 100%; height:200px">
+  	                   <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" style="max-width: 100%;max-height: 100%;" >
+                    </div>
   	              @endif
   	              	@foreach($publicacion->imagenes as  $imagen)
   	                <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}" style="width: 100%; height:200px">
@@ -176,11 +178,6 @@
   	          </div>
   	          <div class="info">
   	            <h4>{{ $publicacion->producto->descripcion }}</h4>
-  	            {{-- <span class="description"> --}}
-  	             {{-- @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
-
-  	             		<span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
-  	             @endforeach --}}
   	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
   	            {{-- </span> --}}
                 <h6>Publicado {{ $now->diffForHumans($publicacion->created_at)}}</h6>
@@ -194,10 +191,12 @@
   	        </div>
   	    </div>
   	    @endforeach
+        <div class="col-md-12 text-right"  >
+          {{ $publicaciones->links() }}
+        </div>
 	    </div>
 
 
 	  </div>
-	 	{{ $publicaciones->links() }}
 	 </div>
 @endsection

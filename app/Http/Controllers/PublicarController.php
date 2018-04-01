@@ -32,30 +32,21 @@ class PublicarController extends Controller
     {
 
         $productos = Producto::activo()
-        ->has('atributos.entidad')
-        ->with(['atributos' => function ($q){
-            $q->activo()->where('entidad','<>',1);
-        }])
-        ->with(['atributos.entidad' => function ($q){
-            $q->activo();
-        }])
-        ->get();
+        ->has('atributos.entidad')->get();
+        return view('publicaciones.publicar')->with(compact('productos'));
+    }
 
-        $regiones = Atributo::activo()->where('entidad_id',1)->get();
+    public function obtener($id){
+      $entidades = Entidad::activo()
+      ->whereHas('atributos.productos',function($q) use ($id) {
+        $q->where('productos.id',$id);
+      })->with(['atributos' => function ($q) use ($id){
+        $q->activo()->whereHas('productos', function($q) use ($id){
+          $q->where('productos.id',$id);
+        });
+      }])->get();
 
-        $asistencias = Asistencia::where('estado',1)
-        ->with('user')
-        ->orderBy('id','DESC')
-        ->get();
-
-
-        $publicaciones = Publicacion::where('user_id',Auth::user()->id)
-        ->buscar($request)
-        ->with('producto')
-        ->with('caracteristicas.atributo.entidad')
-        ->orderBy('id','DESC')
-        ->paginate();
-        return view('publicaciones.publicar')->with(compact('publicaciones','productos','regiones','asistencias'));
+      return $entidades;
     }
 
     public function asistencia(Request $request)
@@ -76,21 +67,21 @@ class PublicarController extends Controller
      */
     public function store(Request $request)
     {
-     // dd($request->all());
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
           'producto_id' => 'required|integer|exists:productos,id',
-          'estado' => 'required|boolean',
           'descripcion' => 'required|string|max:5000',
+          'titulo' => 'required|string|max:5000',
           'monto' => 'required|numeric',
-          'cantidad' => 'required|integer',
-          'region_id' => 'required|integer|exists:atributos,id',
-          'asistencia_id' => 'nullable|integer|exists:asistencias,id',
-        ])->validate();
+          'placa' => 'required|string|max:8',
+          ]);
+        if ($validator->fails()) {
+          return response()->json(['errors'=>$validator->errors()->all()]);
+        }
         if ($request->publicacion_id == 0) {
             $publicacion = new Publicacion;
-            $msj="Felicidades tu publicación se encuentra disponible!";
+            $msj="0";
         } else {
-            $msj="Felicidades tu publicación ha sido actualizada!";
+            $msj="1";
         }
         $publicacion->fill(array_add($request->all(),'user_id', Auth::user()->id));
         $publicacion->save();
@@ -101,15 +92,8 @@ class PublicarController extends Controller
                 ]);
         }
         if($request->imagenes) {
-          foreach ($request->imagenes as $key => $value) {
-            $base64_str = substr($value, strpos($value, ",")+1);
-            $image = base64_decode($base64_str);
-            $f = finfo_open();
-            $mime_type = finfo_buffer($f, $image, FILEINFO_MIME_TYPE);
-            $extensionArray = explode('/',$mime_type);
-            $extension = $extensionArray[count($extensionArray)-1];
-            $imagen = $publicacion->id.'/'.date('ymdhis').$key.'.'.$extension;
-            Storage::disk('public')->put($imagen, $image);
+          foreach ($request->imagenes as $key => $image) {
+            $imagen = Storage::disk('public')->put($publicacion->id, $image);
             $publicacionImagen = new PublicacionImagen;
             $publicacionImagen->ruta = $imagen;
             $publicacionImagen->publicacion_id = $publicacion->id;
@@ -118,11 +102,12 @@ class PublicarController extends Controller
           }
         }
         if($request->atributos) {
-            $atributos = array_filter($request->atributos);
-            $publicacion->atributos()->sync($atributos);
+
+            $atributosData = explode(',',$request->atributos);
+            $publicacion->atributos()->sync($atributosData);
         }
 
-        return redirect()->back()->with('success', $msj);
+        return json_encode($msj);
     }
 
     /**

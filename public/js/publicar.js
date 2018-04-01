@@ -76,6 +76,10 @@ module.exports = __webpack_require__(46);
 /***/ 46:
 /***/ (function(module, exports) {
 
+var _elemento;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var vue = new Vue({
   el: '#container',
   created: function created() {
@@ -83,88 +87,226 @@ var vue = new Vue({
     this.cargarImagenALienzo(0);
   },
   data: {
-    publicaciones: publicaciones,
-    productos: productos,
-    mensajeError: '',
+    tipo: 0,
+    cabecera: 'Tipo de Publicación',
+    tab: 0,
+    listadoPublicaciones: 0,
+    publicaciones: [],
+    productos: [],
+    mensajeError: [],
     mensajeOk: '',
-    elemento: {
+    elemento: (_elemento = {
       id: 0,
-      producto: '',
-      descripcion: '',
-      estado: 1,
-      cantidad: 1,
       producto_id: '',
-      region_id: '',
-      monto: 0
+      placa: '',
+      descripcion: '',
+      titulo: '',
+      monto: '',
+      marca_id: '',
+      modelo_id: '',
+      anio_id: '',
+      version_id: ''
+    }, _defineProperty(_elemento, 'descripcion', ''), _defineProperty(_elemento, 'carroceria_id', ''), _defineProperty(_elemento, 'puerta_id', ''), _defineProperty(_elemento, 'transmision_id', ''), _defineProperty(_elemento, 'edicion_id', ''), _defineProperty(_elemento, 'cilindrada_id', ''), _defineProperty(_elemento, 'potencia_id', ''), _defineProperty(_elemento, 'color_id', ''), _defineProperty(_elemento, 'kilometro_id', ''), _defineProperty(_elemento, 'motor_id', ''), _defineProperty(_elemento, 'techo_id', ''), _defineProperty(_elemento, 'combustible_id', ''), _defineProperty(_elemento, 'direccion_id', ''), _defineProperty(_elemento, 'producto_id', ''), _defineProperty(_elemento, 'region_id', ''), _elemento),
+    entidades: {
+      region: [],
+      marca: [],
+      modelo: [],
+      anio: [],
+      version: [],
+      carroceria: [],
+      puerta: [],
+      transmision: [],
+      edicion: [],
+      cilindrada: [],
+      potencia: [],
+      color: [],
+      kilometraje: [],
+      motor: [],
+      techo: [],
+      combustible: [],
+      direccion: [],
+      seguridad: [],
+      comfort: [],
+      sonido: [],
+      exterior: [],
+      ficha: []
     },
     buscarFiltro: '',
     estadoFiltro: '',
     termino: false,
     index: -1,
-    entidades: [],
-    listadoPublicaciones: 1,
-    tab: 0,
+    //    entidades:  [],
     imagenes: [],
     entidadesSeleccionadas: []
 
   },
   computed: {
-    deshabilitarBtnImagenes: function deshabilitarBtnImagenes() {
-      return this.elemento.producto.toString().trim().length == 0 || this.elemento.estado.toString().trim().length == 0 || this.elemento.descripcion.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.monto) || this.elemento.monto == 0 || this.elemento.cantidad.toString().trim().length == 0 || this.elemento.cantidad == 0 || this.elemento.region_id.toString().trim().length == 0;
-    },
-    deshabilitarBtnEditar: function deshabilitarBtnEditar() {
-      return this.elemento.descripcion.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.estado) || this.elemento.cantidad.toString().trim().length == 0 || !regExpSoloNumeros.test(this.elemento.cantidad);
+
+    deshabilitarBtnPublicar: function deshabilitarBtnPublicar() {
+      return this.validar();
     }
   },
   methods: {
-    filtrar: function filtrar() {
-      document.location = urlActual + '?buscar=' + this.buscarFiltro + '&estado=' + this.estadoFiltro;
+    validar: function validar() {
+      return this.elemento.producto_id.toString().trim().length == 0 || this.elemento.monto.toString().trim().length == 0 || !regExpPrecio.test(this.elemento.monto) || this.elemento.descripcion.toString().trim().length == 0 || this.elemento.titulo.toString().trim().length == 0 || this.elemento.modelo_id.toString().trim().length == 0 || this.elemento.anio_id.toString().trim().length == 0 || this.elemento.region_id.toString().trim().length == 0 || this.elemento.placa.toString().trim().length == 0 || this.elemento.marca_id.toString().trim().length == 0;
     },
-    top: function top() {
-      $(window).scrollTop(0);
-    },
-    cancelarPublicacion: function cancelarPublicacion() {
-      this.listadoPublicaciones = 1;
-      this.tab = 0;
-      this.elemento.id = 0;
-      this.elemento.descripcion = '';
-      this.elemento.region_id = '';
-      this.elemento.estado = 1;
-      this.elemento.cantidad = 1;
-      this.elemento.monto = 0;
-      this.elemento.producto_id = '';
-      this.cargarImagenALienzo(0);
-      this.entidadesSeleccionadas = [];
-    },
-    cargarTextoPublicacion: function cargarTextoPublicacion() {
-      var elt = document.getElementById('producto_id');
-      if (elt.selectedIndex == '' || elt.selectedIndex == 0) {
-        this.elemento.producto = '';
-      } else {
-        this.elemento.producto = elt.options[elt.selectedIndex].text;
+    dataURItoBlob: function dataURItoBlob(dataURI) {
+      // convert base64/URLEncoded data component to raw binary data held in a string
+      var byteString;
+      if (dataURI.split(',')[0].indexOf('base64') >= 0) byteString = atob(dataURI.split(',')[1]);else byteString = unescape(dataURI.split(',')[1]);
+
+      // separate out the mime component
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+      // write the bytes of the string to a typed array
+      var ia = new Uint8Array(byteString.length);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
       }
+
+      return new Blob([ia], { type: mimeString });
     },
-    obtenerEntidades: function obtenerEntidades() {
+    guardar: function guardar() {
       var _this = this;
 
-      this.entidadesSeleccionadas = [];
-      var elems = document.getElementsByName('atributos[]');
-      elems.forEach(function (selector) {
-        if (selector.value.toString().trim().length > 0) {
-          _this.entidadesSeleccionadas.push(selector.options[selector.selectedIndex].text);
-        }
-      });
+      if (!this.validar()) {
+        this.mensajeError = '';
+        this.mensajeOk = '';
+        var request = new FormData();
+        var atributos = [];
+        var imagenes = [];
+        document.querySelectorAll('select[name="atributos[]"]').forEach(function (item, key) {
+          if (item.value != '') {
+            atributos.push(item.value);
+          }
+        });
+        document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach(function (item, key) {
+          if (item.checked == true) {
+            atributos.push(item.value);
+          }
+        });
+        this.imagenes.forEach(function (item) {
+          var blob = _this.dataURItoBlob(item);
+          request.append("imagenes[]", blob);
+        });
+        request.append('id', this.elemento.id);
+        request.append('producto_id', this.elemento.producto_id);
+        request.append('descripcion', this.elemento.descripcion);
+        request.append('titulo', this.elemento.titulo);
+        request.append('monto', this.elemento.monto);
+        request.append('placa', this.elemento.placa);
+        request.append('estado', 1);
+        request.append('cantidad', 1);
+        request.append('atributos', atributos);
+        request.append('imagenes', imagenes);
+        axios.post('publicar/store', request, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (response) {
+          if (response.data.errors) {
+            _this.mensajeError = response.data.errors;
+          } else {
+            _this.limpiar();
+            _this.eliminarImagen();
+            _this.elemento.producto_id = '';
+            if (response.data == 0) {
+              _this.mensajeOk = 'Felicidades tu producto ha sido publicado.';
+            } else {
+              _this.mensajeOk = 'Felicidades tu publicación ha sido actualiza.';
+            }
+          }
+          $(window).scrollTop(0);
+        }).catch(function (error) {
+          console.log(error);
+          $(window).scrollTop(0);
+        });
+      }
     },
-    cargarAtributos: function cargarAtributos() {
+
+    obtenermodelos: function obtenermodelos() {
       var _this2 = this;
 
-      this.cargarTextoPublicacion();
-      productos.forEach(function (producto) {
-        if (producto.id == _this2.elemento.producto_id) {
-          _this2.entidades = producto.entidades;
-        }
-      });
+      if (document.getElementById('id_marca').value > 0) {
+        axios.get('/modelos/' + document.getElementById('id_marca').value + '/obtener').then(function (response) {
+          _this2.entidades.modelo = response.data;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
     },
+    obtener: function obtener() {
+      this.mensajeError = '';
+      this.mensajeOk = '';
+      this.limpiar();
+      if (this.elemento.producto_id > 0) {
+        var url = window.location.href + '/' + this.elemento.producto_id + '/obtener';
+        axios.get(url).then(function (response) {
+          var entidades = response.data;
+          entidades.forEach(function (entidad, index) {
+            vue.entidades[entidad.descripcion] = entidad.atributos;
+          });
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+    limpiar: function limpiar() {
+      this.entidades.marca = [];
+      this.entidades.modelo = [];
+      this.entidades.anio = [];
+      this.entidades.version = [];
+      this.entidades.carroceria = [];
+      this.entidades.puerta = [];
+      this.entidades.transmision = [];
+      this.entidades.edicion = [];
+      this.entidades.cilindrada = [];
+      this.entidades.potencia = [];
+      this.entidades.color = [];
+      this.entidades.kilometraje = [];
+      this.entidades.motor = [];
+      this.entidades.techo = [];
+      this.entidades.combustible = [];
+      this.entidades.direccion = [];
+      this.entidades.seguridad = [];
+      this.entidades.comfort = [];
+      this.entidades.sonido = [];
+      this.entidades.exterior = [];
+      this.entidades.ficha = [];
+
+      this.elemento.id = 0;
+      this.elemento.placa = '';
+      this.elemento.descripcion = '';
+      this.elemento.titulo = '';
+      this.elemento.monto = '';
+      this.elemento.marca_id = '';
+      this.elemento.modelo_id = '';
+      this.elemento.anio_id = '';
+      this.elemento.version_id = '';
+      this.elemento.carroceria_id = '';
+      this.elemento.puerta_id = '';
+      this.elemento.transmision_id = '';
+      this.elemento.edicion_id = '';
+      this.elemento.cilindrada_id = '';
+      this.elemento.potencia_id = '';
+      this.elemento.color_id = '';
+      this.elemento.kilometro_id = '';
+      this.elemento.motor_id = '';
+      this.elemento.techo_id = '';
+      this.elemento.combustible_id = '';
+      this.elemento.direccion_id = '';
+      this.elemento.region_id = '';
+    },
+    cambioTipo: function cambioTipo(tipo, tab) {
+      this.tipo = tipo;
+      this.tab = tab;
+      if (this.tipo == 1) {
+        this.cabecera = 'Venta de Auto';
+      } else {
+        this.cabecera = 'Venta de Partes';
+      }
+    },
+
     cargarImagenesMiniaturas: function cargarImagenesMiniaturas() {
       var i = 1;
       this.imagenes.forEach(function (img) {
@@ -175,34 +317,28 @@ var vue = new Vue({
       });
     },
     eliminarImagen: function eliminarImagen(index) {
-      for (var i = 1; i < 6; i++) {
+      for (var i = 1; i < 7; i++) {
         document.getElementById('imagen_' + i + '').src = '../images/no-image.jpg';
       };
-      document.getElementById('imagenLienzo').src = 'http://placehold.it/640x580';
+      // document.getElementById('imagenLienzo').src = 'http://placehold.it/640x580';
       this.imagenes.splice(index - 1, 1);
       this.cargarImagenesMiniaturas();
     },
-    previsualizarImagen: function previsualizarImagen(index) {
-      document.getElementById('imagenLienzo').src = this.imagenes[index - 1];
-    },
+    // previsualizarImagen: function(index) {
+    //   document.getElementById('imagenLienzo').src = this.imagenes[index-1];
+    // },
     cargarImagenALienzo: function cargarImagenALienzo(tipo) {
+      this.mensajeError = '';
+      this.mensajeOk = '';
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext("2d");
       var img = new Image();
       var lienzo = document.getElementById("lienzo");
       if (tipo == 0) {
-
         img.onload = function () {
           context.drawImage(img, 0, 0);
         };
-        img.src = 'http://placehold.it/700x400';
-        img.setAttribute('width', '640px');
-        //img.setAttribute('height','580px');
-        img.setAttribute('id', 'imagenLienzo');
-        lienzo.removeChild(lienzo.childNodes[0]);
-        lienzo.appendChild(img);
       } else {
-
         var fileinput = document.getElementById('imagen');
         if (document.querySelector('#imagen').value.length > 0 && this.imagenes.length < 7) {
           var file = fileinput.files[0];
@@ -215,10 +351,6 @@ var vue = new Vue({
                 img.src = evt.target.result;
                 context.drawImage(img, 100, 100);
                 img.setAttribute('width', '640px');
-                //   img.setAttribute('height','580px');
-                img.setAttribute('id', 'imagenLienzo');
-                lienzo.removeChild(lienzo.childNodes[0]);
-                lienzo.appendChild(img);
                 vue.imagenes.push(img.src);
                 vue.cargarImagenesMiniaturas();
               }
@@ -228,57 +360,6 @@ var vue = new Vue({
           }
         }
       }
-    },
-    cargarElemento: function cargarElemento(index) {
-      this.index = index;
-      this.elemento.id = this.publicaciones[this.index].id;
-    },
-    editarElemento: function editarElemento(index) {
-      this.index = index;
-      this.elemento.id = this.publicaciones[this.index].id;
-      this.elemento.cantidad = this.publicaciones[this.index].cantidad;
-      this.elemento.descripcion = this.publicaciones[this.index].descripcion;
-      this.elemento.estado = this.publicaciones[this.index].estado;
-      this.elemento.monto = this.publicaciones[this.index].monto;
-    },
-    actualizarElemento: function actualizarElemento() {
-      var _this3 = this;
-
-      var datos = new FormData();
-      datos.append('id', this.elemento.id);
-      datos.append('descripcion', this.elemento.descripcion);
-      datos.append('cantidad', this.elemento.cantidad);
-      datos.append('monto', this.elemento.monto);
-      datos.append('estado', this.elemento.estado);
-      axios.post(urlActual + '/update', datos).then(function (response) {
-        $(window).scrollTop(0);
-        $('#editarModal').modal('hide');
-        _this3.publicaciones[_this3.index].cantidad = _this3.elemento.cantidad;
-        _this3.publicaciones[_this3.index].descripcion = _this3.elemento.descripcion;
-        _this3.publicaciones[_this3.index].estado = _this3.elemento.estado;
-        _this3.publicaciones[_this3.index].monto = _this3.elemento.monto;
-        _this3.cancelarPublicacion();
-      }).catch(function (error) {
-        $(window).scrollTop(0);
-        _this3.mensajeError = 'Error interno.';
-        $('#editarModal').modal('hide');
-      });
-    },
-    eliminarElemento: function eliminarElemento() {
-      var _this4 = this;
-
-      var datos = new FormData();
-      datos.append('id', this.elemento.id);
-      axios.post(urlActual + '/delete', datos).then(function (response) {
-        $(window).scrollTop(0);
-        $('#eliminarModal').modal('hide');
-        _this4.publicaciones.splice(_this4.index, 1);
-        _this4.cancelarPublicacion();
-      }).catch(function (error) {
-        $(window).scrollTop(0);
-        _this4.mensajeError = 'Error interno.';
-        $('#eliminarModal').modal('hide');
-      });
     }
   }
 });

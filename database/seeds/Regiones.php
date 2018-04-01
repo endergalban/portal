@@ -14,7 +14,7 @@ class Regiones extends Seeder
     public function run()
     {
         $entidad = new Entidad;
-        $entidad->descripcion = 'Región';
+        $entidad->descripcion = 'region';
         $entidad->tipo = 1;
         $entidad->estado= 1;
         $entidad->orden= 1;

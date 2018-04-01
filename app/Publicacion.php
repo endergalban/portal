@@ -9,7 +9,7 @@ class Publicacion extends Model
     use SoftDeletes;
     protected $table = 'publicaciones';
     protected $fillable = [
-        'producto_id', 'user_id', 'descripcion', 'estado', 'monto', 'region_id', 'placa','cantidad'
+        'producto_id', 'user_id', 'descripcion', 'titulo', 'estado', 'monto', 'region_id', 'placa','cantidad'
     ];
     protected $dates = [
         'deleted_at', 'created_at', 'updated_at'

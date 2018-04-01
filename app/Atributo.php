@@ -24,6 +24,11 @@ class Atributo extends Model
         return $this->belongsTo('App\Entidad');
     }
 
+    public function productos()
+    {
+        return $this->belongsToMany('App\Producto','atributo_productos');
+    }
+
     public function scopeActivo($q)
     {
         return $q->where('estado',1);

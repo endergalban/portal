@@ -77,6 +77,7 @@
                   <span class="badge badge-primary">{{$atributo->descripcion}}</span>
                @endforeach
               <h4><strong>$ {{ $publicacion->monto}}</strong></h4>
+              <p class="card-text">{{ $publicacion->titulo}}</p>
               <p class="card-text">{{ $publicacion->descripcion}}</p>
               <hr>
                 <div class="row">
