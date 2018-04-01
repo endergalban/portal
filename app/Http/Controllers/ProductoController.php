@@ -24,7 +24,7 @@ class ProductoController extends Controller
     public function index()
     {
         $entidades = Entidad::activo()->whereHas('atributos', function ($q) {
-            $q->activo()->where('entidad_id','<>',1);
+            $q->activo();
         })->with(['atributos' => function ($q){
             $q->activo();
         }])->get();

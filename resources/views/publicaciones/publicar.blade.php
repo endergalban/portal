@@ -68,16 +68,15 @@
               </div>
               <canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
             </div>
-
+            {{-- Input file --}}
             <div class="col-md-12 text-center">
               <hr>
               <input type="file" name="imagen[]" id="imagen" class="form-control" :disabled="imagenes.length > 5" @change="cargarImagenALienzo(1)" >
               <hr>
             </div>
             {{-- Datos --}}
-
             {{-- linea 1 --}}
-            <div class="col-md-12" :class="{'has-error' : (elemento.producto_id > 0 && elemento.producto_id == '')}">
+            <div class="col-md-12" :class="{'has-error' : (elemento.producto_id > 0 && elemento.producto_id == '')}" >
               <div class="col-md-4" >
                 <div class="form-group">
                   <label>Tipo de Vehiculo</label>
@@ -106,8 +105,7 @@
                 </div>
               </div>
             </div>
-
-            {{-- linea 1 --}}
+            {{-- linea 2 --}}
             <div class="col-md-12" >
               <div class="col-md-4" :class="{'has-error' : (elemento.producto_id > 0 && elemento.marca_id == '')}">
                 <div class="form-group">
@@ -137,7 +135,7 @@
                 </div>
               </div>
             </div>
-            {{-- linea 2 --}}
+            {{-- linea 3 --}}
             <div class="col-md-12">
               <div class="col-md-4" >
                 <div class="form-group">
@@ -163,12 +161,12 @@
                 </div>
               </div>
             </div>
-            {{-- linea 1 --}}
+            {{-- linea 4 --}}
             <div class="col-md-12">
               <h3>Información General</h3>
               <hr>
             </div>
-            {{-- linea 3 --}}
+            {{-- linea 5 --}}
             <div class="col-md-12">
               <div class="col-md-4" >
                 <div class="form-group">
@@ -198,7 +196,7 @@
                 </div>
               </div>
             </div>
-            {{-- linea 4--}}
+            {{-- linea 6--}}
             <div class="col-md-12">
               <div class="col-md-4" >
                 <div class="form-group">
@@ -216,7 +214,7 @@
                 </div>
               </div>
             </div>
-            {{-- linea 5 --}}
+            {{-- linea 7 --}}
             <div class="col-md-12">
               <div class="col-md-4" >
                 <div class="form-group">
@@ -246,7 +244,7 @@
                 </div>
               </div>
             </div>
-              {{-- linea 6 --}}
+              {{-- linea 8 --}}
             <div class="col-md-12">
               <div class="col-md-4" >
                 <div class="form-group">
@@ -297,7 +295,6 @@
                 </div>
               </div>
             </div>
-
             {{-- Seguridad --}}
             <div class="col-md-12" v-show="entidades.seguridad.length > 0">
               <div class="col-md-12" style="margin-bottom:10px">
@@ -309,7 +306,6 @@
                 </div>
               </div>
             </div>
-
             {{-- Confort --}}
             <div class="col-md-12" v-show="entidades.comfort.length > 0">
               <div class="col-md-12" style="margin-bottom:10px">
@@ -332,7 +328,6 @@
                 </div>
               </div>
             </div>
-
             {{-- Exterior --}}
             <div class="col-md-12" v-show="entidades.exterior.length > 0">
               <div class="col-md-12" style="margin-bottom:10px">
@@ -344,7 +339,6 @@
                 </div>
               </div>
             </div>
-
             {{-- Seguridad --}}
             <div class="col-md-12" v-show="entidades.sonido.length > 0">
               <div class="col-md-12" style="margin-bottom:10px">
@@ -356,11 +350,11 @@
                 </div>
               </div>
             </div>
-
-          </div>
-          <div  class="col-md-12">
-              <button type="button" class="btn btn-default hidden-xs" v-show="tab > 0" @click="tab = 0,tipo = 0">Volver <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+            {{-- Botones --}}
+            <div  class="col-md-12" style="margin-top:50px">
+              <button type="button" class="btn btn-default hidden-xs" v-show="tab > 0" @click="volver">Volver <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
             <button type="submit" class="btn btn-primary hidden-xs pull-right" :disabled="deshabilitarBtnPublicar"  v-show="tab > 0">Publicar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+          </div>
           </div>
         </div>
       </fieldset>

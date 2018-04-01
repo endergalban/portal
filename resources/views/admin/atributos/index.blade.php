@@ -121,7 +121,7 @@
         </div>
     </div>
     <!--Atributos-->
-    <div class="col-md-12" v-show="atributos.length > 0"  id="divEdicion">
+    <div class="col-md-12" v-show="desplegarAtributos"  id="divEdicion">
       <hr>
       <span><b>Items de @{{ elementoAtributo.entidad_descripcion }} ( @{{ cantidadAtributos }}  )</b></span>
       <fieldset class="scheduler-border">

@@ -166,6 +166,11 @@ var vue = new Vue({
 
       return new Blob([ia], { type: mimeString });
     },
+    volver: function volver() {
+      this.tab = 0;
+      this.tipo = 0;
+      $(window).scrollTop(0);
+    },
     guardar: function guardar() {
       var _this = this;
 

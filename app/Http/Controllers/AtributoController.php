@@ -30,13 +30,13 @@ class AtributoController extends Controller
     public function get(Request $request)
     {
         //
-        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(10);
+        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(5);
         return $entidades->toJson();
     }
 
     public function obtenerAtributos($id)
     {
-      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->paginate(10);
+      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->paginate(5);
       return $atributos->toJson();
     }
 
@@ -55,7 +55,7 @@ class AtributoController extends Controller
         }
         $entidad->fill($request->all());
         $entidad->save();
-        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(10);
+        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(5);
         return $entidades->toJson();
 
     }
@@ -75,7 +75,7 @@ class AtributoController extends Controller
         }
         $atributo->fill($request->all());
         $atributo->save();
-        $atributos = Atributo::orderBy('orden')->where('entidad_id',$atributo->entidad_id)->paginate(10);
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$atributo->entidad_id)->paginate(5);
         return $atributos->toJson();
 
     }
@@ -90,7 +90,7 @@ class AtributoController extends Controller
     {
         $entidad = Entidad::findOrFail($request->id);
         $entidad->delete();
-        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(10);
+        $entidades = Entidad::orderBy('orden')->with('atributos')->paginate(5);
         return $entidades->toJson();
     }
     /**
@@ -104,7 +104,7 @@ class AtributoController extends Controller
         $atributo = Atributo::findOrFail($request->id);
         $entidad_id = $atributo->entidad_id;
         $atributo->delete();
-        $atributos = Atributo::orderBy('orden')->where('entidad_id',$entidad_id)->paginate(10);
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$entidad_id)->paginate(5);
         return $atributos->toJson();
     }
 }

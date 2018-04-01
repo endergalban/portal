@@ -248,10 +248,10 @@ var vue = new Vue({
     },
 
     marcarTodos: function marcarTodos(elt) {
-
+      var estado = document.querySelector("#check_" + elt).checked;
       var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
       for (var i = 0; i < atributosselector.length; i++) {
-        atributosselector[i].checked = document.getElementById('check_' + elt).checked;
+        atributosselector[i].checked = estado;
       }
     }
 

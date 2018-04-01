@@ -111,7 +111,7 @@ var vue = new Vue({
             entidad_descripcion: ''
         },
 
-        // cargando: false,
+        desplegarAtributos: false,
         index: -2,
         indexAtributo: -2,
         indexEntidadAtributo: -1
@@ -193,6 +193,7 @@ var vue = new Vue({
             return;
         },
         cambioPagina: function cambioPagina(page) {
+            this.desplegarAtributos = false;
             this.limpiarMensajes();
             this.obtenerElementos(page);
         },
@@ -239,6 +240,7 @@ var vue = new Vue({
             this.indexEntidadAtributo = -1;
             this.indexAtributo = -2;
             this.index = i;
+            this.desplegarAtributos = false;
             if (this.index == -1) {
                 this.elementoEntidad.id = 0;
                 this.elementoEntidad.descripcion = '';
@@ -288,6 +290,7 @@ var vue = new Vue({
 
             this.limpiarElementoAtributo();
             this.limpiarElementoEntidad();
+            this.desplegarAtributos = true;
             this.indexEntidadAtributo = index;
             this.elementoAtributo.entidad_descripcion = this.elementos[index].descripcion;
             var url = urlActual + '/obeneratributos/' + this.elementos[index].id + '?page=' + page;

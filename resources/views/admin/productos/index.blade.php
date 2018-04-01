@@ -50,7 +50,7 @@
                 {{ $atributo->descripcion}}
               </div>
               <div class="col-md-2 col-xs-4">
-                <input type="checkbox"  class="elementoAtributos entidad_{{ $entidad->id }}" id="check_{{$atributo->id}}" name="atributos[]" value="{{ $atributo->id}}">
+                <input type="checkbox"  class="elementoAtributos entidad_{{ $entidad->id }}" name="atributos[]" value="{{ $atributo->id}}">
               </div>
             @endforeach
           </div>

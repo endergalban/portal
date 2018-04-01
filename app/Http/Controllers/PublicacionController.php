@@ -42,7 +42,9 @@ class PublicacionController extends Controller
           $q->where('descripcion','Kilometraje');
         })->get();
       $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
-    	$publicaciones =  Publicacion::where('estado','=',1)->where('cantidad','>',0)
+    	$publicaciones =  Publicacion::where('estado','=',1)
+            ->has('producto')
+            ->where('cantidad','>',0)
             ->with(['user'])
             ->with(['producto'])
             ->with(['atributos.entidad'])
@@ -51,7 +53,7 @@ class PublicacionController extends Controller
             ->get();
       return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos'));
     }
-    
+
     public function index(Request $request)
     {
         $marcas = Atributo::where('entidad_id',14)->get();
@@ -65,6 +67,7 @@ class PublicacionController extends Controller
         $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
 
         $publicaciones = Publicacion::where('estado','=',1)
+        ->has('producto')
         ->buscar($request)
         ->with(['user'])
         ->with(['producto'])
