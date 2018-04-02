@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="content">
+<div class="content" id="container">
     <div class="row">
         <div class="col-md-12 col-xs-12" style="margin-top:0">
             <img src="{{ asset('images/home/banner-nuevo-1.png') }}" style="width:100%">
@@ -18,81 +18,86 @@
                         <div class="col-md-12 col-xs-12 marcas-titulo-tipografia">
                           Marcas Relevantes
                         </div>
-                        <a href="{{route('publicaciones.index')}}?buscar=Audi">
-                          <div class="col-md-3 col-xs-6">
+                        <carousel :per-page="4">
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Audi">
                               <div class="col-md-12 col-xs-12">
                                 <img src="{{ asset('images/home/logo-audi.png') }}" style="width:100%">
                               </div>
                                 <div class="col-md-12 hidden-xs marcas-tipografia" >
                                   AUDI
                                 </div>
-                          </div>
-                        </a>
-                        <a href="{{route('publicaciones.index')}}?buscar=Bmw">
-                          <div class="col-md-3 col-xs-6">
+                            </a>
+                          </slide>
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Bmw">
                               <div class="col-md-12 col-xs-12">
                                 <img src="{{ asset('images/home/logo-bmw.png') }}" style="width:100%">
                               </div>
                               <div class="col-md-12 hidden-xs marcas-tipografia" >
                                 BMW
                               </div>
-                          </div>
-                        </a>
-                        <a href="{{route('publicaciones.index')}}?buscar=Chevrolet">
-                          <div class="col-md-3 col-xs-6">
+                            </a>
+                          </slide>
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Chevrolet">
                               <div class="col-md-12 col-xs-12" >
                                 <img src="{{ asset('images/home/logo-chevrolet.png') }}" style="width:100%">
                               </div>
                               <div class="col-md-12 hidden-xs marcas-tipografia" >
                                 CHEVROLET
                               </div>
-                          </div>
-                        </a>
-                        <a href="{{route('publicaciones.index')}}?buscar=Ford">
-                          <div class="col-md-3 col-xs-6">
-                            <div class="col-md-12 col-xs-12" >
-                              <img src="{{ asset('images/home/logo-ford.png') }}" style="width:100%">
-                            </div>
-                            <div class="col-md-12 hidden-xs marcas-tipografia" >
-                              FORD
-                            </div>
-                          </div>
-                        </a>
+                            </a>
+                          </slide>
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Ford">
+                              <div class="col-md-12 col-xs-12" >
+                                <img src="{{ asset('images/home/logo-ford.png') }}" style="width:100%">
+                              </div>
+                              <div class="col-md-12 hidden-xs marcas-tipografia" >
+                                FORD
+                              </div>
+                            </a>
+                          </slide>
+                        </carousel>
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <div class="col-md-12 col-xs-12 marcas-titulo-tipografia">
                           Tipo de Carrocería
                         </div>
-                        <a href="{{route('publicaciones.index')}}?buscar=Suv">
-                          <div class="col-md-4 col-xs-6">
-                            <div class="col-md-12 col-xs-12" >
-                              <img src="{{ asset('images/home/suv.png') }}" style="width:100%" id="hover_suv">
-                            </div>
-                            <div class="col-md-12 hidden-xs marcas-tipografia" >
-                              SUV
-                            </div>
-                          </div>
-                        </a>
-                        <a href="{{route('publicaciones.index')}}?buscar=Sedan">
-                          <div class="col-md-4 col-xs-6">
-                            <div class="col-md-12 col-xs-12" >
-                              <img src="{{ asset('images/home/sedan.png') }}" style="width:100%" id="hover_sedan">
-                            </div>
-                            <div class="col-md-12 hidden-xs marcas-tipografia" >
-                              SEDAN
-                            </div>
-                          </div>
-                        </a>
-                        <a href="{{route('publicaciones.index')}}?buscar=Convertible">
-                          <div class="col-md-4 col-xs-6" >
-                            <div class="col-md-12 col-xs-12" >
-                              <img src="{{ asset('images/home/convertible.png') }}" style="width:100%" id="hover_convertible">
-                            </div>
-                            <div class="col-md-12 hidden-xs marcas-tipografia" >
-                              CONVERTIBLE
-                            </div>
-                          </div>
-                        </a>
+                        <carousel :per-page="3">
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Suv">
+                              <div class="col-md-12 col-xs-12" >
+                                <img src="{{ asset('images/home/suv.png') }}" style="width:100%" >
+                              </div>
+                              <div class="col-md-12 hidden-xs marcas-tipografia" >
+                                SUV
+                              </div>
+                            </a>
+                          </slide>
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Sedan">
+                              <div class="col-md-12 col-xs-12" >
+                                <img src="{{ asset('images/home/sedan.png') }}" style="width:100%" >
+                              </div>
+                              <div class="col-md-12 hidden-xs marcas-tipografia" >
+                                SEDAN
+                              </div>
+                            </a>
+                          </slide>
+                          <slide>
+                            <a href="{{route('publicaciones.index')}}?buscar=Convertible">
+                              <div class="col-md-12 col-xs-12" >
+                                <img src="{{ asset('images/home/convertible.png') }}" style="width:100%" >
+                              </div>
+                              <div class="col-md-12 hidden-xs marcas-tipografia" >
+                                CONVERTIBLE
+                              </div>
+                            </a>
+                          </slide>
+                        </carousel>
+
                       </div>
                 </div>
 
@@ -223,58 +228,26 @@
     </div>
 
     <div class="row">
+      <div class="col-md-12 col-xs-12">
+      <carousel :per-page="6" :autoplay="true" :loop="true" :autoplay-timeout="10000" :autoplay-hover-pause="true" :speed="3000">
+      @foreach ($publicaciones as $publicacion)
+        @if ($publicacion->imagenes->first())
+          <slide>
+            <a href="{{ route('publicaciones.details',$publicacion->id) }}"><img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" ></a>
+        </slide>
+        @endif
+       @endforeach
+    </carousel>
+  </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12 col-xs-12">
              <img src="{{ asset('images/home/publicidad-2.jpg') }}" style="width:100%">
          </div>
      </div>
     <div class="container" id="container"  style="padding-top:20px">
 
-        <div class="col-md-9">
-            @foreach ($publicaciones as $publicacion)
-                <div class="col-md-4">
-                    <div class="block span4">
-                      <div class="product">
-
-                        <div id="demo" class="carousel slide" data-ride="carousel">
-                          <!-- The slideshow -->
-                          <div class="carousel-inner">
-                          @if(count($publicacion->imagenes) == 0 )
-                          <img src="http://placehold.it/295x190/333333/FFFFFF" class="d-block w-100" >
-                          @endif
-                            @foreach($publicacion->imagenes as  $imagen)
-                            <div class="item {{ $loop->iteration == 1 ? 'active' : ''}}"  style="width: 100%; height:200px">
-                              <img src="{{ asset('storage/'.$imagen->ruta) }}"  class="d-block w-100" style="max-width: 100%;max-height: 100%;" >
-                            </div>
-                            @endforeach
-                          </div>
-
-                        </div>
-
-
-                          <div class="buttons">
-                            <a class="preview btn btn-large btn-info" href="{{ route('publicaciones.details', $publicacion->id) }}"><i class="icon-eye-open"></i> Ver</a>
-                        </div>
-                      </div>
-                      <div class="info">
-                        <h4>{{ $publicacion->producto->descripcion }}</h4>
-                        <span class="description">
-                         @foreach ($publicacion->atributos()->groupBy('entidad_id')->get() as $atributo)
-
-                                <span class="badge badge-primary">{{$atributo->entidad->descripcion}}</span>
-                         @endforeach
-                         <h6>Cant: {{ $publicacion->cantidad }}</h6>
-                        </span>
-                        <h6>Publicado por: <strong>{{ $publicacion->user->name }}</strong></h6>
-                        <span class="price">$ {{ $publicacion->monto }}</span>
-                        <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a>
-                      </div>
-                      <div class="details">
-                        <span class="time"><i class="icon-time"></i> {{ $now->diffForHumans($publicacion->created_at)}}</span>
-                      </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
          <div class="col-lg-3">
           <h1 class="my-4">Publicidad</h1>
           <div class="list-group">
@@ -285,6 +258,7 @@
 
 </div>
 @push('scripts')
+<script src="{{asset('js/carrusel.js')}}"></script>
 <script type="text/javascript">
 function openBusqueda () {
     if($('#campos_busqueda_avanzanda').css('display') == 'none') {

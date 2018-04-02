@@ -44,12 +44,13 @@ class PublicacionController extends Controller
       $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
     	$publicaciones =  Publicacion::where('estado','=',1)
             ->has('producto')
+            ->has('imagenes')
             ->where('cantidad','>',0)
             ->with(['user'])
             ->with(['producto'])
             ->with(['atributos.entidad'])
             ->with(['imagenes'])
-            ->limit(6)
+            ->limit(24)
             ->get();
       return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos'));
     }

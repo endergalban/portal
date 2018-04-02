@@ -18,3 +18,4 @@ mix.js('resources/assets/js/atributos.js', 'public/js/atributos.js');
 mix.js('resources/assets/js/asistencias.js', 'public/js/asistencias.js');
 mix.js('resources/assets/js/publicar.js', 'public/js/publicar.js');
 mix.js('resources/assets/js/productos.js', 'public/js/productos.js');
+mix.js('resources/assets/js/carrusel.js', 'public/js/carrusel.js');

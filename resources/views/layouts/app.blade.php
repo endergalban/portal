@@ -59,7 +59,7 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                         @else
 
-                            <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li>
+                            {{-- <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li> --}}
                             <li><a href="{{ route('miscompras') }}">Mis compras</a></li>
                             <li><a href="{{ route('misventas') }}">Mis ventas</a></li>
 
@@ -80,8 +80,8 @@
                                     Publicaciones <span class="caret"></span>
                                 </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="{{ route('publicaciones.index')}}">Publicaciones</a></li>  
-                                        <li><a href="{{ route('admin.asistencias.index')}}">Ventas Asistidas</a></li>
+                                        <li><a href="{{ route('publicaciones.index')}}">Publicaciones</a></li>
+                                        {{-- <li><a href="{{ route('admin.asistencias.index')}}">Ventas Asistidas</a></li> --}}
                                     </ul>
                                 </li>
                             @endif
