@@ -91,7 +91,9 @@
                          <div class="form-group">
                          <select name="anio" class="form-control">
                              <option value="">Año</option>
-
+                             @foreach( $anios as $anio)
+                                 <option value="{{ $anio->id }}" {{ Input::get('modelo') == $anio->id ? 'selected' : '' }}>{{$anio->descripcion}}</option>
+                             @endforeach
                          </select>
                          </div>
                      </div>

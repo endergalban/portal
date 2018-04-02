@@ -229,32 +229,18 @@
 
     <div class="row">
       <div class="col-md-12 col-xs-12">
-      <carousel :per-page="6" :autoplay="true" :loop="true" :autoplay-timeout="10000" :autoplay-hover-pause="true" :speed="3000">
-      @foreach ($publicaciones as $publicacion)
-        @if ($publicacion->imagenes->first())
-          <slide>
-            <a href="{{ route('publicaciones.details',$publicacion->id) }}"><img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" ></a>
-        </slide>
-        @endif
-       @endforeach
-    </carousel>
-  </div>
+        <carousel :per-page="6" :autoplay="true" :loop="true" :autoplay-timeout="10000" :autoplay-hover-pause="true" :speed="3000">
+          @foreach ($publicaciones as $publicacion)
+            @if ($publicacion->imagenes->first())
+              <slide>
+                <a href="{{ route('publicaciones.details',$publicacion->id) }}"><img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" ></a>
+            </slide>
+            @endif
+           @endforeach
+        </carousel>
+      </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12 col-xs-12">
-             <img src="{{ asset('images/home/publicidad-2.jpg') }}" style="width:100%">
-         </div>
-     </div>
-    <div class="container" id="container"  style="padding-top:20px">
-
-         <div class="col-lg-3">
-          <h1 class="my-4">Publicidad</h1>
-          <div class="list-group">
-            <a href="#" class="list-group-item active">Publicidad</a>
-          </div>
-        </div>
-    </div>
 
 </div>
 @push('scripts')

@@ -16,22 +16,7 @@
               </div>
               @endif
                   <form class="form-horizontal" method="POST" action="{{route('users.update', $user->id)}}">
-
                         {{ csrf_field() }}
-
-                         <div class="form-group{{ $errors->has('rut') ? ' has-error' : '' }}">
-                         <label for="rut" class="col-md-4 control-label">Rut</label>
-                            <div class="col-md-4">
-                                <input id="rut" type="text" class="form-control" name="rut" value="{{ $user->rut}}"  autofocus>
-
-                                @if ($errors->has('rut'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('rut') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Nombre</label>
 

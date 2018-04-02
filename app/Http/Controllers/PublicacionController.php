@@ -18,28 +18,28 @@ class PublicacionController extends Controller
     public function dashboard(){
 
       $marcas = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Marca');
+          $q->where('descripcion','marca');
         })->get();
       $modelos = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Modelo');
+          $q->where('descripcion','modelo');
         })->get();
       $anios = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Año');
+          $q->where('descripcion','anio');
         })->get();
     	$regiones = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Región');
+          $q->where('descripcion','region');
         })->get();
     	$tipos = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Tipo de Carrocería');
+          $q->where('descripcion','carroceria');
         })->get();
     	$combustible = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Combustible');
+          $q->where('descripcion','combustible');
         })->get();
     	$trasmision = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Región');
+          $q->where('descripcion','transmision');
         })->get();
       $kilometrajes = Atributo::whereHas('entidad', function($q) {
-          $q->where('descripcion','Kilometraje');
+          $q->where('descripcion','kilometraje');
         })->get();
       $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
     	$publicaciones =  Publicacion::where('estado','=',1)
@@ -57,14 +57,30 @@ class PublicacionController extends Controller
 
     public function index(Request $request)
     {
-        $marcas = Atributo::where('entidad_id',14)->get();
-        $modelos = Atributo::where('entidad_id',15)->get();
-        $regiones = Atributo::where('entidad_id',13)->get();
-        $tipos = Atributo::where('entidad_id',1)->get();
-        $combustible = Atributo::where('entidad_id',3)->get();
-        $trasmision = Atributo::where('entidad_id',2)->get();
-        $anios = Atributo::where('entidad_id',11)->get();
-        $kilometrajes = Atributo::where('entidad_id',12)->get();
+      $marcas = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','marca');
+        })->get();
+      $modelos = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','modelo');
+        })->get();
+      $anios = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','anio');
+        })->get();
+      $regiones = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','region');
+        })->get();
+      $tipos = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','carroceria');
+        })->get();
+      $combustible = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','combustible');
+        })->get();
+      $trasmision = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','transmision');
+        })->get();
+      $kilometrajes = Atributo::whereHas('entidad', function($q) {
+          $q->where('descripcion','kilometraje');
+        })->get();
         $now = Carbon::parse(Carbon::now()->format('Y-m-d  h:i:s A'));
 
         $publicaciones = Publicacion::where('estado','=',1)

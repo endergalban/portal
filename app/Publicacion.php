@@ -109,10 +109,6 @@ class Publicacion extends Model
           }
         }
 
-        if ($request->region_id) {
-            $query->where('region_id',$request->region_id);
-        }
-
         if ($request->estado != '') {
             $query->where('estado',$request->estado);
         }
