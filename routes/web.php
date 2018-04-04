@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth','permiso']], function () {
 	Route::get('admin/atributos',['uses' => 'AtributoController@index', 'as' => 'atributos.index']);
 	Route::get('admin/atributos/get',['uses' => 'AtributoController@get', 'as' => 'atributos.get']);
 	Route::get('admin/atributos/obeneratributos/{id}',['uses' => 'AtributoController@obtenerAtributos', 'as' => 'atributos.obtenerAtributos']);
+  Route::get('admin/atributos/{id}/atributos',['uses' => 'AtributoController@atributos', 'as' => 'atributos.atributos']);
 	Route::post('admin/atributos/store',['uses' => 'AtributoController@store', 'as' => 'atributos.store']);
 	Route::post('admin/atributos/update',['uses' => 'AtributoController@update', 'as' => 'atributos.update']);
 	Route::post('admin/atributos/delete',['uses' => 'AtributoController@destroy', 'as' => 'atributos.delete']);

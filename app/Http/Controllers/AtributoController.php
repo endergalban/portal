@@ -19,7 +19,8 @@ class AtributoController extends Controller
      */
     public function index()
     {
-        return view('admin.atributos.index');
+        $entidadesPadre = Entidad::orderBy('orden')->get();
+        return view('admin.atributos.index')->with(compact('entidadesPadre'));
     }
 
     /**
@@ -34,9 +35,16 @@ class AtributoController extends Controller
         return $entidades->toJson();
     }
 
+    public function atributos($id)
+    {
+      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->get();
+      return $atributos->toJson();
+    }
+
     public function obtenerAtributos($id)
     {
-      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->paginate(5);
+
+      $atributos = Atributo::orderBy('orden')->where('entidad_id',$id)->with('atributo_padre')->with('atributo_padre.entidad')->paginate(5);
       return $atributos->toJson();
     }
 
@@ -75,7 +83,7 @@ class AtributoController extends Controller
         }
         $atributo->fill($request->all());
         $atributo->save();
-        $atributos = Atributo::orderBy('orden')->where('entidad_id',$atributo->entidad_id)->paginate(5);
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$atributo->entidad_id)->with('atributo_padre')->with('atributo_padre.entidad')->paginate(5);
         return $atributos->toJson();
 
     }
@@ -104,7 +112,7 @@ class AtributoController extends Controller
         $atributo = Atributo::findOrFail($request->id);
         $entidad_id = $atributo->entidad_id;
         $atributo->delete();
-        $atributos = Atributo::orderBy('orden')->where('entidad_id',$entidad_id)->paginate(5);
+        $atributos = Atributo::orderBy('orden')->where('entidad_id',$entidad_id)->with('atributo_padre')->with('atributo_padre.entidad')->paginate(5);
         return $atributos->toJson();
     }
 }

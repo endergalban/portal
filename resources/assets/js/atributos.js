@@ -37,7 +37,10 @@ var vue = new Vue({
         index: -2,
         indexAtributo: -2,
         indexEntidadAtributo: -1,
-
+        entidadPadre: '',
+        atributoPadre: '',
+        atributoPadreDescripcion: '',
+        atributosPadre: []
     },
     computed: {
       mostrarPaginador: function () {
@@ -98,6 +101,10 @@ var vue = new Vue({
           this.elementoAtributo.entidad_id = 0;
           this.elementoAtributo.entidad_descripcion = '';
           this.indexAtributo = -2;
+          this.entidadePadre = '';
+          this.atributoPadre = '';
+          this.atributosPadre = [];
+          this.atributoPadreDescripcion = '';
 
       },
       armarPaginador: function (tipo = 1) {
@@ -246,11 +253,13 @@ var vue = new Vue({
           this.elementoAtributo.descripcion = '';
           this.elementoAtributo.orden = 0;
           this.elementoAtributo.estado = 1;
+          this.atributoPadreDescripcion = '';
         } else {
           this.elementoAtributo.id = this.atributos[indexAtributo].id;
           this.elementoAtributo.descripcion = this.atributos[indexAtributo].descripcion;
           this.elementoAtributo.orden = this.atributos[indexAtributo].orden;
           this.elementoAtributo.estado = this.atributos[indexAtributo].estado;
+          this.atributoPadreDescripcion = this.atributos[indexAtributo].atributo_padre ? this.atributos[indexAtributo].atributo_padre.entidad.descripcion + ' > ' + this.atributos[indexAtributo].atributo_padre.descripcion: 'N/A';
         }
         this.elementoAtributo.entidad_id = this.elementos[indexAtributoEntidad].id;
       },
@@ -262,6 +271,9 @@ var vue = new Vue({
           datos.append('estado', this.elementoAtributo.estado);
           datos.append('entidad_id', this.elementoAtributo.entidad_id);
           datos.append('id', this.elementoAtributo.id);
+          if (this.atributoPadre != '') {
+            datos.append('padre',  this.atributoPadre );
+          }
           axios.post(
               urlActual + '/store_atributo',
               datos,
@@ -298,6 +310,29 @@ var vue = new Vue({
             this.limpiarElementoAtributo();
             $("#eliminarModalAtributo").modal('hide');
         });
+      },
+      ventanaAtributoPadre: function(){
+          $("#modalAtributoPadre").modal('show');
+      },
+      cerrarVentanaAtributoPadre: function(tipo){
+        if (tipo == 0) {
+          this.atributoPadre = '';
+          this.atributoPadreDescripcion = '';
+        } else {
+           this.atributoPadreDescripcion = document.getElementById('entidadPadre').options[document.getElementById('entidadPadre').selectedIndex].text + ' > ' + document.getElementById('atributoPadre').options[document.getElementById('atributoPadre').selectedIndex].text;
+        }
+        this.entidadPadre = '';
+        this.atributosPadre = [];
+        $("#modalAtributoPadre").modal('hide');
+      },
+      cargarAtributosPadre: function () {
+        var url = urlActual + '/' + this.entidadPadre + '/atributos';
+          axios.get(url)
+          .then(response => {
+              this.atributosPadre = response.data;
+          }).catch(error => {
+               console.log(error);
+          });
       },
     }
 });

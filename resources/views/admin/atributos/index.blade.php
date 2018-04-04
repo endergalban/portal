@@ -150,6 +150,14 @@
             </select>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" v-model="atributoPadreDescripcion" value="0" style="width:100%" class="form-control" disabled>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn  btn-flat btn-sm btn-primary" @click.prevent="ventanaAtributoPadre()">Atributo Padre</button>
+        </div>
         <div class="col-md-12">
           <div class="form-group">
             <button type="button" class="btn btn-primary" @click.prevent="guardarElementoAtributo()" :disabled="habilitarGuardarAtributo" >Guardar</button>
@@ -167,6 +175,7 @@
               <th><b>ID #</b></th>
               <th><b>Item</b></th>
               <th><b>Orden</b></th>
+              <th><b>Padre</b></th>
               <th><b>Estado</b></th>
               <th><b>Acciones</b></th>
             </thead>
@@ -180,6 +189,9 @@
               </td>
               <td>
                 @{{ elementoAtt.orden }}
+              </td>
+              <td>
+                @{{ elementoAtt.atributo_padre ?  elementoAtt.atributo_padre.entidad.descripcion + ' > ' + elementoAtt.atributo_padre.descripcion : 'N/A'}}
               </td>
               <td>
                 <span class="label label-success" v-if="elementoAtt.estado == 1">Activo</span>
@@ -217,6 +229,48 @@
       </div>
     </div>
   </fieldset>
+  <!-- Modal Padre -->
+  <div class="modal fade" id="modalAtributoPadre" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Carga Atributo Padre</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Entidad</label>
+                <select id="entidadPadre" v-model="entidadPadre" class="form-control" @change="cargarAtributosPadre">
+                  <option value="">Seleccione</option>
+                  @foreach ($entidadesPadre as $key => $value)
+                    <option value="{{$value->id}}">{{$value->descripcion}}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Atributo Padre</label>
+                <select id="atributoPadre" v-model="atributoPadre" class="form-control">
+                  <option value="">Seleccione</option>
+                  <option v-for="item in atributosPadre":value="item.id">@{{ item.descripcion }}</option>
+                </select>
+              </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" @click="cerrarVentanaAtributoPadre(0)">Cerrar</button>
+          <button type="button" class="btn btn-primary" @click="cerrarVentanaAtributoPadre(1)">Seleccionar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Modal Eliminar -->
   <div class="modal fade" id="eliminarModalEntidad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
