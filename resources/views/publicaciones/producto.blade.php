@@ -71,13 +71,13 @@
             </div>
 
             <div class="card-body">
-              <h3 class="card-title">{{ $publicacion->producto->descripcion}}</h3>
+              <h3 class="card-title">{{ $publicacion->titulo}}</h3>
                @foreach ($publicacion->atributos as $atributo)
 
                   <span class="badge badge-primary">{{$atributo->descripcion}}</span>
                @endforeach
               <h4><strong>$ {{ $publicacion->monto}}</strong></h4>
-              <p class="card-text">{{ $publicacion->titulo}}</p>
+              <p class="card-text">Categoría: {{ $publicacion->producto->descripcion}}</p>
               <p class="card-text">{{ $publicacion->descripcion}}</p>
               <hr>
                 <div class="row">

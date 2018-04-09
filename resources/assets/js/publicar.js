@@ -1,5 +1,9 @@
+import VueCollapse from 'vue2-collapse'
+Vue.use(VueCollapse);
 var vue = new Vue({
     el: '#container',
+
+ // ...
     created: function(){
       document.getElementById("container").classList.remove('hidden');
       this.cargarImagenALienzo(0);
@@ -10,6 +14,7 @@ var vue = new Vue({
       tab: 0,
       listadoPublicaciones: 0,
       publicaciones : [],
+      check: [],
       productos : [],
       mensajeError: [],
       mensajeOk: '',
@@ -39,6 +44,9 @@ var vue = new Vue({
           direccion_id: '',
           producto_id: '',
           region_id: '',
+          piezacarroceria_id: '',
+          electrico_id: '',
+          suspencion_id: '',
       },
       entidades: {
         region: [],
@@ -62,7 +70,10 @@ var vue = new Vue({
         comfort: [],
         sonido: [],
         exterior: [],
-        ficha: []
+        ficha: [],
+        piezacarroceria: [],
+        electrico: [],
+        suspencion: [],
       },
       buscarFiltro: '',
       estadoFiltro: '',
@@ -71,13 +82,19 @@ var vue = new Vue({
   //    entidades:  [],
       imagenes: [],
       entidadesSeleccionadas: [],
+      atributos: []
 
     },
     computed: {
 
       deshabilitarBtnPublicar: function (){
         return this.validar();
-
+      },
+      deshabilitarBtnContinuar: function (){
+        return this.validarContinuar();
+      },
+      deshabilitarPublicarPieza: function (){
+        return this.validarPublicarPieza();
       },
     },
     methods: {
@@ -92,6 +109,36 @@ var vue = new Vue({
           this.elemento.region_id.toString().trim().length == 0 ||
           this.elemento.placa.toString().trim().length == 0 ||
           this.elemento.marca_id.toString().trim().length == 0;
+      },
+      validarContinuar: function() {
+        return this.elemento.producto_id.toString().trim().length == 0 ||
+          this.elemento.modelo_id.toString().trim().length == 0 ||
+          this.elemento.marca_id.toString().trim().length == 0 ||
+          this.elemento.anio_id.toString().trim().length == 0 ||
+          this.elemento.region_id.toString().trim().length == 0 ||
+          this.atributos.length == 0;
+      },
+
+      validarPublicarPieza: function() {
+        let respuesta = false;
+        this.atributos.forEach((item,key)=>{
+          if (item.id.toString().trim().length == 0) {
+            respuesta = true;
+          }
+          if (item.descripcion.toString().trim().length == 0) {
+            respuesta = true;
+          }
+          if (item.observacion.toString().trim().length == 0) {
+            respuesta = true;
+          }
+          if (!regExpPrecio.test(item.monto)) {
+            respuesta = true;
+          }
+          if (item.estado.toString().trim().length == 0) {
+            respuesta = true;
+          }
+        });
+        return respuesta;
       },
       dataURItoBlob: function(dataURI) {
         // convert base64/URLEncoded data component to raw binary data held in a string
@@ -116,6 +163,42 @@ var vue = new Vue({
         this.tab = 0;
         this.tipo = 0;
         $(window).scrollTop(0);
+      },
+
+      publicarPieza: function(){
+        if (this.validarPublicarPieza) {
+          let request = new FormData();
+          let arreglo = [];
+          this.atributos.forEach((item,key)=>{
+            arreglo.push(JSON.stringify(item));
+          });
+          request.append('data', JSON.stringify(this.atributos));
+
+          axios.post('publicar/storepieza',
+            request,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          )
+          .then((response) => {
+            this.limpiar();
+            this.elemento.producto_id = '';
+            this.tab = 0;
+            this.tipo = 0;
+            this.titulo = 'TIPO DE PUBLICACIÓN';
+            if (response.data == 0) {
+              this.mensajeOk = 'Felicidades tus productos ha sido publicado.'
+            }
+            $(window).scrollTop(0);
+          })
+          .catch((error) => {
+            console.log(error);
+            $(window).scrollTop(0);
+          });
+
+        }
       },
       guardar: function() {
         if(! this.validar()) {
@@ -180,6 +263,7 @@ var vue = new Vue({
 
       obtenermodelos: function() {
         if (document.getElementById('id_marca').value > 0) {
+          this.elemento.modelo_id = '';
           axios.get('/modelos/' + document.getElementById('id_marca').value + '/obtener')
           .then((response) => {
             this.entidades.modelo = response.data;
@@ -252,11 +336,15 @@ var vue = new Vue({
         this.elemento.combustible_id = '';
         this.elemento.direccion_id = '';
         this.elemento.region_id = '';
+        this.atributos = [];
 
       },
       cambioTipo: function(tipo,tab) {
         this.tipo = tipo;
         this.tab = tab;
+        this.mensajeOk = '';
+        this.mensajeError = '';
+
         if (this.tipo == 1) {
           this.cabecera  = 'Venta de Auto';
         } else {
@@ -281,9 +369,43 @@ var vue = new Vue({
         this.imagenes.splice((index-1),1);
         this.cargarImagenesMiniaturas();
       },
-      // previsualizarImagen: function(index) {
-      //   document.getElementById('imagenLienzo').src = this.imagenes[index-1];
-      // },
+      anexarAtributo: function(itemArray, key) {
+        let anexar = true;
+        this.atributos.forEach((item)=>{
+          if (item.id == this.entidades[itemArray][key].id) {
+            anexar = false;
+          }
+        });
+        if (anexar == true) {
+          this.atributos.push(
+            {
+              id: this.entidades[itemArray][key].id,
+              descripcion: this.entidades[itemArray][key].descripcion,
+              estado: '',
+              observacion: '',
+              monto: '',
+              imagenes: [],
+              lado: [],
+              producto_id: this.elemento.producto_id,
+              modelo_id: this.elemento.modelo_id,
+              marca_id: this.elemento.marca_id,
+              anio_id: this.elemento.anio_id,
+              region_id: this.elemento.region_id,
+              carroceria_id: this.elemento.carroceria_id
+            }
+          );
+        }
+      },
+      eliminarAtributo: function(index) {
+        this.atributos.splice(index,1);
+        if (this.atributos.length == 0) {
+          this.tab = 1;
+        }
+      },
+      armarPiezas: function() {
+        this.tab = 2;
+        $(window).scrollTop(0);
+      },
       cargarImagenALienzo: function(tipo){
         this.mensajeError = '';
         this.mensajeOk = '';

@@ -24,8 +24,8 @@
 
 
                   <h3>Descripción de la Publicación</h3>
-                  <p>{{ $publicacion->producto->descripcion}}</p>
                   <p>{{ $publicacion->titulo}}</p>
+                  <p>Categoría: {{ $publicacion->producto->descripcion}}</p>
                   <p>{{ $publicacion->descripcion}}</p><br>
                   <p><small>Publicado por {{$publicacion->user->name}}</small></p>
 

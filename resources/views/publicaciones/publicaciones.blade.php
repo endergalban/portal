@@ -179,7 +179,8 @@
               </div>
   	          </div>
   	          <div class="info">
-  	            <h4>{{ $publicacion->producto->descripcion }}</h4>
+  	            <h5> {{ $publicacion->titulo }}</h5>
+                <h6>{{ $publicacion->producto->descripcion }}</h6>
   	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
   	            {{-- </span> --}}
                 <h6>Publicado {{ $now->diffForHumans($publicacion->created_at)}}</h6>

@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('publicar/{id}/obtener',['uses' => 'PublicarController@obtener', 'as' => 'publicar.obtener']);
 	Route::post('publicar/delete',['uses' => 'PublicarController@delete', 'as' => 'publicar.delete']);
 	Route::post('publicar/store',['uses' => 'PublicarController@store', 'as' => 'publicar.store']);
+	Route::post('publicar/storepieza',['uses' => 'PublicarController@storepieza', 'as' => 'publicar.storepieza']);
 	Route::post('publicar/update',['uses' => 'PublicarController@update', 'as' => 'publicar.update']);
 	Route::get('asistencias',['uses' => 'PublicarController@asistencia', 'as' => 'publicar.asistencia']);
 	Route::post('asistencias/store',['uses' => 'PublicarController@store_asistencia', 'as' => 'asistencia.store']);

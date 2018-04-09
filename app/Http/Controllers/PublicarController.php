@@ -65,6 +65,36 @@ class PublicarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function storepieza(Request $request)
+    {
+
+      $data = json_decode($request->data);
+      $producto = Producto::where('descripcion','=','pieza')->firstOrFail();
+      foreach ($data as $key => $value) {
+        # code...
+        $publicacion = new Publicacion;
+        $publicacion->titulo = $value->descripcion;
+        $publicacion->descripcion = $value->observacion;
+        $publicacion->monto = $value->monto;
+        $publicacion->estado =1;
+        $publicacion->cantidad =1;
+        $publicacion->producto_id = $producto->id;
+        $publicacion->user_id = Auth::user()->id;
+        $publicacion->save();
+
+        $arrayData = $value->lado;
+        $arrayData[] = $value->estado;
+        $arrayData[] = $value->modelo_id;
+        $arrayData[] = $value->marca_id;
+        $arrayData[] = $value->anio_id;
+        $arrayData[] = $value->region_id;
+        $arrayData[] = $value->carroceria_id;
+        $publicacion->atributos()->sync($arrayData);
+
+      }
+      return 0;
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
