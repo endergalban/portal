@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 55);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 44:
+/***/ 55:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(45);
+module.exports = __webpack_require__(56);
 
 
 /***/ }),
 
-/***/ 45:
+/***/ 56:
 /***/ (function(module, exports) {
 
 var vue = new Vue({
@@ -125,22 +125,18 @@ var vue = new Vue({
 
             return this.paginador.last_page !== 1;
         },
-
         habilitarGuardarEntidad: function habilitarGuardarEntidad() {
             return this.elementoEntidad.descripcion.toString().trim().length == 0 || this.elementoEntidad.orden.toString().trim().length == 0 || this.elementoEntidad.estado.toString().trim().length == 0;
         },
-
         habilitarGuardarAtributo: function habilitarGuardarAtributo() {
             return this.elementoAtributo.descripcion.toString().trim().length == 0 || this.elementoAtributo.orden.toString().trim().length == 0 || this.elementoAtributo.estado.toString().trim().length == 0 || this.elementoAtributo.entidad_id == 0;
         }
-
     },
     methods: {
         limpiarMensajes: function limpiarMensajes() {
             this.mensajeError = '';
             this.mensajeOk = '';
         },
-
         setCargando: function setCargando(button) {
             if (this.cargando == true) {
                 $('#' + button + '').button('reset');
@@ -150,7 +146,6 @@ var vue = new Vue({
                 this.cargando = true;
             }
         },
-
         limpiarElementoEntidad: function limpiarElementoEntidad() {
 
             this.elementoEntidad.id = 0;
@@ -217,14 +212,13 @@ var vue = new Vue({
                 _this.paginador = response.data;
                 _this.armarPaginador(1);
                 // ventanaCargando();
-                $(window).scrollTop(0);
+                // $(window).scrollTop(0);
             }).catch(function (error) {
                 $(window).scrollTop(0);
                 // ventanaCargando();
                 _this.mensajeError = 'Error interno.';
             });
         },
-
         eliminarElementoEntidad: function eliminarElementoEntidad() {
             var _this2 = this;
 
@@ -265,7 +259,6 @@ var vue = new Vue({
             }
             $(window).scrollTop(0);
         },
-
         guardarElementoEntidad: function guardarElementoEntidad(index) {
             var _this3 = this;
 
@@ -311,7 +304,6 @@ var vue = new Vue({
                 _this4.mensajeError = 'Error interno.';
             });
         },
-
         cargarElementoAtributo: function cargarElementoAtributo(indexAtributoEntidad, indexAtributo) {
             this.indexAtributo = indexAtributo;
             if (this.indexAtributo == -1) {
@@ -329,7 +321,6 @@ var vue = new Vue({
             }
             this.elementoAtributo.entidad_id = this.elementos[indexAtributoEntidad].id;
         },
-
         guardarElementoAtributo: function guardarElementoAtributo(index) {
             var _this5 = this;
 
@@ -352,7 +343,6 @@ var vue = new Vue({
                 _this5.limpiarElementoAtributo();
             });
         },
-
         eliminarElementoAtributo: function eliminarElementoAtributo() {
             var _this6 = this;
 

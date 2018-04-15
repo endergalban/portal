@@ -86,7 +86,6 @@ var vue = new Vue({
 
     },
     computed: {
-
       deshabilitarBtnPublicar: function (){
         return this.validar();
       },
@@ -118,7 +117,6 @@ var vue = new Vue({
           this.elemento.region_id.toString().trim().length == 0 ||
           this.atributos.length == 0;
       },
-
       validarPublicarPieza: function() {
         let respuesta = false;
         this.atributos.forEach((item,key)=>{
@@ -164,12 +162,18 @@ var vue = new Vue({
         this.tipo = 0;
         $(window).scrollTop(0);
       },
-
       publicarPieza: function(){
         if (this.validarPublicarPieza) {
           let request = new FormData();
           let arreglo = [];
+
           this.atributos.forEach((item,key)=>{
+            var img = [];
+            item.imagenes.forEach((imagen)=>{
+              var blob = this.dataURItoBlob(imagen);
+              request.append(item.id +"_imagenes[]", blob);
+            });
+            item.imagenes = [];
             arreglo.push(JSON.stringify(item));
           });
           request.append('data', JSON.stringify(this.atributos));
@@ -260,7 +264,6 @@ var vue = new Vue({
           });
         }
       },
-
       obtenermodelos: function() {
         if (document.getElementById('id_marca').value > 0) {
           this.elemento.modelo_id = '';
@@ -344,30 +347,35 @@ var vue = new Vue({
         this.tab = tab;
         this.mensajeOk = '';
         this.mensajeError = '';
-
         if (this.tipo == 1) {
           this.cabecera  = 'Venta de Auto';
         } else {
           this.cabecera  = 'Venta de Partes';
         }
       },
-
-      cargarImagenesMiniaturas: function() {
+      cargarImagenesMiniaturas: function(key) {
         var i = 1;
-        this.imagenes.forEach(function(img) {
-           var nodeImg = document.getElementById('imagen_'+ i +'');
-           nodeImg.src = img;
-           var ns;
-          i = i + 1;
-        });
+        if (key == 'null') {
+          this.imagenes.forEach(function(img) {
+            var nodeImg = document.getElementById('imagen_'+ i +'');
+            nodeImg.src = img;
+            i = i + 1;
+          });
+        } else {
+          this.atributos[key].imagenes.forEach(function(img) {
+            var nodeImg = document.getElementById('imagen_'+ key +'_'+ i);
+            nodeImg.src = img;
+            i = i + 1;
+          });
+        }
       },
-      eliminarImagen: function(index) {
-        for (var i=1; i < 7; i++) {
-           document.getElementById('imagen_'+ i +'').src = '../images/no-image.jpg';
-        };
-        // document.getElementById('imagenLienzo').src = 'http://placehold.it/640x580';
-        this.imagenes.splice((index-1),1);
-        this.cargarImagenesMiniaturas();
+      eliminarImagen: function(index,key = 'null') {
+        if (key == 'null') {
+             // document.getElementById('imagen_'+ i +'').src = '../images/no-image.jpg';
+          this.imagenes.splice((index-1),1);
+        } else {
+          vue.atributos[key].imagenes.splice((index-1),1);
+        }
       },
       anexarAtributo: function(itemArray, key) {
         let anexar = true;
@@ -405,37 +413,51 @@ var vue = new Vue({
       armarPiezas: function() {
         this.tab = 2;
         $(window).scrollTop(0);
+
       },
-      cargarImagenALienzo: function(tipo){
+      cargarImagenALienzo: function(tipo,key = 'null'){
         this.mensajeError = '';
         this.mensajeOk = '';
+        if(document)
         var canvas = document.getElementById('canvas');
         var context = canvas.getContext("2d");
         var img = new Image();
-        var lienzo = document.getElementById("lienzo");
         if (tipo == 0) {
           img.onload = function() { context.drawImage(img, 0, 0); };
         } else {
-          var fileinput = document.getElementById('imagen');
-          if(document.querySelector('#imagen').value.length > 0 && this.imagenes.length < 7)
-          {
-            var file = fileinput.files[0];
-            if(file.type.match('image.*')) {
-              var reader = new FileReader();
-                // Read in the image file as a data URL.
-              reader.readAsDataURL(file);
-              reader.onload = function(evt){
-                if( evt.target.readyState == FileReader.DONE) {
-                    img.src = evt.target.result;
-                    context.drawImage(img,100,100);
-                     img.setAttribute('width','640px');
-                     vue.imagenes.push(img.src);
-                     vue.cargarImagenesMiniaturas();
+          if (key == 'null') {
+            var fileinput = document.getElementById('imagen');
+            if(document.querySelector('#imagen').value.length == 0 || this.imagenes.length > 6)
+            {
+              return false;
+            }
+          } else {
+            var fileinput = document.getElementById('imagen_'+key);
+            if(document.querySelector('#imagen_'+key).value.length == 0 || this.atributos[key].imagenes.length > 4)
+            {
+              return false;
+            }
+
+          }
+          var file = fileinput.files[0];
+          if (file.type.match('image.*')) {
+            var reader = new FileReader();
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(file);
+            reader.onload = function(evt){
+              if( evt.target.readyState == FileReader.DONE) {
+                img.src = evt.target.result;
+                context.drawImage(img,100,100);
+                img.setAttribute('width','640px');
+                if (key == 'null') {
+                  vue.imagenes.push(img.src);
+                } else {
+                  vue.atributos[key].imagenes.push(img.src);
                 }
               }
-            } else {
-                alert("Solo se permiten imagenes");
             }
+          } else {
+            alert("Solo se permiten imagenes");
           }
 
         }

@@ -47,14 +47,12 @@ var vue = new Vue({
 
           return this.paginador.last_page !== 1;
       },
-
       habilitarGuardarEntidad: function () {
           return this.elementoEntidad.descripcion.toString().trim().length == 0  ||
                 this.elementoEntidad.orden.toString().trim().length == 0 ||
                 this.elementoEntidad.estado.toString().trim().length == 0
                 ;
       },
-
       habilitarGuardarAtributo: function () {
           return this.elementoAtributo.descripcion.toString().trim().length == 0  ||
                 this.elementoAtributo.orden.toString().trim().length == 0 ||
@@ -62,15 +60,12 @@ var vue = new Vue({
                 this.elementoAtributo.entidad_id == 0
                 ;
       },
-
     },
     methods: {
       limpiarMensajes: function () {
           this.mensajeError = '';
           this.mensajeOk = '';
       },
-
-
       setCargando: function (button) {
         if (this.cargando == true) {
           $('#' + button +'').button('reset');
@@ -80,8 +75,6 @@ var vue = new Vue({
           this.cargando = true;
         }
       },
-
-
       limpiarElementoEntidad: function () {
 
         this.elementoEntidad.id = 0;
@@ -144,14 +137,13 @@ var vue = new Vue({
               this.paginador = response.data;
               this.armarPaginador(1);
               // ventanaCargando();
-              $(window).scrollTop(0);
+              // $(window).scrollTop(0);
           }).catch(error => {
               $(window).scrollTop(0);
               // ventanaCargando();
               this.mensajeError = 'Error interno.';
           });
       },
-
       eliminarElementoEntidad: function () {
           var datos = new FormData();
           datos.append('id', this.elementos[this.index].id);
@@ -196,7 +188,6 @@ var vue = new Vue({
         }
         $(window).scrollTop(0);
       },
-
       guardarElementoEntidad: function (index) {
           this.limpiarMensajes();
           var datos = new FormData();
@@ -245,7 +236,6 @@ var vue = new Vue({
               this.mensajeError = 'Error interno.';
           });
       },
-
       cargarElementoAtributo: function (indexAtributoEntidad,indexAtributo) {
         this.indexAtributo = indexAtributo;
         if (this.indexAtributo == -1) {
@@ -263,7 +253,6 @@ var vue = new Vue({
         }
         this.elementoAtributo.entidad_id = this.elementos[indexAtributoEntidad].id;
       },
-
       guardarElementoAtributo: function (index) {
           var datos = new FormData();
           datos.append('orden', this.elementoAtributo.orden);
@@ -290,7 +279,6 @@ var vue = new Vue({
               this.limpiarElementoAtributo();
           });
       },
-
       eliminarElementoAtributo: function () {
         var datos = new FormData();
         datos.append('id', this.atributos[this.indexAtributo].id);

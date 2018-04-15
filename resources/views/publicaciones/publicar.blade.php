@@ -64,13 +64,20 @@
           <div class="row" v-if="tipo == 1 && tab == 1">
             {{-- Imagenes --}}
             <div class="col-md-12 text-center">
-              <div class="col-md-2 col-xs-6" v-for="n in 6">
+              <div class="col-md-2 col-xs-6" v-for="(imagen,n) in imagenes">
                 <div class="col-md-12 col-xs-12">
-                  <img :id="'imagen_' + n " src="../images/no-image.jpg" class="img-thumbnail" style="width:120px;height:89px"/>
+                  <img :id="'imagen_' + n " :src="imagen" class="img-thumbnail" style="width:120px;height:89px"/>
                 </div>
                 <div class="col-md-12 col-xs-12">
-                  {{-- <button @click.prevent="previsualizarImagen(n)" class="btn btn-sm btn-primary" v-show="! (imagenes.length < n)"><i class="fa fa-search"></i></button> --}}
                   <button @click.prevent="eliminarImagen(n)" class="btn btn-sm btn-danger" v-show="! (imagenes.length < n)"><i class="fa fa-trash"></i></button>
+                </div>
+              </div>
+              <div class="col-md-2 col-xs-6" v-for="n in (6 - imagenes.length)">
+                <div class="col-md-12 col-xs-12">
+                  <img  src="../images/no-image.jpg" class="img-thumbnail" style="width:120px;height:89px"/>
+                </div>
+                <div class="col-md-12 col-xs-12">
+                  <button class="btn btn-sm btn-danger disabled"><i class="fa fa-trash"></i></button>
                 </div>
               </div>
               <canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
@@ -363,6 +370,7 @@
               <button type="submit" class="btn btn-primary hidden-xs pull-right" :disabled="deshabilitarBtnPublicar"  v-show="tab > 0">Publicar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
             </div>
           </div>
+          {{-- Ventas por parte --}}
           <div class="row" v-if="tipo == 2 && tab == 1">
             {{-- selects --}}
             <div class="col-md-4 accordion">
@@ -425,8 +433,6 @@
                   </select>
         				</div>
       				</div>
-
-
             </div>
             {{-- Acordiones --}}
             <div class="col-md-4 accordion" >
@@ -517,20 +523,31 @@
           </div>
 
           <div class="row" v-if="tipo == 2 && tab == 2">
-
+            <canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
             <div  class="col-md-12"  v-for="(item,key) in atributos">
               <div  class="col-md-12">
                 <p><h3>@{{ item.descripcion }}</h3> <a  href="#" @click.prevent="eliminarAtributo(key)" class="text-danger">Eliminar</a></p>
               </div>
-              <div class="col-md-2 col-xs-6" v-for="n in 4">
+              <div class="col-md-2 col-xs-6" v-for="(imagen,n) in atributos[key].imagenes">
                 <div class="col-md-12 col-xs-12">
-                  <img :id="'imagen_' + item.id + '_' + key" src="../images/no-image.jpg" class="img-thumbnail" style="width:120px;height:89px"/>
+                  <img :id="'imagen_' + key + '_' + n" :src="imagen" class="img-thumbnail" style="width:120px;height:89px"/>
                 </div>
                 <div class="col-md-12 col-xs-12 text-right">
-                  <a  href="#" class="text-danger">Eliminar</a>
+                  <a  href="#" class="text-danger" @click.prevent="eliminarImagen(n,key)">Eliminar</a>
+                </div>
+              </div>
+              <div class="col-md-2 col-xs-6" v-for="n in (4 - atributos[key].imagenes.length)">
+                <div class="col-md-12 col-xs-12">
+                  <img src="../images/no-image.jpg"  class="img-thumbnail" style="width:120px;height:89px"/>
+                </div>
+                <div class="col-md-12 col-xs-12 text-right">
+                  <a  href="#" class="text-danger disabled">Eliminar</a>
                 </div>
               </div>
 
+              <div class="col-md-4   col-xs-12">
+                <input type="file" :id="'imagen_' + key" class="form-control" :disabled="imagenes.length > 3" @change="cargarImagenALienzo(1,key)" >
+              </div>
 
               <div class="col-md-12" style="margin-top:20px;">
                   Estado:&nbsp;&nbsp;&nbsp;
