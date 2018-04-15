@@ -5,7 +5,8 @@
 <div class="content" id="container">
     <div class="row">
         <div class="col-md-12 col-xs-12" style="margin-top:0">
-            <img src="{{ asset('images/home/banner-nuevo-1.png') }}" style="width:100%">
+            <!--<img src="{{ asset('images/home/banner-nuevo-1.png') }}" style="width:100%">-->
+            <img src="{{ asset('images/video-banner.gif') }}" style="width:100%" class="img-fluid">
         </div>
     </div>
     <div class="row">

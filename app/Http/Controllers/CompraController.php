@@ -7,10 +7,11 @@ use App\Compra;
 use App\Publicacion;
 use App\Producto;
 use App\Atributo;
+use App\User;
 use Auth;
 use DB;
 use Validator;
-use Illuminate\Support\Facades\Mail;
+use Mail;
 use App\Mail\OrderCompra;
 use App\Mail\Venta;
 
@@ -101,6 +102,8 @@ class CompraController extends Controller
         $comprar->cantidad = $request->cant;
         $comprar->save();
 
+        $vendedor = User::find($publicacion->user_id);
+
      /*   $compras_anteriores = DB::table('compras')->groupBy('publicacion_id')
                 ->select(DB::raw('SUM(cantidad) as cantidad'))
                 ->where('publicacion_id','=',$publicacion->id)->first();
@@ -127,6 +130,7 @@ class CompraController extends Controller
         $publicacion->save();
 
         if($comprar) {
+            Mail::to(Auth::user()->email)->send(new OrderCompra($comprar,$vendedor));
             return view('compras.confirmacion');
         } else {
             return redirect()->back()
