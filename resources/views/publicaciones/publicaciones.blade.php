@@ -179,12 +179,12 @@
               </div>
   	          </div>
   	          <div class="info">
-  	            <h5> {{ $publicacion->titulo }}</h5>
-                <h6>{{ $publicacion->producto->descripcion }}</h6>
+  	            <h5 style="text-overflow:ellipsis;"> {{ $publicacion->titulo }}</h5>
+                <h6 style="text-overflow:ellipsis;">{{ $publicacion->producto->descripcion }}</h6>
   	             <h6>Cant: {{ $publicacion->cantidad }}</h6>
   	            {{-- </span> --}}
-                <h6>Publicado {{ $now->diffForHumans($publicacion->created_at)}}</h6>
-                <h6>Por: <strong>{{ $publicacion->user->name }}</strong></h6>
+                <h6 >Publicado {{ $now->diffForHumans($publicacion->created_at)}}</h6>
+                <h6 style="text-overflow:ellipsis;">Por: <strong>{{ $publicacion->user->name }}</strong></h6>
   	            <span class="price">$ {{ $publicacion->monto }}</span>
   	            {{-- <a class="btn btn-primary pull-right" href="{{ route('comprar', $publicacion->id ) }}"><i class="icon-shopping-cart"></i> Comprar</a> --}}
   	          </div>

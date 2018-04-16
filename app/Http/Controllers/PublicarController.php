@@ -68,7 +68,6 @@ class PublicarController extends Controller
 
     public function storepieza(Request $request)
     {
-
       $data = json_decode($request->data);
       $producto = Producto::where('descripcion','=','pieza')->firstOrFail();
       foreach ($data as $key => $value) {
@@ -83,6 +82,22 @@ class PublicarController extends Controller
         $publicacion->user_id = Auth::user()->id;
         $publicacion->save();
 
+        if(isset($request[$value->id.'_imagenes'])) {
+          foreach ($request[$value->id.'_imagenes'] as $key => $image) {
+            $imagen = Storage::disk('public')->put($publicacion->id, $image);
+            $publicacionImagen = new PublicacionImagen;
+            $publicacionImagen->ruta = $imagen;
+            $publicacionImagen->publicacion_id = $publicacion->id;
+            $publicacionImagen->estado = 1;
+            $publicacionImagen->save();
+          }
+        }
+        // if($request->atributos) {
+        //
+        //     $atributosData = explode(',',$request->atributos);
+        //     $publicacion->atributos()->sync($atributosData);
+        // }
+
         $arrayData = $value->lado;
         $arrayData[] = $value->estado;
         $arrayData[] = $value->modelo_id;
@@ -90,7 +105,9 @@ class PublicarController extends Controller
         $arrayData[] = $value->anio_id;
         $arrayData[] = $value->region_id;
         $arrayData[] = $value->carroceria_id;
-        $publicacion->atributos()->sync($arrayData);
+        if (count($arrayData) > 0) {
+          $publicacion->atributos()->sync($arrayData);
+        }
 
       }
       return 0;

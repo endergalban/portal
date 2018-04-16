@@ -1035,7 +1035,7 @@ var vue = new Vue({
 
         this.atributos.forEach(function (item, key) {
           var img = [];
-          item.imagenes.forEach(function (imagen) {
+          item.imagenes.forEach(function (imagen, i) {
             var blob = _this.dataURItoBlob(imagen);
             request.append(item.id + "_imagenes[]", blob);
           });

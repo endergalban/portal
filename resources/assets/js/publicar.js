@@ -169,9 +169,9 @@ var vue = new Vue({
 
           this.atributos.forEach((item,key)=>{
             var img = [];
-            item.imagenes.forEach((imagen)=>{
+            item.imagenes.forEach((imagen,i)=>{
               var blob = this.dataURItoBlob(imagen);
-              request.append(item.id +"_imagenes[]", blob);
+               request.append(item.id +"_imagenes[]", blob);
             });
             item.imagenes = [];
             arreglo.push(JSON.stringify(item));

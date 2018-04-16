@@ -86,6 +86,7 @@ class PublicacionController extends Controller
         $publicaciones = Publicacion::where('estado','=',1)
         ->has('producto')
         ->buscar($request)
+        ->orderBy('id','desc')
         ->with(['user'])
         ->with(['producto'])
         ->with(['atributos.entidad'])
