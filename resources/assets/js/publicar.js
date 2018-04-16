@@ -248,6 +248,10 @@ var vue = new Vue({
               this.mensajeError = response.data.errors;
             } else {
               this.limpiar();
+              this.elemento.producto_id = '';
+              this.tab = 0;
+              this.tipo = 0;
+              this.titulo = 'TIPO DE PUBLICACIÓN';
               this.eliminarImagen();
               this.elemento.producto_id = '';
               if (response.data == 0) {

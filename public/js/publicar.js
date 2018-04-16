@@ -1106,6 +1106,10 @@ var vue = new Vue({
             _this2.mensajeError = response.data.errors;
           } else {
             _this2.limpiar();
+            _this2.elemento.producto_id = '';
+            _this2.tab = 0;
+            _this2.tipo = 0;
+            _this2.titulo = 'TIPO DE PUBLICACIÓN';
             _this2.eliminarImagen();
             _this2.elemento.producto_id = '';
             if (response.data == 0) {
