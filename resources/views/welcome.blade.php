@@ -315,7 +315,7 @@
                               <div class="col-md-6 col-xs-12">
                                   <div class="form-group">
                                       <select name="tipo" class="form-control">
-                                        <option value="">Tipos de Repuestos</option>
+                                        <option value="">Tipos de  Carrocería</option>
                                         @foreach( $tipos as $tipo)
                                           <option value="{{ $tipo->id }}">{{$tipo->descripcion}}</option>
                                         @endforeach
@@ -336,8 +336,8 @@
                           <div class="row">
                               <div class="col-md-6 col-xs-12">
                                   <div class="form-group">
-                                  <select name="marca" class="form-control">
-                                      <option value="">Marcas</option>
+                                  <select name="marca" v-model="marca_id" class="form-control" @change="obtenermodelos()">
+                                      <option value="" >Marcas</option>
                                       @foreach( $marcas as $marca)
                                           <option value="{{ $marca->id }}">{{$marca->descripcion}}</option>
                                       @endforeach
@@ -348,9 +348,7 @@
                                   <div class="form-group">
                                   <select name="modelo" class="form-control">
                                       <option value="">Modelo</option>
-                                      @foreach( $modelos as $modelo)
-                                          <option value="{{ $modelo->id }}" {{ Input::get('modelo') == $modelo->id ? 'selected' : '' }}>{{$modelo->descripcion}} Km</option>
-                                      @endforeach
+                                      <option v-for="item in modelos" :value="item.id">@{{item.descripcion}}</option>
                                   </select>
                                   </div>
                               </div>
@@ -412,7 +410,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
       <div class="col-md-12 col-xs-12">
         <carousel :per-page="6" :autoplay="true" :loop="true" :autoplay-timeout="10000" :autoplay-hover-pause="true" :speed="3000">
           @foreach ($publicaciones as $publicacion)
@@ -424,7 +422,7 @@
            @endforeach
         </carousel>
       </div>
-    </div>
+    </div> --}}
 
 
 </div>

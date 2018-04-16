@@ -900,7 +900,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_collapse__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_carousel___default.a);
 var vue = new Vue({
-    el: '#container'
+  el: '#container',
+  data: {
+    modelos: [],
+    marca_id: ''
+  },
+  methods: {
+    obtenermodelos: function obtenermodelos() {
+      var _this = this;
+
+      if (this.marca_id != '') {
+        axios.get('/modelos/' + this.marca_id + '/obtener').then(function (response) {
+          _this.modelos = response.data;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      } else {
+        this.modelos = [];
+      }
+    }
+  }
 });
 
 /***/ }),

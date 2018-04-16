@@ -99,12 +99,24 @@ class PublicarController extends Controller
         // }
 
         $arrayData = $value->lado;
-        $arrayData[] = $value->estado;
-        $arrayData[] = $value->modelo_id;
-        $arrayData[] = $value->marca_id;
-        $arrayData[] = $value->anio_id;
-        $arrayData[] = $value->region_id;
-        $arrayData[] = $value->carroceria_id;
+        if ($value->estado) {
+          $arrayData[] = $value->estado;
+        }
+        if ($value->modelo_id) {
+          $arrayData[] = $value->modelo_id;
+        }
+        if ($value->marca_id) {
+          $arrayData[] = $value->marca_id;
+        }
+        if ($value->anio_id) {
+          $arrayData[] = $value->anio_id;
+        }
+        if ($value->region_id) {
+          $arrayData[] = $value->region_id;
+        }
+        if ($value->carroceria_id) {
+          $arrayData[] = $value->carroceria_id;
+        }
         if (count($arrayData) > 0) {
           $publicacion->atributos()->sync($arrayData);
         }

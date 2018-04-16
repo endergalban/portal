@@ -50,7 +50,7 @@
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
                              <select name="tipo" class="form-control">
-                               <option value="">Tipos de Repuestos</option>
+                               <option value="">Tipos de Carrocería</option>
                                @foreach( $tipos as $tipo)
                                  <option value="{{ $tipo->id }}" {{ Input::get('tipo') == $tipo->id ? 'selected' : '' }}>{{$tipo->descripcion}}</option>
                                @endforeach
@@ -69,7 +69,7 @@
                      </div>
                      <div class="col-md-12 col-xs-12">
                          <div class="form-group">
-                         <select name="marca" class="form-control">
+                         <select name="marca" class="form-control" v-model="marca_id" @change="obtenermodelos">
                              <option value="">Marcas</option>
                              @foreach( $marcas as $marca)
                                  <option value="{{ $marca->id }}" {{ Input::get('marca') == $marca->id ? 'selected' : '' }}>{{$marca->descripcion}}</option>
@@ -81,9 +81,7 @@
                          <div class="form-group">
                          <select name="modelo" class="form-control">
                              <option value="">Modelo</option>
-                             @foreach( $modelos as $modelo)
-                                 <option value="{{ $modelo->id }}" {{ Input::get('modelo') == $modelo->id ? 'selected' : '' }}>{{$modelo->descripcion}}</option>
-                             @endforeach
+                             <option v-for="item in modelos" :value="item.id">@{{item.descripcion}}</option>
                          </select>
                          </div>
                      </div>
@@ -203,3 +201,6 @@
 	  </div>
 	 </div>
 @endsection
+@push('scripts')
+<script src="{{asset('js/carrusel.js')}}"></script>
+@endpush

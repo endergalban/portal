@@ -52,18 +52,31 @@
           </div>
 
           {{-- Pantall Inicial --}}
-          <div v-show="tipo == 0 && tab == 0">
+          <div v-show="tipo == 0 && tab == 0"  style="margin:50px">
             <div class="col-md-6 text-center">
-              <a href="#" @click.prevent="cambioTipo(1,1)">Completo</a>
+              <a href="#" @click.prevent="cambioTipo(1,1)">
+                <div class="text-center col-md-12"><img src="{{ asset('images/home/completo.png') }}" style="height:100px" /></div>
+                <div class="text-center col-md-12"><h4>Completo</h4></div>
+              </a>
             </div>
-            <div class="col-md-6  text-center">
-              <a href="#" @click.prevent="cambioTipo(2,1)">Por Parte</a>
+            <div class="col-md-6  text-center" style="margin-bottom:50px">
+              <div class="col-md-6 text-center">
+                <a href="#" @click.prevent="cambioTipo(2,1)">
+                  <div class="text-center col-md-12"><img src="{{ asset('images/home/por-partes.png') }}" style="height:100px" /></div>
+                  <div class="text-center col-md-12"><h4>Por Pieza</h4></div>
+                </a>
+              </div>
             </div>
           </div>
           {{-- Venta por Auto --}}
           <div class="row" v-if="tipo == 1 && tab == 1">
+            {{-- botones --}}
+            <div  class="col-md-12" >
+              <button type="button" class="btn btn-default hidden-xs" v-show="tab > 0" @click="volver">Volver <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+              <button type="submit" class="btn btn-primary hidden-xs pull-right" :disabled="deshabilitarBtnPublicar"  v-show="tab > 0">Publicar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+            </div>
             {{-- Imagenes --}}
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center" style="margin-top:50px">
               <div class="col-md-2 col-xs-6" v-for="(imagen,n) in imagenes">
                 <div class="col-md-12 col-xs-12">
                   <img :id="'imagen_' + n " :src="imagen" class="img-thumbnail" style="width:120px;height:89px"/>
@@ -372,9 +385,14 @@
           </div>
           {{-- Ventas por parte --}}
           <div class="row" v-if="tipo == 2 && tab == 1">
+            {{-- Boton continuar --}}
+            <div  class="col-md-12"   style="margin-bottom:25px">
+              <button type="button" class="btn btn-default hidden-xs"  @click="volver">Volver <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+              <button type="submit" class="btn btn-primary hidden-xs pull-right" :disabled="deshabilitarBtnContinuar" @click.prevent="armarPiezas">Continuar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+            </div>
             {{-- selects --}}
             <div class="col-md-4 accordion">
-              <div class="col-md-12" >
+              <div class="col-md-12"   style="margin-top:10px">
                 <div class="form-group">
                   <label>Tipo de Vehiculo</label>
                   <select class="form-control" name="producto_id" v-model="elemento.producto_id" @change="obtener()">
@@ -438,7 +456,7 @@
             <div class="col-md-4 accordion" >
               <v-collapse-wrapper class=" accordion" >
                 <div style="margin:10px 15px" v-collapse-toggle>
-                    <p>Carroceria</p>
+                    <p class="text-primary" style="cursor: pointer;">Carroceria</p>
                 </div>
                 <div style="width:100%;overflow-y: auto;" v-collapse-content >
                     <div  v-for="(item,key) in entidades.piezacarroceria" >
@@ -453,7 +471,7 @@
               </v-collapse-wrapper>
               <v-collapse-wrapper class=" accordion" >
                 <div style="margin:10px 15px" v-collapse-toggle>
-                    <p>Dirección</p>
+                    <p  class="text-primary" style="cursor: pointer;">Dirección</p>
                 </div>
                 <div style="width:100%;overflow-y: auto;" v-collapse-content >
                     <div  v-for="(item,key) in entidades.direccion" >
@@ -468,7 +486,7 @@
               </v-collapse-wrapper>
               <v-collapse-wrapper class=" accordion" >
                 <div style="margin:10px 15px" v-collapse-toggle>
-                    <p>Eléctrico</p>
+                    <p  class="text-primary" style="cursor: pointer;">Eléctrico</p>
                 </div>
                 <div style="width:100%;overflow-y: auto;" v-collapse-content >
                     <div  v-for="(item,key) in entidades.electrico" >
@@ -483,7 +501,7 @@
               </v-collapse-wrapper>
               <v-collapse-wrapper class=" accordion" >
                 <div style="margin:10px 15px" v-collapse-toggle>
-                    <p>Suspención</p>
+                    <p  class="text-primary" style="cursor: pointer;">Suspención</p>
                 </div>
                 <div style="width:100%;overflow-y: auto;" v-collapse-content >
                     <div  v-for="(item,key) in entidades.suspencion" >
@@ -524,6 +542,12 @@
 
           <div class="row" v-if="tipo == 2 && tab == 2">
             <canvas id="canvas" class="hidden" >Your Browser does not support canvas</canvas>
+
+            <div  class="col-md-12" style="margin-bottom:25px">
+              <button type="button" class="btn btn-default hidden-xs"  @click="tab=1">Volver <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+              <button class="btn btn-primary pull-right" :disabled="deshabilitarPublicarPieza" @click.prevent="publicarPieza">Publicar <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+            </div>
+
             <div  class="col-md-12"  v-for="(item,key) in atributos">
               <div  class="col-md-12">
                 <p><h3>@{{ item.descripcion }}</h3> <a  href="#" @click.prevent="eliminarAtributo(key)" class="text-danger">Eliminar</a></p>
