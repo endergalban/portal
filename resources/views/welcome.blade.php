@@ -287,7 +287,7 @@
                 </div>
 
                 <hr>
-                <form method="post" action="{{ route('publicaciones.index')}}">
+                <form method="post" action="{{ route('publicaciones.index')}}" onsubmit="ventanaCargando()">
                     {{ csrf_field() }}
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2 col-xs-12">
@@ -309,7 +309,7 @@
                         <p>Búsqueda avanzada</p>
                     </div>
                     <div style="width:100%;overflow-y: auto;" v-collapse-content >
-                      <form method="post" action="{{ route('publicaciones.index')}}">
+                      <form method="post" action="{{ route('publicaciones.index')}}" onsubmit="ventanaCargando()">
                         {{ csrf_field() }}
                           <div class="row">
                               <div class="col-md-6 col-xs-12">
@@ -410,23 +410,33 @@
         </div>
     </div>
 
-    {{-- <div class="row">
-      <div class="col-md-12 col-xs-12">
-        <carousel :per-page="6" :autoplay="true" :loop="true" :autoplay-timeout="10000" :autoplay-hover-pause="true" :speed="3000">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-xs-12">
           @foreach ($publicaciones as $publicacion)
-            @if ($publicacion->imagenes->first())
-              <slide>
-                <a href="{{ route('publicaciones.details',$publicacion->id) }}"><img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" ></a>
-            </slide>
-            @endif
+                <a href="{{ route('publicaciones.details',$publicacion->id) }}">
+                  <div class="col-md-2">
+                    <div class="row">
+                     <div class="col-sm-12 col-md-12">
+                       <div class="thumbnail">
+                        <img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" >
+                         <div class="caption">
+                           @foreach ($publicacion->atributos as $atributo)
+                             <h5 class="text-left">{{$atributo->descripcion}}</h5>
+                            @endforeach
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                </div>
+              </a>
            @endforeach
-        </carousel>
       </div>
-    </div> --}}
+    </div>
 
 
 </div>
 @push('scripts')
 <script src="{{asset('js/carrusel.js')}}"></script>
+<script src="{{ asset('js/validaciones.js') }}"></script>
 @endpush
 @endsection

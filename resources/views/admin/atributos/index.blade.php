@@ -3,7 +3,7 @@
 @section('content')
 <div class="container hidden" id="container">
   <fieldset class="scheduler-border">
-    <legend class="scheduler-border"><span class="title-estilo">Ventas Asistidas</span></legend>
+    <legend class="scheduler-border"><span class="title-estilo">Caracteristicas</span></legend>
     {{-- Mensajes --}}
     <div class="alert alert-success" role="alert" v-show="mensajeOk != ''"></div>
     <div class="alert alert-danger" role="alert" v-show="mensajeError != ''"></div>

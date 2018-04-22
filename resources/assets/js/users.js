@@ -33,13 +33,13 @@ var vue = new Vue({
           return this.paginador.last_page !== 1;
       },
       habilitarGuardar: function () {
-          return this.elemento.name.toString().trim().length == 0  ||
-                 this.elemento.region_id.toString().trim().length == 0  ||
-                !this.verificar(this.elemento.rut) ||
-                !regExpCorreoElectronico.test(this.elemento.email) ||
-                (this.index == -1 && !regExPassword.test(this.elemento.password) ) ||
-                (this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password ))
-                ;
+        return this.elemento.name.toString().trim().length == 0  ||
+          this.elemento.region_id.toString().trim().length == 0  ||
+          !this.verificar(this.elemento.rut) ||
+          !regExpCorreoElectronico.test(this.elemento.email) ||
+          (this.index == -1 && !regExPassword.test(this.elemento.password) ) ||
+          (this.index > -1 && this.elemento.password.toString().trim().length > 0 && !regExPassword.test(this.elemento.password ))
+          ;
       },
     },
     methods: {
@@ -80,10 +80,6 @@ var vue = new Vue({
               this.elemento.telefono = '';
               this.elemento.estatus = true;
               this.elemento.tipo = 0;
-              //document.querySelector("#nombre").parentElement.classList.remove('has-error');
-              //document.querySelector("#rut").parentElement.classList.remove('has-error');
-              //document.querySelector("#password").parentElement.classList.remove('has-error');
-              //document.querySelector("#email").parentElement.classList.remove('has-error');
           },
           armarPaginador: function (paginasVisibles = 15) {
               this.numeroPaginas = [];
@@ -109,15 +105,16 @@ var vue = new Vue({
             this.limpiarMensajes();
             var filtros = 'page=' + page +'&buscar=' + this.buscarFiltro + '&tipo=' + this.tipoFiltro + '&estatus=' + this.estatusFiltro;
             var url = urlActual + '/get?' + filtros;
+            ventanaCargando();
               axios.get(url)
               .then(response => {
                   this.elementos = response.data.data;
                   this.paginador = response.data;
                   this.armarPaginador();
-                  $(window).scrollTop(0);
+                  ventanaCargando();
               }).catch(error => {
-                  $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
+                  ventanaCargando();
               });
           },
           filtrar: function() {
@@ -126,6 +123,7 @@ var vue = new Vue({
           eliminarElemento: function () {
               var datos = new FormData();
               datos.append('id', this.elementos[this.index].id);
+              ventanaCargando();
               axios.post(
                   urlActual + '/delete',
                   datos,
@@ -135,17 +133,16 @@ var vue = new Vue({
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
-                  $(window).scrollTop(0);
                   $('#eliminarModal').modal('hide');
-              }).catch(error => {
-                  $(window).scrollTop(0);
+                  ventanaCargando();
+                }).catch(error => {
                   this.mensajeError = 'Error interno.';
                   $('#eliminarModal').modal('hide');
+                  ventanaCargando();
               });
           },
           cargarElemento: function (index) {
             this.limpiarElemento();
-           // this.limpiarMensajes();
             this.index = index;
             if (this.index > -1) {
               this.elemento.id = this.elementos[index].id;
@@ -190,6 +187,7 @@ var vue = new Vue({
 
               datos.append('password', this.elemento.password);
             }
+            ventanaCargando();
             axios.post(
                 urlActual + '/store',
                 datos,
@@ -205,12 +203,12 @@ var vue = new Vue({
                 this.armarPaginador();
                 this.limpiarElemento();
               }
+              ventanaCargando();
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';
+                ventanaCargando();
             });
-
-
           },
       }
 });

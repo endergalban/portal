@@ -3,7 +3,7 @@
 @section('content')
 <div class="container hidden" id="container">
   <fieldset class="scheduler-border">
-    <legend class="scheduler-border"><span class="title-estilo">Ventas Asistidas</span></legend>
+    <legend class="scheduler-border"><span class="title-estilo">Productos</span></legend>
     <!-- Errores -->
     <div class="alert alert-success" role="alert" v-show="mensajeOk != ''">
     </div>
@@ -90,7 +90,7 @@
               <span v-if="elemento.estado == 1">Activo</span>
               <span v-else>Inactivo</span>
             </td>
-            <td> <button class="btn btn-success btn-sm" >@{{ elemento.atributos.length }}</button></td>
+            <td><b>@{{ elemento.atributos.length }}</b></td>
             <td nowrap="nowrap">
               <button :id="'btn_editar' + index" @click.prevent="cargarElemento(index);verificarCheck()" class="btn btn-primary btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-edit" data-toggle="tooltip" title="Editar" ></i></button>
               <button :id="'btn_eliminar' + index" @click.prevent="eliminar(index)" class="btn btn-danger btn-sm" data-loading-text="<i class='fa fa-spinner fa-spin '></i>" :disabled="cargando"><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar"></i></button>

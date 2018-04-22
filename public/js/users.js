@@ -152,10 +152,6 @@ var vue = new Vue({
             this.elemento.telefono = '';
             this.elemento.estatus = true;
             this.elemento.tipo = 0;
-            //document.querySelector("#nombre").parentElement.classList.remove('has-error');
-            //document.querySelector("#rut").parentElement.classList.remove('has-error');
-            //document.querySelector("#password").parentElement.classList.remove('has-error');
-            //document.querySelector("#email").parentElement.classList.remove('has-error');
         },
         armarPaginador: function armarPaginador() {
             var paginasVisibles = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 15;
@@ -187,14 +183,15 @@ var vue = new Vue({
             this.limpiarMensajes();
             var filtros = 'page=' + page + '&buscar=' + this.buscarFiltro + '&tipo=' + this.tipoFiltro + '&estatus=' + this.estatusFiltro;
             var url = urlActual + '/get?' + filtros;
+            ventanaCargando();
             axios.get(url).then(function (response) {
                 _this.elementos = response.data.data;
                 _this.paginador = response.data;
                 _this.armarPaginador();
-                $(window).scrollTop(0);
+                ventanaCargando();
             }).catch(function (error) {
-                $(window).scrollTop(0);
                 _this.mensajeError = 'Error interno.';
+                ventanaCargando();
             });
         },
         filtrar: function filtrar() {
@@ -205,22 +202,22 @@ var vue = new Vue({
 
             var datos = new FormData();
             datos.append('id', this.elementos[this.index].id);
+            ventanaCargando();
             axios.post(urlActual + '/delete', datos).then(function (response) {
                 _this2.elementos = response.data.data;
                 _this2.paginador = response.data;
                 _this2.armarPaginador();
                 _this2.limpiarElemento();
-                $(window).scrollTop(0);
                 $('#eliminarModal').modal('hide');
+                ventanaCargando();
             }).catch(function (error) {
-                $(window).scrollTop(0);
                 _this2.mensajeError = 'Error interno.';
                 $('#eliminarModal').modal('hide');
+                ventanaCargando();
             });
         },
         cargarElemento: function cargarElemento(index) {
             this.limpiarElemento();
-            // this.limpiarMensajes();
             this.index = index;
             if (this.index > -1) {
                 this.elemento.id = this.elementos[index].id;
@@ -266,6 +263,7 @@ var vue = new Vue({
 
                 datos.append('password', this.elemento.password);
             }
+            ventanaCargando();
             axios.post(urlActual + '/store', datos).then(function (response) {
                 if (response.data == '-1') {
                     _this3.mensajeError = 'El rut ingresado ya se encuentra en los registros';
@@ -277,8 +275,10 @@ var vue = new Vue({
                     _this3.armarPaginador();
                     _this3.limpiarElemento();
                 }
+                ventanaCargando();
             }).catch(function (error) {
                 _this3.mensajeError = 'Error interno.';
+                ventanaCargando();
             });
         }
     }

@@ -45,12 +45,19 @@ class PublicacionController extends Controller
     	$publicaciones =  Publicacion::where('estado','=',1)
             ->has('producto')
             ->has('imagenes')
+            ->whereHas('atributos.entidad', function($q){
+              $q->where('descripcion','marca')->orWhere('descripcion','anio')->orWhere('descripcion','modelo');
+            })
             ->where('cantidad','>',0)
-            ->with(['user'])
-            ->with(['producto'])
-            ->with(['atributos.entidad'])
-            ->with(['imagenes'])
-            ->limit(24)
+            ->with(['atributos' => function($q){
+              $q->whereHas('entidad', function($q) {
+                $q->where('descripcion','marca')
+                  ->orWhere('descripcion','modelo')->orWhere('descripcion','anio');
+              });
+            }])
+            ->with('imagenes')
+            ->orderBy('id','desc')
+            ->limit(6)
             ->get();
       return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos'));
     }

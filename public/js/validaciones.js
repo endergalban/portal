@@ -73,3 +73,12 @@ function filter(__val__){
     }
 
 }
+
+function ventanaCargando(){
+	var ventanaOverlay = document.getElementById('ventanaOverlay');
+	if(ventanaOverlay.classList.contains('hide')){
+	    ventanaOverlay.classList.remove('hide');
+	}else{
+	    ventanaOverlay.classList.add('hide');
+	}
+}
