@@ -24,6 +24,7 @@ Route::get('/modelos/{id}/obtener',function ($id){
     return $data;
 });
 
+Route::get('contacto',['uses' => 'HomeController@contacto', 'as' => 'contacto']);
 
 //Route::get('/home', 'PublicacionController@index')->name('home');
 Route::any('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'publicaciones.index']);

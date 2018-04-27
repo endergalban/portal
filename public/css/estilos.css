@@ -85,9 +85,9 @@ body {
 
 
 .navbar-default {
-  background-color: #0d1a2b !important;
-  border-color: #d3e0e9 !important;
-  color: #c0c5d9 !important;
+  background-color: #01b3e3 !important;
+  border-color: #01b3e3 !important;
+  color: #00014c !important;
 }
 
 .navbar-default .navbar-nav > .open > a,
@@ -113,7 +113,7 @@ body {
 	margin-top: 15px;
 }
 .navbar-default .navbar-nav > li > a {
-	color: #c0c5d9 !important;
+	color: #00014c !important;
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
@@ -170,7 +170,7 @@ legend.scheduler-border {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #0d1a2b;
+  background-color: #1c1c1c;
   text-align: left;
   overflow: hidden;
   width: 100%;

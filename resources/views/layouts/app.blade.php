@@ -151,13 +151,13 @@
             <div class="col-md-6 col-xs-12">
                 <div class="row" style="padding-top:20px">
                     <div class="col-md-4 col-xs-4" style="font-size:18px">
-                        <strong>Compañía</strong>
+                        <strong style="color:#228adf">Compañía</strong>
                     </div>
                     <div class="col-md-4 col-xs-4" style="font-size:18px">
-                        <strong>Información</strong>
+                        <strong style="color:#228adf">Información</strong>
                     </div>
                     <div class="col-md-4 col-xs-4" style="font-size:18px">
-                        <strong>Cuenta</strong>
+                        <strong style="color:#228adf">Cuenta</strong>
                     </div>
                 </div>
                 <div class="row">
@@ -184,7 +184,11 @@
                 </div>
                  <div class="row">
                     <div class="col-md-4 col-xs-4">
-                        <span style="color:white">Contacto</span>
+                        <span>
+                          <a href="{{ route('contacto') }}" style="color: white;text-decoration:  none;">
+                            Contacto
+                          </a>
+                        </span>
                     </div>
                     <div class="col-md-4 col-xs-4">
                         <span style="color:white">Mapa del Sitio</span>
