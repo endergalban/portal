@@ -11,6 +11,8 @@ use App\Compra;
 use Validator;
 use Carbon\Carbon;
 use DB;
+use Mail;
+use App\Mail\Contacto;
 
 class PublicacionController extends Controller
 {
@@ -111,6 +113,25 @@ class PublicacionController extends Controller
         ->find($id);
         $producto = Producto::find($publicacion->producto_id)->first();
         return view('publicaciones.producto', compact('publicacion','producto'));
+    }
+
+    public function contacto() 
+    {
+        return view('contacto');
+    }
+
+    public function contacto_enviar(Request $request) 
+    {
+        
+          Mail::to()->send(new Contacto($datos));
+            return redirect()->back()
+            ->with('success','Mensaje Enviado');
+    }
+
+    public function servicios() 
+    {
+        return view('servicios');
+ 
     }
 
 }

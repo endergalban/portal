@@ -41,7 +41,7 @@
   </div>
     <div id="app" style="overflow-x:hidden;min-height:500px;">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container" style="padding-bottom:0 !important">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -58,7 +58,7 @@
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse" style="padding-top:20px;">
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
@@ -68,7 +68,8 @@
                     <ul class="nav navbar-nav navbar-right"  style="">
                         <!-- Authentication Links -->
                         <li><a href="{{ route('publicar.index') }}">Publicar</a></li>
-
+                        <li><a href="{{ route('contacto') }}">Contacto</a></li>
+                        <li><a href="{{ route('servicios') }}">Servicios</a></li>
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                         @else
@@ -173,7 +174,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-4">
-                        <span style="color:white">Servicio</span>
+                        <span>
+                          <a href="{{ route('servicios') }}"  style="color: white;text-decoration:  none;">
+                            Servicio
+                          </a>
+                        </span>
                     </div>
                     <div class="col-md-4 col-xs-4">
                         <span style="color:white">Términos y Condiciones</span>
