@@ -61,7 +61,33 @@ class PublicacionController extends Controller
             ->orderBy('id','desc')
             ->limit(6)
             ->get();
-      return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos'));
+            $str = file_get_contents('http://bmcare.cl/wp-json/wp/v2/posts');
+            $json = json_decode($str, true);
+            // dd($json);
+            $publicacionesWp = [];
+            foreach ($json as $key => $contenido) {
+                $texto =$contenido['content']['rendered'];
+                $posicionInicial= strpos($texto,'<img');
+                $textoCortar = substr($texto, 0, $posicionInicial);
+                $texto = str_replace($textoCortar, '', $texto);
+                $posicionFinal= strpos($texto,'>');
+                $image = substr($texto, 0, $posicionFinal + 1);
+                $image = str_replace('<img', '<img style="width:400px"', $image).'<br><br>';
+                if (strpos($image, '<img') === false) {
+                    $image = '';
+                }
+                $publicacionesWp[] = [
+                    'link' => str_replace('<a','<a target="_blank"',$contenido['link']),
+                    'title' => $contenido['title']['rendered'],
+                    'excerpt' => $contenido['excerpt']['rendered'],
+                    'image' => $image
+                ];
+                if ($key == 4){
+                    break;
+                }
+            }
+            // dd($publicacionesWp);
+      return view('welcome')->with(compact('regiones','marcas','tipos','combustible','trasmision','anios','kilometrajes','publicaciones','now','modelos','publicacionesWp'));
     }
 
     public function index(Request $request)
@@ -115,23 +141,23 @@ class PublicacionController extends Controller
         return view('publicaciones.producto', compact('publicacion','producto'));
     }
 
-    public function contacto() 
+    public function contacto()
     {
         return view('contacto');
     }
 
-    public function contacto_enviar(Request $request) 
+    public function contacto_enviar(Request $request)
     {
-        
+
           Mail::to()->send(new Contacto($datos));
             return redirect()->back()
             ->with('success','Mensaje Enviado');
     }
 
-    public function servicios() 
+    public function servicios()
     {
         return view('servicios');
- 
+
     }
 
 }

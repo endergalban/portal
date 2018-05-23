@@ -433,6 +433,19 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-xs-12 text-left">
+          @foreach ($publicacionesWp as $publicacion)
+                <a target="_blank" href="{!! $publicacion['link'] !!}">
+                    <h2>{!! $publicacion['title'] !!}</h2>
+                    {!! $publicacion['image'] !!}
+                </a>
+                {!! $publicacion['excerpt'] !!}
+                <hr>
+           @endforeach
+      </div>
+    </div>
+
 
 </div>
 @push('scripts')
