@@ -216,11 +216,11 @@ var vue = new Vue({
               atributos.push(item.value);
             }
           });
-          document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach((item,key)=>{
-            if (item.checked == true) {
-              atributos.push(item.value);
-            }
-          });
+          // document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach((item,key)=>{
+          //   if (item.checked == true) {
+          //     atributos.push(item.value);
+          //   }
+          // });
           this.imagenes.forEach((item)=>{
             var blob = this.dataURItoBlob(item);
             request.append("imagenes[]", blob);

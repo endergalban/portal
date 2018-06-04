@@ -1078,11 +1078,11 @@ var vue = new Vue({
             atributos.push(item.value);
           }
         });
-        document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach(function (item, key) {
-          if (item.checked == true) {
-            atributos.push(item.value);
-          }
-        });
+        // document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach((item,key)=>{
+        //   if (item.checked == true) {
+        //     atributos.push(item.value);
+        //   }
+        // });
         this.imagenes.forEach(function (item) {
           var blob = _this2.dataURItoBlob(item);
           request.append("imagenes[]", blob);
