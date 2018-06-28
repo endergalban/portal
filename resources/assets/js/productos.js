@@ -32,6 +32,18 @@ var vue = new Vue({
               this.mensajeOk = '';
           },
 
+
+          setCargando: function (button) {
+            if (this.cargando == true) {
+              $('#' + button +'').button('reset');
+              this.cargando = false;
+            } else {
+              $('#' + button +'').button('loading');
+              this.cargando = true;
+            }
+          },
+
+
           limpiarElemento: function () {
             this.index = -2;
             this.elemento.id = 0;
@@ -64,23 +76,24 @@ var vue = new Vue({
             this.limpiarMensajes();
             var filtros = 'page=' + page;
             var url = urlActual + '/get?' + filtros;
-            ventanaCargando();
-            axios.get(url)
-            .then(response => {
-              this.elementos = response.data.data;
-              this.paginador = response.data;
-              this.armarPaginador();
-              ventanaCargando();
-            }).catch(error => {
-              this.mensajeError = 'Error interno.';
-              ventanaCargando();
-            });
+              axios.get(url)
+              .then(response => {
+                  this.elementos = response.data.data;
+                  this.paginador = response.data;
+                  this.armarPaginador();
+                  // ventanaCargando();
+                  $(window).scrollTop(0);
+              }).catch(error => {
+                  $(window).scrollTop(0);
+                  // ventanaCargando();
+                  this.mensajeError = 'Error interno.';
+              });
           },
 
           eliminar: function (index) {
+              this.setCargando('btn_eliminar' + index);
               var datos = new FormData();
               datos.append('id', this.elementos[index].id);
-              ventanaCargando();
               axios.post(
                   urlActual + '/delete',
                   datos,
@@ -90,11 +103,13 @@ var vue = new Vue({
                   this.paginador = response.data;
                   this.armarPaginador();
                   this.limpiarElemento();
-                  ventanaCargando();
+                  this.setCargando('btn_eliminar' + index);
+
               }).catch(error => {
+                  $(window).scrollTop(0);
                   this.mensajeError = 'Error interno.';
                   this.limpiarElemento();
-                  ventanaCargando();
+                  this.setCargando('btn_eliminar' + index);
               });
           },
 
@@ -130,7 +145,6 @@ var vue = new Vue({
             datos.append('estado',  this.elemento.estado);
             datos.append('id',  this.elemento.id);
             datos.append('atributos',  atributos);
-            ventanaCargando();
             axios.post(
                 urlActual + '/store',
                 datos,
@@ -140,14 +154,16 @@ var vue = new Vue({
                 this.paginador = response.data;
                 this.armarPaginador();
                 this.limpiarElemento();
-                ventanaCargando();
+
+
             })
             .catch((error) => {
                 this.mensajeError = 'Error interno.';
                 this.limpiarElemento();
-                ventanaCargando();
             });
+
           },
+
           verificarCheck: function (){
             var atributosselector = document.querySelectorAll("input[name^='atributos[']");
             for (var i = 0; i <  atributosselector.length; i++) {
@@ -160,7 +176,10 @@ var vue = new Vue({
                 }
               }
             };
+
+
           },
+
           marcarTodos: function(elt) {
             var estado = document.querySelector("#check_"+elt).checked;
             var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
@@ -168,5 +187,8 @@ var vue = new Vue({
               atributosselector[i].checked = estado;
             }
           },
+
+
+
       }
 });

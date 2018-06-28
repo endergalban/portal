@@ -11,10 +11,11 @@
     </div>
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-xs-12">
-            <fieldset class="scheduler-border">
-            <legend class="scheduler-border"><span class="title-estilo">Buscar</span></legend>
+            <div class="text-left title-estilo" style="margin-top: 2rem;">Buscar</div>
+            <fieldset class="scheduler-border" style="background-color: white !important;">
+            <!--<legend class="scheduler-border"><span class="title-estilo">Buscar</span></legend>-->
 
-                <div class="row">
+                <div class="row" style="padding-top: 3rem;">
                     <div class="col-md-6 col-xs-12">
                       <div class="col-md-12 col-xs-12">
                         <div class="col-md-12 col-xs-12 marcas-titulo-tipografia">
@@ -406,22 +407,26 @@
                     </form>
                   </v-collapse-wrapper>
                 </div>
+      
         </fieldset>
         </div>
     </div>
 
     <div class="row">
       <div class="col-md-8 col-md-offset-2 col-xs-12">
+          <div class="title-estilo" style="text-align: left;">Últimos Publicados</div>
           @foreach ($publicaciones as $publicacion)
                 <a href="{{ route('publicaciones.details',$publicacion->id) }}">
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="row">
                      <div class="col-sm-12 col-md-12">
                        <div class="thumbnail">
-                        <img src="{{ asset('storage/'.$publicacion->imagenes->first()->ruta) }}"   style="max-width: 100%;max-height: 100%;height:200px;" >
+                        <img src="{{ route('imagen_almacenada',base64_encode($publicacion->imagenes->first()->ruta)) }}"   style="max-width: 100%;max-height: 100%;height:200px;" >
                          <div class="caption">
-                           @foreach ($publicacion->atributos as $atributo)
-                             <h5 class="text-left">{{$atributo->descripcion}}</h5>
+                          @php $i=0 @endphp
+                           @foreach ($publicacion->atributos as  $atributo)
+                             <h5 class="text-left" @if($i==0) style="color: black;font-weight: bold;font-size: 16px;" @elseif($i==1) style="color: #01b3e3;font-weight: bold;text-transform: uppercase;" @elseif($i==2) style="font-style: italic;color: gray;font-weight: bold;" @endif>{{$atributo->descripcion}}</h5>
+                             @php $i++ @endphp
                             @endforeach
                          </div>
                        </div>
@@ -432,16 +437,32 @@
            @endforeach
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-xs-12">
+          <a href="/publicaciones" style="text-align:center;padding:20px;text-decoration: underline;text-decoration-style:dotted;color: #248adf;">Cargar más</a>
+        </div>
+      </div>
 
     <div class="row">
       <div class="col-md-8 col-md-offset-2 col-xs-12 text-left">
+         <div class="title-estilo" style="text-align: left;">Blog</div>
           @foreach ($publicacionesWp as $publicacion)
-                <a target="_blank" href="{!! $publicacion['link'] !!}">
-                    <h2>{!! $publicacion['title'] !!}</h2>
-                    {!! $publicacion['image'] !!}
-                </a>
-                {!! $publicacion['excerpt'] !!}
-                <hr>
+           <div class="row" style="background-color: white;border: 1px solid #ddd;border-radius: 4px;padding-top: 20px;">
+              <div class="col-md-4">
+                 {!! $publicacion['image'] !!}
+              </div>
+              <div class="col-md-8">
+                  <div>
+                      <a target="_blank" class="link_block" href="{!! $publicacion['link'] !!}">
+                      {!! $publicacion['title'] !!}
+                      </a>
+                  </div>
+                  <div style="font-style: italic;">
+                    {!! $publicacion['excerpt'] !!}
+                  </div>
+              </div>
+           </div>
+            <hr>
            @endforeach
       </div>
     </div>

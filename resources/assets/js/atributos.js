@@ -2,8 +2,6 @@ var vue = new Vue({
       el: '#container',
     created: function(){
       this.obtenerElementos();
-    },
-    mounted: function(){
       document.getElementById("container").classList.remove('hidden');
     },
       data: {
@@ -133,24 +131,22 @@ var vue = new Vue({
         this.limpiarMensajes();
         var filtros = 'page=' + page;
         var url = urlActual + '/get?' + filtros;
-        ventanaCargando();
           axios.get(url)
           .then(response => {
               this.elementos = response.data.data;
               this.paginador = response.data;
               this.armarPaginador(1);
-              ventanaCargando();
               // ventanaCargando();
               // $(window).scrollTop(0);
           }).catch(error => {
-              ventanaCargando();
+              $(window).scrollTop(0);
+              // ventanaCargando();
               this.mensajeError = 'Error interno.';
           });
       },
       eliminarElementoEntidad: function () {
           var datos = new FormData();
           datos.append('id', this.elementos[this.index].id);
-          ventanaCargando();
           axios.post(
               urlActual + '/delete',
               datos,
@@ -161,14 +157,12 @@ var vue = new Vue({
               this.armarPaginador(1);
               this.limpiarElementoEntidad();
              $("#eliminarModalEntidad").modal('hide');
-             ventanaCargando();
 
           }).catch(error => {
               $(window).scrollTop(0);
               this.mensajeError = 'Error interno.';
               this.limpiarElementoEntidad();
              $("#eliminarModalEntidad").modal('hide');
-             ventanaCargando();
 
           });
       },
@@ -202,7 +196,6 @@ var vue = new Vue({
           datos.append('estado',  this.elementoEntidad.estado );
           datos.append('tipo',  this.elementoEntidad.tipo );
           datos.append('id',  this.elementoEntidad.id );
-          ventanaCargando();
           axios.post(
               urlActual + '/store',
               datos,
@@ -212,12 +205,12 @@ var vue = new Vue({
               this.paginador = response.data;
               this.armarPaginador(1);
               this.limpiarElementoEntidad();
-              ventanaCargando();
+
+
           })
           .catch((error) => {
               this.mensajeError = 'Error interno.';
               this.limpiarElementoEntidad();
-              ventanaCargando();
 
           });
       },
@@ -232,16 +225,15 @@ var vue = new Vue({
         this.indexEntidadAtributo = index;
         this.elementoAtributo.entidad_descripcion = this.elementos[index].descripcion;
         var url = urlActual + '/obeneratributos/' + this.elementos[index].id + '?page=' +page;
-          ventanaCargando();
           axios.get(url)
           .then(response => {
               this.atributos = response.data.data;
               this.paginador = response.data;
               this.armarPaginador(2);
-              ventanaCargando();
           }).catch(error => {
+              $(window).scrollTop(0);
+              // ventanaCargando();
               this.mensajeError = 'Error interno.';
-              ventanaCargando();
           });
       },
       cargarElementoAtributo: function (indexAtributoEntidad,indexAtributo) {
@@ -271,7 +263,6 @@ var vue = new Vue({
           if (this.atributoPadre != '') {
             datos.append('padre',  this.atributoPadre );
           }
-          ventanaCargando();
           axios.post(
               urlActual + '/store_atributo',
               datos,
@@ -281,18 +272,16 @@ var vue = new Vue({
               this.paginador = response.data;
               this.armarPaginador(2);
               this.limpiarElementoAtributo();
-              ventanaCargando();
+
           })
           .catch((error) => {
               this.mensajeError = 'Error interno.';
               this.limpiarElementoAtributo();
-              ventanaCargando();
           });
       },
       eliminarElementoAtributo: function () {
         var datos = new FormData();
         datos.append('id', this.atributos[this.indexAtributo].id);
-        ventanaCargando();
         axios.post(
             urlActual + '/destroy_atributo',
             datos,
@@ -303,13 +292,11 @@ var vue = new Vue({
             this.armarPaginador(2);
             this.limpiarElementoAtributo();
              $("#eliminarModalAtributo").modal('hide');
-             ventanaCargando();
         })
         .catch((error) => {
             this.mensajeError = 'Error interno.';
             this.limpiarElementoAtributo();
             $("#eliminarModalAtributo").modal('hide');
-            ventanaCargando();
         });
       },
       ventanaAtributoPadre: function(){
@@ -328,14 +315,11 @@ var vue = new Vue({
       },
       cargarAtributosPadre: function () {
         var url = urlActual + '/' + this.entidadPadre + '/atributos';
-        ventanaCargando();
           axios.get(url)
           .then(response => {
               this.atributosPadre = response.data;
-              ventanaCargando();
           }).catch(error => {
                console.log(error);
-               ventanaCargando();
           });
       },
     }

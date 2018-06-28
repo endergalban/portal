@@ -71,7 +71,15 @@
                         <li><a href="{{ route('contacto') }}">Contacto</a></li>
                         <li><a href="{{ route('servicios') }}">Servicios</a></li>
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding: 10px;">
+                                <img src="{{ asset('images/home/user-azul.png') }}">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item link_block" href="{{ route('login') }}" style="font-size: 12px !important;">ENTRAR</a>
+                              <a class="dropdown-item link_block" href="{{ route('register') }}" style="font-size: 12px !important;">REGISTRARME</a>
+                              </div>
+                            </li>
                         @else
 
                             {{-- <li><a href="{{ route('publicar.asistencia') }}">Venta Asistida</a></li> --}}
@@ -102,14 +110,29 @@
                             @endif
 
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" style="text-transform: capitalize;">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('users.edit', Auth::user()->id) }}"
-                                           >
+                                        <a href="{{ route('misventas') }}" class="dropdown-item link_block" href="" style="font-size: 12px !important;">
+                                            Mensajes <span class="badge badge-pill badge-dark">{{Auth::user()->comentarios()->count()}}</span>
+                                        </a>
+                                    </li>
+                                     <li>
+                                        <a href="{{ route('mispublicaciones') }}" class="dropdown-item link_block" href="" style="font-size: 12px !important;">
+                                            Publicaciones <span class="badge badge-pill badge-dark">{{Auth::user()->publicaciones()->count()}}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('mispublicaciones') }}" class="dropdown-item link_block" href="" style="font-size: 12px !important;">
+                                            Inventario <span class="badge badge-pill badge-dark">{{Auth::user()->asistencias()->count()}}</span>
+                                        </a>
+                                    </li>
+                                    <li><div class="dropdown-divider"></div></li>
+                                    <li>
+                                        <a  class="dropdown-item link_block" href="{{ route('users.edit', Auth::user()->id) }}"  style="font-size: 12px !important;" >
                                             Editar
                                         </a>
 
@@ -118,9 +141,9 @@
                                         </form>
                                     </li>
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a  class="dropdown-item link_block" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                     document.getElementById('logout-form').submit();"  style="font-size: 12px !important;">
                                             Salir
                                         </a>
 

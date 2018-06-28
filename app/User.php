@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class User extends Authenticatable
 {
@@ -55,6 +56,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Atributo','region_id','id');
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany('App\Asistencia');
+    }
+
     public function scopeBuscar($query,$request)
     {
         if ($request->buscar) {

@@ -59,7 +59,7 @@ class PublicacionController extends Controller
             }])
             ->with('imagenes')
             ->orderBy('id','desc')
-            ->limit(6)
+            ->limit(4)
             ->get();
             $str = file_get_contents('http://bmcare.cl/wp-json/wp/v2/posts');
             $json = json_decode($str, true);
@@ -72,7 +72,7 @@ class PublicacionController extends Controller
                 $texto = str_replace($textoCortar, '', $texto);
                 $posicionFinal= strpos($texto,'>');
                 $image = substr($texto, 0, $posicionFinal + 1);
-                $image = str_replace('<img', '<img style="width:400px"', $image).'<br><br>';
+                $image = str_replace('<img', '<img style="width: 100%;"', $image).'<br><br>';
                 if (strpos($image, '<img') === false) {
                     $image = '';
                 }

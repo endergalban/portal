@@ -51,6 +51,15 @@ class CompraController extends Controller
         return view('compras.misventas.index')->with(compact('ventas'));
     }
 
+    public function mispublicaciones(Request $request) 
+    {
+        $publicaciones = Publicacion::with('producto')
+        ->with('atributos')->where('user_id',Auth::user()->id)
+        ->orderBy('id','DESC')
+        ->paginate();
+        return view('compras.mispublicaciones.index')->with(compact('publicaciones'));
+    }
+
 
     public function comprar($id) {
 
