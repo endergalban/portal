@@ -110,6 +110,16 @@ var vue = new Vue({
       this.mensajeOk = '';
     },
 
+    setCargando: function setCargando(button) {
+      if (this.cargando == true) {
+        $('#' + button + '').button('reset');
+        this.cargando = false;
+      } else {
+        $('#' + button + '').button('loading');
+        this.cargando = true;
+      }
+    },
+
     limpiarElemento: function limpiarElemento() {
       this.index = -2;
       this.elemento.id = 0;
@@ -148,34 +158,36 @@ var vue = new Vue({
       this.limpiarMensajes();
       var filtros = 'page=' + page;
       var url = urlActual + '/get?' + filtros;
-      ventanaCargando();
       axios.get(url).then(function (response) {
         _this.elementos = response.data.data;
         _this.paginador = response.data;
         _this.armarPaginador();
-        ventanaCargando();
+        // ventanaCargando();
+        $(window).scrollTop(0);
       }).catch(function (error) {
+        $(window).scrollTop(0);
+        // ventanaCargando();
         _this.mensajeError = 'Error interno.';
-        ventanaCargando();
       });
     },
 
     eliminar: function eliminar(index) {
       var _this2 = this;
 
+      this.setCargando('btn_eliminar' + index);
       var datos = new FormData();
       datos.append('id', this.elementos[index].id);
-      ventanaCargando();
       axios.post(urlActual + '/delete', datos).then(function (response) {
         _this2.elementos = response.data.data;
         _this2.paginador = response.data;
         _this2.armarPaginador();
         _this2.limpiarElemento();
-        ventanaCargando();
+        _this2.setCargando('btn_eliminar' + index);
       }).catch(function (error) {
+        $(window).scrollTop(0);
         _this2.mensajeError = 'Error interno.';
         _this2.limpiarElemento();
-        ventanaCargando();
+        _this2.setCargando('btn_eliminar' + index);
       });
     },
 
@@ -210,19 +222,17 @@ var vue = new Vue({
       datos.append('estado', this.elemento.estado);
       datos.append('id', this.elemento.id);
       datos.append('atributos', atributos);
-      ventanaCargando();
       axios.post(urlActual + '/store', datos).then(function (response) {
         _this3.elementos = response.data.data;
         _this3.paginador = response.data;
         _this3.armarPaginador();
         _this3.limpiarElemento();
-        ventanaCargando();
       }).catch(function (error) {
         _this3.mensajeError = 'Error interno.';
         _this3.limpiarElemento();
-        ventanaCargando();
       });
     },
+
     verificarCheck: function verificarCheck() {
       var atributosselector = document.querySelectorAll("input[name^='atributos[']");
       for (var i = 0; i < atributosselector.length; i++) {
@@ -236,6 +246,7 @@ var vue = new Vue({
         }
       };
     },
+
     marcarTodos: function marcarTodos(elt) {
       var estado = document.querySelector("#check_" + elt).checked;
       var atributosselector = document.querySelectorAll(".entidad_" + elt + "");
@@ -243,6 +254,7 @@ var vue = new Vue({
         atributosselector[i].checked = estado;
       }
     }
+
   }
 });
 

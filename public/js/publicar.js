@@ -1043,7 +1043,7 @@ var vue = new Vue({
           arreglo.push(JSON.stringify(item));
         });
         request.append('data', JSON.stringify(this.atributos));
-        ventanaCargando();
+
         axios.post('publicar/storepieza', request, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -1057,10 +1057,10 @@ var vue = new Vue({
           if (response.data == 0) {
             _this.mensajeOk = 'Felicidades tus productos ha sido publicado.';
           }
-          ventanaCargando();
+          $(window).scrollTop(0);
         }).catch(function (error) {
           console.log(error);
-          ventanaCargando();
+          $(window).scrollTop(0);
         });
       }
     },
@@ -1078,11 +1078,11 @@ var vue = new Vue({
             atributos.push(item.value);
           }
         });
-        // document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach((item,key)=>{
-        //   if (item.checked == true) {
-        //     atributos.push(item.value);
-        //   }
-        // });
+        document.querySelectorAll('checkbox-atributos').forEach(function (item, key) {
+          if (item.checked == true) {
+            atributos.push(item.value);
+          }
+        });
         this.imagenes.forEach(function (item) {
           var blob = _this2.dataURItoBlob(item);
           request.append("imagenes[]", blob);
@@ -1097,7 +1097,6 @@ var vue = new Vue({
         request.append('cantidad', 1);
         request.append('atributos', atributos);
         request.append('imagenes', imagenes);
-        ventanaCargando();
         axios.post('publicar/store', request, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -1119,10 +1118,10 @@ var vue = new Vue({
               _this2.mensajeOk = 'Felicidades tu publicación ha sido actualiza.';
             }
           }
-          ventanaCargando();
+          $(window).scrollTop(0);
         }).catch(function (error) {
           console.log(error);
-          ventanaCargando();
+          $(window).scrollTop(0);
         });
       }
     },
@@ -1131,13 +1130,10 @@ var vue = new Vue({
 
       if (document.getElementById('id_marca').value > 0) {
         this.elemento.modelo_id = '';
-        ventanaCargando();
         axios.get('/modelos/' + document.getElementById('id_marca').value + '/obtener').then(function (response) {
           _this3.entidades.modelo = response.data;
-          ventanaCargando();
         }).catch(function (error) {
           console.log(error);
-          ventanaCargando();
         });
       }
     },
@@ -1147,16 +1143,13 @@ var vue = new Vue({
       this.limpiar();
       if (this.elemento.producto_id > 0) {
         var url = window.location.href + '/' + this.elemento.producto_id + '/obtener';
-        ventanaCargando();
         axios.get(url).then(function (response) {
           var entidades = response.data;
           entidades.forEach(function (entidad, index) {
             vue.entidades[entidad.descripcion] = entidad.atributos;
           });
-          ventanaCargando();
         }).catch(function (error) {
           console.log(error);
-          ventanaCargando();
         });
       }
     },

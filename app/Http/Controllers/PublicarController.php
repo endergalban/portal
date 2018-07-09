@@ -32,6 +32,7 @@ class PublicarController extends Controller
     {
 
         $productos = Producto::activo()
+        ->where('descripcion', '<>', 'pieza')
         ->has('atributos.entidad')->get();
         return view('publicaciones.publicar')->with(compact('productos'));
     }

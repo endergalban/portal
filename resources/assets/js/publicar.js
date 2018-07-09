@@ -216,7 +216,7 @@ var vue = new Vue({
               atributos.push(item.value);
             }
           });
-          document.querySelectorAll('input[type="checkbox"],input[name="atributos[]]"').forEach((item,key)=>{
+          document.querySelectorAll('checkbox-atributos').forEach((item,key)=>{
             if (item.checked == true) {
               atributos.push(item.value);
             }

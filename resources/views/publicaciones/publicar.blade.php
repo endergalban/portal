@@ -329,7 +329,7 @@
               </div>
               <div class="col-md-12" >
                 <div class="col-md-3"  style="margin-bottom:10px" v-for="item in entidades.seguridad">
-                  <input type="checkbox" name="atributos[]" :value="item.id"/> @{{item.descripcion}}
+                  <input type="checkbox" name="atributos[]" class="checkbox-atributos" :value="item.id"/> @{{item.descripcion}}
                 </div>
               </div>
             </div>
@@ -340,7 +340,7 @@
               </div>
               <div class="col-md-12" >
                 <div class="col-md-3"  style="margin-bottom:10px" v-for="item in entidades.comfort">
-                  <input type="checkbox" name="atributos[]" :value="item.id" /> @{{item.descripcion}}
+                  <input type="checkbox" name="atributos[]" class="checkbox-atributos" :value="item.id" /> @{{item.descripcion}}
                 </div>
               </div>
             </div>
@@ -351,7 +351,7 @@
               </div>
               <div class="col-md-12" >
                 <div class="col-md-3"  style="margin-bottom:10px" v-for="item in entidades.sonido">
-                  <input type="checkbox" name="atributos[]" :value="item.id" /> @{{item.descripcion}}
+                  <input type="checkbox" name="atributos[]" class="checkbox-atributos" :value="item.id" /> @{{item.descripcion}}
                 </div>
               </div>
             </div>
@@ -362,7 +362,7 @@
               </div>
               <div class="col-md-12" >
                 <div class="col-md-3"  style="margin-bottom:10px" v-for="item in entidades.exterior">
-                  <input type="checkbox" name="atributos[]" :value="item.id" /> @{{item.descripcion}}
+                  <input type="checkbox" name="atributos[]" class="checkbox-atributos" :value="item.id" /> @{{item.descripcion}}
                 </div>
               </div>
             </div>
@@ -373,7 +373,7 @@
               </div>
               <div class="col-md-12" >
                 <div class="col-md-3"  style="margin-bottom:10px" v-for="item in entidades.ficha">
-                  <input type="checkbox" name="atributos[]" :value="item.id" /> @{{item.descripcion}}
+                  <input type="checkbox" name="atributos[]" class="checkbox-atributos" :value="item.id" /> @{{item.descripcion}}
                 </div>
               </div>
             </div>
