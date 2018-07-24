@@ -51,10 +51,11 @@ class CompraController extends Controller
         return view('compras.misventas.index')->with(compact('ventas'));
     }
 
-    public function mispublicaciones(Request $request) 
+    public function mispublicaciones(Request $request)
     {
         $publicaciones = Publicacion::with('producto')
         ->with('atributos')->where('user_id',Auth::user()->id)
+        ->withCount('compras')
         ->orderBy('id','DESC')
         ->paginate();
         return view('compras.mispublicaciones.index')->with(compact('publicaciones'));
@@ -72,10 +73,10 @@ class CompraController extends Controller
         foreach ($publicacion->atributos as $key => $value) {
 
             if ($value->entidad->tipo == 3) {
-                $entidadFija[$value->entidad->descripcion] = (Publicacion::where('id',$id)->pluck($value->descripcion)->toArray()[0]); 
+                $entidadFija[$value->entidad->descripcion] = (Publicacion::where('id',$id)->pluck($value->descripcion)->toArray()[0]);
             }else {
 
-                $entidades[$value->entidad->descripcion][] = $value->descripcion;  
+                $entidades[$value->entidad->descripcion][] = $value->descripcion;
             }
         }
         $compras = DB::table('compras')->groupBy('publicacion_id')
@@ -84,7 +85,7 @@ class CompraController extends Controller
 
         if(!is_null($compras)) {
             $publicacion->cantidad = $publicacion->cantidad - $compras->cantidad;
-        }      
+        }
 
 
 
@@ -92,17 +93,17 @@ class CompraController extends Controller
 
       //  dd($id);
     }
- 
+
     public function comprar_proceso(Request $request) {
         //dd($request->all());
-       
+
         Validator::make($request->all(), [
           'publicacion' => 'required',
           'cant' => 'required',
         ])->validate();
 
         $publicacion = Publicacion::find($request->publicacion);
-       
+
         $comprar =  new Compra;
         $comprar->publicacion_id = $publicacion->id;
         $comprar->user_id = Auth::id();
@@ -148,4 +149,3 @@ class CompraController extends Controller
     }
 
 }
-

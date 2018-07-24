@@ -12,6 +12,7 @@ use Validator;
 use Carbon\Carbon;
 use DB;
 use Mail;
+use Auth;
 use App\Mail\Contacto;
 
 class PublicacionController extends Controller
@@ -139,6 +140,16 @@ class PublicacionController extends Controller
         ->find($id);
         $producto = Producto::find($publicacion->producto_id)->first();
         return view('publicaciones.producto', compact('publicacion','producto'));
+    }
+    public function delete($id)
+    {
+        $publicacion = Publicacion::where('user_id', Auth::user()->id)
+            ->doesntHave('compras')
+            ->where('id', $id)
+            ->firstOrFail();
+        $publicacion->delete();
+
+        return back();
     }
 
     public function contacto()

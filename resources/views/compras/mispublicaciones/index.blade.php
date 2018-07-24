@@ -41,8 +41,9 @@
           <td>{{ $publicacion->descripcion }}</td>
           <td>{{ $publicacion->created_at->format('d-m-Y h:i:s p') }}</td>
           <td>$ {{ number_format($publicacion->monto,2,',','') }}</td>
-          <td>
+          <td nowrap="nowrap">
           	<a class="btn btn-success btn-sm" href="{{ route('publicaciones.details',$publicacion->id)}}" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a>
+            <button class="btn btn-danger btn-sm btnVentanaEliminar" data-url="{{ route('publicaciones.delete',$publicacion->id)}}" {{$publicacion->compras_count > 0 ? 'disabled' : '' }}><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar publicación"></i></button>
           </td>
         </tr>
         </tbody>
@@ -54,5 +55,33 @@
       {{$publicaciones->appends(Input::all())->links()}}
     </div>
   </fieldset>
+  <!-- Modal -->
+  <div class="modal fade" id="ventanaEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p class="h5"><strong>¿Deseas eliminar la publicación?</strong></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary disable" id="btnEliminar" >Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+@push('scripts')
+<script type="text/javascript">
+  let url = '';
+  $('.btnVentanaEliminar').on('click',function() {
+    url = '';
+    $('#ventanaEliminar').modal();
+    url = $(this).data('url');
+  });
+  $('#btnEliminar').on('click',function() {
+    $('#ventanaEliminar').modal('hide');
+    document.location = url;
+  });
+</script>
+@endpush
 @endsection

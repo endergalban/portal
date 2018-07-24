@@ -34,6 +34,10 @@ Route::any('publicaciones',['uses' => 'PublicacionController@index', 'as' => 'pu
 Route::get('publicaciones/details/{id}',['uses' => 'PublicacionController@details', 'as' => 'publicaciones.details']);
 
 Route::group(['middleware' => ['auth','permiso']], function () {
+	Route::get('publicaciones/delete/{id}',[
+		'uses' => 'PublicacionController@delete',
+		'as' => 'publicaciones.delete'
+	]);
 	Route::get('admin/users',['uses' => 'UserController@index', 'as' => 'users.index']);
 	Route::get('admin/users/get',['uses' => 'UserController@get', 'as' => 'users.get']);
 	Route::post('admin/users/store',['uses' => 'UserController@store', 'as' => 'users.store']);
