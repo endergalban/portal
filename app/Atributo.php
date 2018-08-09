@@ -34,6 +34,12 @@ class Atributo extends Model
         return $this->belongsTo('App\Atributo','padre','id');
     }
 
+    public function publicaciones()
+    {
+        return $this->belongsToMany('App\Publicacion','caracteristicas');
+    }
+
+
     public function scopeActivo($q)
     {
         return $q->where('estado',1);

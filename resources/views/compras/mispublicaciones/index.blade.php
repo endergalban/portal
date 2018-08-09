@@ -5,6 +5,15 @@
   <fieldset class="scheduler-border">
     <legend class="scheduler-border"><span class="title-estilo">Mis Publicaciones</span></legend>
     <div class="col-md-12">
+      @if(Session::has('success'))
+       <div class="alert alert-success">
+           {{ Session::get('success') }}
+           @php
+           Session::forget('success');
+           @endphp
+       </div>
+     @endif
+
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"></legend>
         <form>
@@ -27,6 +36,7 @@
         <table class="table .table-striped">
           <thead>
           <tr>
+            <th>Tipo</th>
             <th>Producto</th>
             <th>Descripción</th>
             <th>Fecha</th>
@@ -38,11 +48,15 @@
       @forelse($publicaciones as $publicacion)
         <tr >
           <td>{{ $publicacion->producto->descripcion }}</td>
+          <td>{{ $publicacion->titulo }}</td>
           <td>{{ $publicacion->descripcion }}</td>
           <td>{{ $publicacion->created_at->format('d-m-Y h:i:s p') }}</td>
-          <td>$ {{ number_format($publicacion->monto,2,',','') }}</td>
+          <td nowrap="nowrap">$ {{ number_format($publicacion->monto,2,',','') }}</td>
           <td nowrap="nowrap">
           	<a class="btn btn-success btn-sm" href="{{ route('publicaciones.details',$publicacion->id)}}" target="_blank"><i class="fas fa-globe" data-toggle="tooltip" title="ir"></i></a>
+
+            <a class="btn btn-primary btn-sm" href="{{ route('mispublicaciones.edit',$publicacion->id)}}"><i class="fas fa-edit" data-toggle="tooltip" title="Editar la publicacion"></i></a>
+
             <button class="btn btn-danger btn-sm btnVentanaEliminar" data-url="{{ route('publicaciones.delete',$publicacion->id)}}" {{$publicacion->compras_count > 0 ? 'disabled' : '' }}><i class="fas fa-trash" data-toggle="tooltip" title="Eliminar publicación"></i></button>
           </td>
         </tr>

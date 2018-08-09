@@ -14,6 +14,7 @@ use Validator;
 use Mail;
 use App\Mail\OrderCompra;
 use App\Mail\Venta;
+use App\Entidad;
 
 class CompraController extends Controller
 {
@@ -146,6 +147,151 @@ class CompraController extends Controller
             return redirect()->back()
             ->with('danger','Hubo un error, intenta nuevamente realizar la compra');
         }
+    }
+
+    public function edit($id)
+    {
+        $publicacion = Publicacion::where('id', $id)->whereHas('producto', function($q){
+            $q->where('descripcion', 'pieza');
+        })
+        ->with('producto.atributos')
+        ->first();
+        if ($publicacion) {
+            $marcas = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','marca');
+            })->get();
+            $modelos = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','modelo');
+            })->whereHas('publicaciones', function($q)  use ($publicacion){
+                $q->where('publicaciones.id',$publicacion->id);
+            })->get();
+
+            $anios = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','anio');
+            })->get();
+            $regiones = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','region');
+            })->get();
+            $carrocerias = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','carroceria');
+            })->get();
+            $lados = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','lado');
+            })->get();
+            $estados = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','estado');
+            })->get();
+
+            return view('compras.mispublicaciones.editar.pieza')->with(compact(
+                'marcas',
+                'modelos',
+                'anios',
+                'regiones',
+                'carrocerias',
+                'lados',
+                'estados',
+                'publicacion'
+            ));
+        } else {
+            $publicacion = Publicacion::where('id', $id)
+            ->with('atributos')
+            ->firstOrFail();
+
+            $entidades = Entidad::activo()
+            ->where('descripcion','<>','marca')
+            ->where('descripcion','<>','modelo')
+            ->whereHas('atributos.productos',function($q) use ($publicacion) {
+              $q->where('productos.id',$publicacion->producto_id);
+            })->with(['atributos' => function ($q) use ($publicacion){
+              $q->activo()->whereHas('productos', function($q) use ($publicacion){
+                $q->where('productos.id',$publicacion->producto_id);
+              });
+            }])->get();
+
+            $marcas = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','marca');
+            })->whereHas('productos', function($q)  use ($publicacion){
+                $q->where('productos.id',$publicacion->producto_id);
+            })
+            ->get();
+
+            $modelos = Atributo::whereHas('entidad', function($q) {
+                $q->where('descripcion','modelo');
+            })->whereHas('publicaciones', function($q)  use ($publicacion){
+                $q->where('publicaciones.id',$publicacion->id);
+            })
+            ->get();
+
+            return view('compras.mispublicaciones.editar.auto')->with(compact(
+                'entidades',
+                'publicacion',
+                'marcas',
+                'modelos'
+            ));
+        }
+
+
+    }
+
+
+    public function update(Request $request, $id) {
+        //dd($request->all());
+
+        $publicacion = Publicacion::findOrFail($id);
+        Validator::make($request->all(), [
+          'descripcion' => 'required|string|max:191',
+          'marca_id' => 'required|integer|exists:atributos,id',
+          'modelo_id' => 'required|integer|exists:atributos,id',
+          'anio_id' => 'required|integer|exists:atributos,id',
+          'region_id' => 'required|integer|exists:atributos,id',
+          'carroceria_id' => 'required|integer|exists:atributos,id',
+          'estado_id' => 'required|integer|exists:atributos,id',
+          'lado_id' => 'required|integer|exists:atributos,id',
+          'precio' => 'required|numeric',
+        ])->validate();
+        $publicacion->monto = $request->precio;
+        $publicacion->descripcion = $request->descripcion;
+        $publicacion->save();
+        DB::table('caracteristicas')->where('publicacion_id',$publicacion->id)->delete();
+        $arrayAtributo[] = $request->marca_id;
+        $arrayAtributo[] = $request->modelo_id;
+        $arrayAtributo[] = $request->anio_id;
+        $arrayAtributo[] = $request->region_id;
+        $arrayAtributo[] = $request->carroceria_id;
+        $arrayAtributo[] = $request->estado_id;
+        $arrayAtributo[] = $request->lado_id;
+        $publicacion->atributos()->sync($arrayAtributo);
+
+        return redirect()->route('mispublicaciones')
+        ->with('success','Operación realizada con exito.');
+    }
+
+    public function updateAuto(Request $request, $id) {
+        //dd($request->all());
+
+        $publicacion = Publicacion::findOrFail($id);
+        Validator::make($request->all(), [
+          'descripcion' => 'required|string|max:191',
+          'titulo' => 'required|string|max:191',
+          'precio' => 'required|numeric',
+          'placa' => 'required|string',
+        ])->validate();
+        $publicacion->monto = $request->precio;
+        $publicacion->descripcion = $request->descripcion;
+        $publicacion->titulo = $request->titulo;
+        $publicacion->placa = $request->placa;
+        $publicacion->save();
+        DB::table('caracteristicas')->where('publicacion_id',$publicacion->id)->delete();
+        foreach ($request->atributos as $key => $value) {
+            # code...
+            if ($value) {
+                $arrayAtributo[] = $value;
+            }
+        }
+        $publicacion->atributos()->sync($arrayAtributo);
+
+        return redirect()->route('mispublicaciones')
+        ->with('success','Operación realizada con exito.');
     }
 
 }
