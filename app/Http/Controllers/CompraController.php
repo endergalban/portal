@@ -12,9 +12,11 @@ use Auth;
 use DB;
 use Validator;
 use Mail;
+use Storage;
 use App\Mail\OrderCompra;
 use App\Mail\Venta;
 use App\Entidad;
+use App\PublicacionImagen;
 
 class CompraController extends Controller
 {
@@ -22,11 +24,7 @@ class CompraController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * Display the template.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function miscompras(Request $request)
     {
         $compras = Compra::buscar($request)->where('user_id',Auth::user()->id)
@@ -36,35 +34,32 @@ class CompraController extends Controller
         return view('compras.miscompras.index')->with(compact('compras'));
     }
 
-    /**
-     * Display the template.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function misventas(Request $request)
     {
-        $ventas = Compra::buscar($request)->whereHas('publicacion',function ($q){
-            $q->where('user_id',Auth::user()->id);
-        })
-        ->with('publicacion.producto')
-        ->with('user')
-        ->paginate();
+        $ventas = Compra::buscar($request)
+            ->whereHas('publicacion',function ($q){
+                $q->where('user_id',Auth::user()->id);
+            })
+            ->with('publicacion.producto')
+            ->with('user')
+            ->paginate();
+
         return view('compras.misventas.index')->with(compact('ventas'));
     }
 
     public function mispublicaciones(Request $request)
     {
         $publicaciones = Publicacion::with('producto')
-        ->with('atributos')->where('user_id',Auth::user()->id)
-        ->withCount('compras')
-        ->orderBy('id','DESC')
-        ->paginate();
+            ->with('atributos')->where('user_id',Auth::user()->id)
+            ->withCount('compras')
+            ->orderBy('id','DESC')
+            ->paginate();
+
         return view('compras.mispublicaciones.index')->with(compact('publicaciones'));
     }
 
-
-    public function comprar($id) {
-
+    public function comprar($id)
+    {
         $publicacion = Publicacion::with('producto')
         ->with('atributos')
         ->find($id);
@@ -72,7 +67,6 @@ class CompraController extends Controller
         $entidadFija = [];
         $aux = 0;
         foreach ($publicacion->atributos as $key => $value) {
-
             if ($value->entidad->tipo == 3) {
                 $entidadFija[$value->entidad->descripcion] = (Publicacion::where('id',$id)->pluck($value->descripcion)->toArray()[0]);
             }else {
@@ -88,23 +82,16 @@ class CompraController extends Controller
             $publicacion->cantidad = $publicacion->cantidad - $compras->cantidad;
         }
 
-
-
         return view('compras.comprar')->with(compact('publicacion','entidades','entidadFija'));
-
-      //  dd($id);
     }
 
-    public function comprar_proceso(Request $request) {
-        //dd($request->all());
-
+    public function comprar_proceso(Request $request)
+    {
         Validator::make($request->all(), [
-          'publicacion' => 'required',
-          'cant' => 'required',
+            'publicacion' => 'required',
+            'cant' => 'required',
         ])->validate();
-
         $publicacion = Publicacion::find($request->publicacion);
-
         $comprar =  new Compra;
         $comprar->publicacion_id = $publicacion->id;
         $comprar->user_id = Auth::id();
@@ -112,27 +99,7 @@ class CompraController extends Controller
         $comprar->monto = $publicacion->monto * $request->cant;
         $comprar->cantidad = $request->cant;
         $comprar->save();
-
         $vendedor = User::find($publicacion->user_id);
-
-     /*   $compras_anteriores = DB::table('compras')->groupBy('publicacion_id')
-                ->select(DB::raw('SUM(cantidad) as cantidad'))
-                ->where('publicacion_id','=',$publicacion->id)->first();
-
-        $cant_compras_anterioes = 0;
-
-        if(!is_null($compras_anteriores)) {
-            $cant_compras_anterioes = $compras_anteriores->cantidad;
-        }
-
-        $inventario = $publicacion->cantidad - $cant_compras_anterioes;
-       // dd($inventario);
-
-        if($inventario == 0) {
-            $publicacion->estado = 0;
-            $publicacion->save();
-        }*/
-
         $inventario = $publicacion->cantidad - $request->cant;
         $publicacion->cantidad = $inventario;
         if($inventario == 0) {
@@ -151,11 +118,14 @@ class CompraController extends Controller
 
     public function edit($id)
     {
-        $publicacion = Publicacion::where('id', $id)->whereHas('producto', function($q){
-            $q->where('descripcion', 'pieza');
-        })
-        ->with('producto.atributos')
-        ->first();
+        $publicacion = Publicacion::where('id', $id)
+            ->where('user_id', Auth::user()->id)
+            ->whereHas('producto', function($q){
+                $q->where('descripcion', 'pieza');
+            })
+            ->with('producto.atributos')
+            ->with('imagenes')
+            ->first();
         if ($publicacion) {
             $marcas = Atributo::whereHas('entidad', function($q) {
                 $q->where('descripcion','marca');
@@ -181,7 +151,14 @@ class CompraController extends Controller
             $estados = Atributo::whereHas('entidad', function($q) {
                 $q->where('descripcion','estado');
             })->get();
-
+            $imagenes = [];
+            foreach ($publicacion->imagenes as $key => $imagen) {
+                $path = storage_path('app/public/').$imagen->ruta;
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $imagenes[] = $base64;
+            }
             return view('compras.mispublicaciones.editar.pieza')->with(compact(
                 'marcas',
                 'modelos',
@@ -190,11 +167,14 @@ class CompraController extends Controller
                 'carrocerias',
                 'lados',
                 'estados',
-                'publicacion'
+                'publicacion',
+                'imagenes'
             ));
         } else {
             $publicacion = Publicacion::where('id', $id)
+            ->where('user_id', Auth::user()->id)
             ->with('atributos')
+            ->with('imagenes')
             ->firstOrFail();
 
             $entidades = Entidad::activo()
@@ -221,33 +201,39 @@ class CompraController extends Controller
                 $q->where('publicaciones.id',$publicacion->id);
             })
             ->get();
-
+            $imagenes = [];
+            foreach ($publicacion->imagenes as $key => $imagen) {
+                $path = storage_path('app/public/').$imagen->ruta;
+                $type = pathinfo($path, PATHINFO_EXTENSION);
+                $data = file_get_contents($path);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                $imagenes[] = $base64;
+            }
             return view('compras.mispublicaciones.editar.auto')->with(compact(
                 'entidades',
                 'publicacion',
                 'marcas',
-                'modelos'
+                'modelos',
+                'imagenes'
             ));
         }
-
-
     }
 
-
-    public function update(Request $request, $id) {
-        //dd($request->all());
-
-        $publicacion = Publicacion::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $publicacion = Publicacion::
+            where('user_id', Auth::user()->id)
+            ->firstOrFail($id);
         Validator::make($request->all(), [
-          'descripcion' => 'required|string|max:191',
-          'marca_id' => 'required|integer|exists:atributos,id',
-          'modelo_id' => 'required|integer|exists:atributos,id',
-          'anio_id' => 'required|integer|exists:atributos,id',
-          'region_id' => 'required|integer|exists:atributos,id',
-          'carroceria_id' => 'required|integer|exists:atributos,id',
-          'estado_id' => 'required|integer|exists:atributos,id',
-          'lado_id' => 'required|integer|exists:atributos,id',
-          'precio' => 'required|numeric',
+            'descripcion' => 'required|string|max:191',
+            'marca_id' => 'required|integer|exists:atributos,id',
+            'modelo_id' => 'required|integer|exists:atributos,id',
+            'anio_id' => 'required|integer|exists:atributos,id',
+            'region_id' => 'required|integer|exists:atributos,id',
+            'carroceria_id' => 'required|integer|exists:atributos,id',
+            'estado_id' => 'required|integer|exists:atributos,id',
+            'lado_id' => 'required|integer|exists:atributos,id',
+            'precio' => 'required|numeric',
         ])->validate();
         $publicacion->monto = $request->precio;
         $publicacion->descripcion = $request->descripcion;
@@ -261,29 +247,62 @@ class CompraController extends Controller
         $arrayAtributo[] = $request->estado_id;
         $arrayAtributo[] = $request->lado_id;
         $publicacion->atributos()->sync($arrayAtributo);
+        DB::table('publicacion_imagenes')->where('publicacion_id',$publicacion->id)->delete();
+        if($request->imagenes) {
+            foreach ($request->imagenes as $key => $image) {
+                if ($image) {
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $imageName = str_random(10).'.'.'png';
+                    Storage::disk('public')->makeDirectory($publicacion->id);
+                    \File::put(storage_path('app/public'). '/' .$publicacion->id. '/' . $imageName, base64_decode($image));
+                    $publicacionImagen = new PublicacionImagen;
+                    $publicacionImagen->ruta = $publicacion->id.'/'.$imageName;
+                    $publicacionImagen->publicacion_id = $publicacion->id;
+                    $publicacionImagen->estado = 1;
+                    $publicacionImagen->save();
+                }
+            }
+        }
 
         return redirect()->route('mispublicaciones')
-        ->with('success','Operación realizada con exito.');
+            ->with('success','Operación realizada con exito.');
     }
 
-    public function updateAuto(Request $request, $id) {
-        //dd($request->all());
-
+    public function updateAuto(Request $request, $id)
+    {
         $publicacion = Publicacion::findOrFail($id);
         Validator::make($request->all(), [
-          'descripcion' => 'required|string|max:191',
-          'titulo' => 'required|string|max:191',
-          'precio' => 'required|numeric',
-          'placa' => 'required|string',
+            'descripcion' => 'required|string|max:191',
+            'titulo' => 'required|string|max:191',
+            'precio' => 'required|numeric',
+            'placa' => 'required|string',
         ])->validate();
         $publicacion->monto = $request->precio;
         $publicacion->descripcion = $request->descripcion;
         $publicacion->titulo = $request->titulo;
         $publicacion->placa = $request->placa;
         $publicacion->save();
+        DB::table('publicacion_imagenes')->where('publicacion_id',$publicacion->id)->delete();
+        if ($request->imagenes) {
+            foreach ($request->imagenes as $key => $image) {
+                if ($image) {
+                    $image = str_replace('data:image/png;base64,', '', $image);
+                    $image = str_replace(' ', '+', $image);
+                    $imageName = str_random(10).'.'.'png';
+                    // $imagen = Storage::disk('public')->put($publicacion->id, base64_decode($image));
+                    \File::put(storage_path('app/public'). '/' .$publicacion->id. '/' . $imageName, base64_decode($image));
+                    $publicacionImagen = new PublicacionImagen;
+                    $publicacionImagen->ruta = $publicacion->id.'/'.$imageName;
+                    $publicacionImagen->publicacion_id = $publicacion->id;
+                    $publicacionImagen->estado = 1;
+                    $publicacionImagen->save();
+                }
+            }
+        }
         DB::table('caracteristicas')->where('publicacion_id',$publicacion->id)->delete();
+        $arrayAtributo = [];
         foreach ($request->atributos as $key => $value) {
-            # code...
             if ($value) {
                 $arrayAtributo[] = $value;
             }
