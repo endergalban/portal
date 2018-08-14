@@ -144,7 +144,7 @@
         if( evt.target.readyState == FileReader.DONE) {
           img.src = evt.target.result;
           context.drawImage(img,100,100);
-          img.setAtt  ribute('width','640px');
+          img.setAttribute('width','640px');
           imagenes.push(img.src);
           cargarImagenes();
         }

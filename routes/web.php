@@ -79,8 +79,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('comprar/{id}',['uses' => 'CompraController@comprar', 'as' => 'comprar']);
 	Route::post('comprar/procesar',['uses' => 'CompraController@comprar_proceso', 'as' => 'comprar.proceso']);
     Route::get('mispublicaciones/{id}/edit',['uses' => 'CompraController@edit', 'as' => 'mispublicaciones.edit']);
-    Route::post('mispublicaciones/{id}/uṕdate',['uses' => 'CompraController@update', 'as' => 'mispublicaciones.update']);
-    Route::post('mispublicaciones/{id}/uṕdateauto',['uses' => 'CompraController@updateAuto', 'as' => 'mispublicaciones.updateauto']);
+    Route::post('mispublicaciones/{id}/update',['uses' => 'CompraController@update', 'as' => 'mispublicaciones.update']);
+    Route::post('mispublicaciones/{id}/updateauto',['uses' => 'CompraController@updateAuto', 'as' => 'mispublicaciones.updateauto']);
 
 });
 
